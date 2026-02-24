@@ -1,6 +1,5 @@
 "use client";
-
-import { useState, useRef } from "react"; // Fixed duplicate import
+import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Field, FieldLabel } from "@/components/ui/field";
@@ -30,7 +29,12 @@ export default function AuthCard({ mode, authAction, loading, error }: authProp)
     const footerLink = isLogin ? "/signup" : "/login"
     const footerLinkText = isLogin ? "Sign Up" : "Log In"
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, trigger, formState: { errors } } = useForm();
+
+
+    const handleCaptchaChange = (token: string | null) => {
+        setValue("captcha", token ?? "", { shouldValidate: true });
+    };
 
     const onFormSubmit = async (data: any) => {
         const token = recaptchaRef.current?.getValue();
@@ -45,7 +49,6 @@ export default function AuthCard({ mode, authAction, loading, error }: authProp)
         if (result) {
             router.push("/");
         } else {
-            // Reset captcha on failure so user has to solve it again
             recaptchaRef.current?.reset();
         }
     };
@@ -55,7 +58,7 @@ export default function AuthCard({ mode, authAction, loading, error }: authProp)
             {/* React Hook Form wraps the submit here */}
             <form onSubmit={handleSubmit(onFormSubmit)}>
                 <CardHeader className="text-center">
-                    <CardTitle className="text-2xl">{title}</CardTitle>
+                    <CardTitle className="text-2xl  text-accent">{title}</CardTitle>
                     <CardDescription>{description}</CardDescription>
                 </CardHeader>
 
@@ -116,20 +119,33 @@ export default function AuthCard({ mode, authAction, loading, error }: authProp)
                     </Field>
 
                     {/* CAPTCHA Container */}
-                    <div className="flex justify-center pt-2">
+                    <div className="flex flex-col items-center pt-2">
+                        <input
+                            type="hidden"
+                            {...register("captcha", {
+                                required: "Please complete the CAPTCHA",
+                            })}
+                        />
                         <ReCAPTCHA
                             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
                             ref={recaptchaRef}
+                            onChange={handleCaptchaChange}
+                            onExpired={() => setValue("captcha", "", { shouldValidate: true })}
                         />
+                        {errors.captcha && (
+                            <p className="text-destructive text-xs mt-1">
+                                {errors.captcha.message as string}
+                            </p>
+                        )}
                     </div>
                 </CardContent>
 
                 <CardFooter className="flex flex-col gap-4 pt-6">
-                    <Button type="submit" className="w-full" disabled={loading}>
+                    <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold  px-6 h-10 " disabled={loading}>
                         {loading ? "Processing..." : "Submit"}
                     </Button>
                     <CardDescription>
-                        {footerText} <Link href={footerLink} className="text-primary font-medium">{footerLinkText}</Link>
+                        {footerText} <Link href={footerLink} className="text-accent font-medium cursor-pointer ">{footerLinkText}</Link>
                     </CardDescription>
                 </CardFooter>
             </form>

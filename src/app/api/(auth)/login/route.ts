@@ -6,10 +6,8 @@ import { cookies } from "next/headers";
 import { tryCatchWrapper } from "@/lib/api-handler";
 
 export const POST = tryCatchWrapper(async (req: Request) => {
-    // 1. Get the captchaToken along with credentials
     const { email, password, captchaToken } = await req.json();
-    console.log(captchaToken)
-    // 2. Verify reCAPTCHA token with Google
+
     if (!captchaToken) {
         return ApiResponse.error("CAPTCHA token is missing", 400);
     }
@@ -23,7 +21,6 @@ export const POST = tryCatchWrapper(async (req: Request) => {
         return ApiResponse.error("Invalid CAPTCHA. Please try again.", 400);
     }
 
-    // 3. Original Login Logic: Check MongoDB
     const user = await User.findOne({ email });
     if (!user) return ApiResponse.error("Invalid Credentials", 401);
 
