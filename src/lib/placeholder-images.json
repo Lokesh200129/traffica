@@ -1,0 +1,23 @@
+
+{
+  "placeholderImages": [
+    {
+      "id": "user-1",
+      "description": "Professional male publisher",
+      "imageUrl": "https://picsum.photos/seed/10/200/200",
+      "imageHint": "man professional"
+    },
+    {
+      "id": "user-2",
+      "description": "Professional female publisher",
+      "imageUrl": "https://picsum.photos/seed/20/200/200",
+      "imageHint": "woman professional"
+    },
+    {
+      "id": "user-3",
+      "description": "Young entrepreneur",
+      "imageUrl": "https://picsum.photos/seed/30/200/200",
+      "imageHint": "entrepreneur portrait"
+    }
+  ]
+}
