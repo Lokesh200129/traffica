@@ -8,11 +8,11 @@ import { motion } from 'framer-motion';
 
 export function Footer() {
   return (
-    <motion.footer 
-      initial={{ y: 0 }}
+    <motion.footer
+      initial={{ y: 0, }}
       className="relative z-20 bg-white rounded-t-[4rem] shadow-[0_-30px_60px_rgba(0,0,0,0.15)] border-t border-gray-100"
     >
-      <div className="container px-6 md:px-12 lg:px-20 mx-auto pt-24 pb-12">
+      <div className="container px-6 md:px-12 lg:px-20 mx-auto pt-32 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
           <div className="col-span-1 md:col-span-1">
             <Link href="/" className="text-2xl font-black tracking-tighter flex items-center group mb-6">
@@ -34,7 +34,7 @@ export function Footer() {
               </Link>
             </div>
           </div>
-          
+
           <div>
             <h4 className="font-bold text-lg mb-6 text-foreground">Solutions</h4>
             <ul className="space-y-4 text-muted-foreground text-sm">
@@ -59,9 +59,9 @@ export function Footer() {
             <h4 className="font-bold text-lg mb-6 text-foreground">Newsletter</h4>
             <p className="text-sm text-muted-foreground mb-6">Get tips on scaling your AdSense revenue.</p>
             <div className="relative">
-              <input 
-                type="email" 
-                placeholder="Email address" 
+              <input
+                type="email"
+                placeholder="Email address"
                 className="w-full h-12 rounded-xl bg-secondary/30 border-none px-4 text-sm focus:ring-2 focus:ring-accent outline-none"
               />
               <button className="absolute right-1 top-1 h-10 px-4 bg-primary text-white rounded-lg text-xs font-bold hover:bg-accent transition-colors">
@@ -70,7 +70,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        
+
         <div className="border-t border-gray-100 pt-12 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col md:flex-row items-center gap-6 text-xs text-muted-foreground font-medium">
             <p>© 2026 AdTraffic AI. All rights reserved.</p>
@@ -79,7 +79,7 @@ export function Footer() {
               <Link href="#" className="hover:text-accent transition-colors">Terms of Service</Link>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-bold uppercase tracking-wider">
               <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />

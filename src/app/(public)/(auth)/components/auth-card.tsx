@@ -141,7 +141,7 @@ export default function AuthCard({ mode, authAction, loading, error }: authProp)
                 </CardContent>
 
                 <CardFooter className="flex flex-col gap-4 pt-6">
-                    <Button type="submit" className="w-full bg-accent hover:bg-accent/90 text-accent-foreground font-semibold  px-6 h-10 " disabled={loading}>
+                    <Button type="submit" className="w-full bg-accent cursor-pointer hover:bg-accent/90 text-accent-foreground font-semibold  px-6 h-10 " disabled={loading}>
                         {loading ? "Processing..." : "Submit"}
                     </Button>
                     <CardDescription>

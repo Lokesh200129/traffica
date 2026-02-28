@@ -1,6 +1,7 @@
-
 "use client";
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+
 const activityItems = [
   { flag: '🇺🇸', user: 'James W.', initial: 'J', time: '2m ago' },
   { flag: '🇬🇧', user: 'Sarah L.', initial: 'S', time: '5m ago' },
@@ -15,24 +16,41 @@ const activityItems = [
 ];
 
 export function CountryStrip() {
-  const repeatedItems = [...activityItems, ...activityItems, ...activityItems, ...activityItems];
+  const ref = useRef<HTMLDivElement>(null);
+  const [scrollWidth, setScrollWidth] = useState(0);
+
+  useEffect(() => {
+    if (ref.current) {
+      setScrollWidth(ref.current.scrollWidth / 2);
+    }
+  }, []);
 
   return (
     <div className="bg-secondary/20 border-y py-6 overflow-hidden relative">
-      <div className="animate-marquee whitespace-nowrap flex items-center">
-        {repeatedItems.map((item, idx) => (
+      <motion.div
+        ref={ref}
+        className="whitespace-nowrap flex items-center"
+        animate={{ x: [0, -scrollWidth] }}
+        transition={{
+          duration: 44,
+          ease: 'linear',
+          repeat: Infinity,
+        }}
+      >
+        {/* Only 2 copies — measuring half gives exact one-set width */}
+        {[...activityItems, ...activityItems].map((item, idx) => (
           <div key={idx} className="inline-flex items-center gap-3 px-5 py-2 mx-4 bg-white rounded-full shadow-sm border border-gray-100/50 cursor-default whitespace-nowrap group hover:shadow-md transition-shadow">
             <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-[10px] font-bold text-muted-foreground">
               {item.initial}
             </div>
             <span className="font-bold text-foreground text-sm">{item.user}</span>
-            <span className="text-xl">{item.flag}</span>
+            <span>{item.flag}</span>
             <span className="text-xs text-muted-foreground">bought traffic</span>
             <span className="text-xs font-bold text-accent">{item.time}</span>
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
           </div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { FAQ } from '@/components/landing/faq';
 
 export default function Home() {
     return (
+        
         <div>
             <Hero />
             <FeaturesScroll />
