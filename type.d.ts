@@ -6,7 +6,5 @@ type TUser = {
     password?: string,
     bio?: string,
     location?: string,
-    occupation?: string,
     profileImage?: string
-
 }

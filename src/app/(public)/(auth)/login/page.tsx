@@ -12,11 +12,11 @@ const LoginPage = () => {
     const isAuthenticated = !!user;
     const { mutate: login, isPending } = useLogin();
 
-    useEffect(() => {
-        if (!isLoading && isAuthenticated) {
-            router.replace('/');
-        }
-    }, [isAuthenticated, isLoading, router]);
+    // useEffect(() => {
+    //     if (!isLoading && isAuthenticated) {
+    //         router.replace('/');
+    //     }
+    // }, [isAuthenticated, isLoading, router]);
 
     if (isLoading || isPending) {
         return <GlobalLoader />;

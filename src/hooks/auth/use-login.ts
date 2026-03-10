@@ -15,11 +15,11 @@ export const useLogin = () => {
                 method: "POST",
                 data,
             });
-        },
+        }, 
         onSuccess: (loggedInUser) => {
             toast.success(`Welcome back!`);
             queryClient.setQueryData(["current-user"], loggedInUser);
-            router.replace('/');
+            router.replace('/overview');
         },
         onError: (err) => {
             toast.error(parseError(err));

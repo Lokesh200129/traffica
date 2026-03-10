@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { Toaster } from 'sonner';
 import ClientProvider from './client-provider';
 // import PostFormModal from './post-form-modal';
+import { ThemeProvider } from '@/components/theme-provider'
 export default function Providers({ children }: { children: React.ReactNode }) {
     const [queryClient] = useState(() => new QueryClient({
         defaultOptions: {
@@ -20,8 +21,14 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <QueryClientProvider client={queryClient}>
             <Toaster richColors position="top-center" duration={2000} />
             <ClientProvider>
-                {children}
-                {/* <PostFormModal /> */}
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange  
+                >
+                    {children}
+                </ThemeProvider>
             </ClientProvider>
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider >

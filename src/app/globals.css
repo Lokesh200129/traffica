@@ -33,6 +33,7 @@
 
 @layer base {
   :root {
+    /* --- LIGHT MODE (Current colors kept) --- */
     --background: 0 0% 100%;
     --foreground: 0 0% 0%;
     --card: 0 0% 100%;
@@ -43,7 +44,7 @@
     --primary-foreground: 0 0% 100%;
     --secondary: 191 44% 93%;
     --secondary-foreground: 0 0% 0%;
-    --muted: 191 20% 96%;
+    --muted: 210 20% 94%;
     --muted-foreground: 0 0% 45.1%;
     --accent: 24 100% 60%;
     --accent-foreground: 0 0% 100%;
@@ -53,6 +54,43 @@
     --input: 0 0% 89.8%;
     --ring: 24 100% 60%;
     --radius: 1rem;
+    --light-background: 210 20% 78%;
+  }
+
+  /* --- DARK MODE (Professional Midnight Slate) --- */
+  .dark {
+    --background: 222 47% 4%;
+    /* Professional Slate */
+    --foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --card: 222 47% 7%;
+    /* Slightly lighter than background */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 7%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    /* Light primary in dark mode */
+    --primary-foreground: 222 47% 4%;
+
+    --secondary: 217.2 32.6% 12%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 12%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 24 100% 60%;
+    /* Keeping your signature Orange */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    /* Soft borders for dark mode */
+    --input: 217.2 32.6% 17.5%;
+    --ring: 24 100% 60%;
   }
 
   * {
@@ -73,17 +111,33 @@
   }
 }
 
-/* Custom Utilities - Modern v4 way */
+/* Utilities */
 @utility glass {
   background: rgba(255, 255, 255, 0.7);
+
+  .dark & {
+    background: rgba(15, 23, 42, 0.7);
+    /* Darker glass for dark mode */
+  }
+
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 @utility orange-glow {
+  transition: all 0.3s ease-in-out;
+
   &:hover {
-    box-shadow: 0 0 20px rgba(255, 131, 0, 0.5);
+    /* Pehla layer: Bright core (Orange) */
+    /* Dusra layer: Soft wide glow (Crimson-ish) */
+    box-shadow:
+      0 0 15px rgba(255, 131, 0, 0.6),
+      0 0 30px rgba(220, 20, 60, 0.3);
+
+    /* Optional: Button ko thoda uthane ke liye */
+    transform: translateY(-1px);
+    filter: brightness(1.1);
   }
 }
 

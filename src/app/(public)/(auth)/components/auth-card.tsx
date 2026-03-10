@@ -29,7 +29,7 @@ export default function AuthCard({ mode, authAction, loading, error }: authProp)
     const footerLink = isLogin ? "/signup" : "/login"
     const footerLinkText = isLogin ? "Sign Up" : "Log In"
 
-    const { register, handleSubmit, setValue, trigger, formState: { errors } } = useForm();
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
 
     const handleCaptchaChange = (token: string | null) => {
