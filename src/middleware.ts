@@ -1,25 +1,38 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from "next/server"
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import createIntlMiddleware from "next-intl/middleware";
+import { routing } from "@/i18n/routing";
+
+const intlMiddleware = createIntlMiddleware(routing);
+
+const PROTECTED_ROUTES = [
+    "/overview",
+    "/profile",
+    "/notification",
+    "/help",
+    "/campaign",
+    "/billing",
+];
 
 export function middleware(request: NextRequest) {
-    const token = request.cookies.get('token')?.value
+    const token = request.cookies.get("token")?.value;
     const path = request.nextUrl.pathname;
 
-    const isProtectedRoute = path.startsWith('/overview') ||
-        path.startsWith('/profile') ||
-        path.startsWith('/notification') ||
-        path.startsWith('/help') ||
-        path.startsWith('/campaign') ||
-        path.startsWith('/billing');
+    const pathWithoutLocale = path.replace(/^\/(en|hi|fr)/, "") || "/";
 
-    // console.log(token)
+    const isProtectedRoute = PROTECTED_ROUTES.some(route =>
+        pathWithoutLocale.startsWith(route)
+    );
+
     if (isProtectedRoute && !token) {
-        return NextResponse.redirect(new URL('/signup', request.url))
+        return NextResponse.redirect(new URL("/signup", request.url));
     }
 
-    return NextResponse.next()
+    return intlMiddleware(request);
 }
 
 export const config = {
-    matcher: '/:path*',
-}
+    matcher: [
+        '/((?!_next|_vercel|api|.*\\..*).*)',
+    ],
+};

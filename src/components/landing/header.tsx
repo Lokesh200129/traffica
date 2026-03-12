@@ -47,19 +47,6 @@ export function Header() {
       )}
     >
       <div className="container px-6 md:px-12 lg:px-20 mx-auto flex items-center justify-between">
-        {/* <Link
-          href="/"
-          onClick={(e) => {
-            if (window.location.pathname === '/') {
-              e.preventDefault();
-              scrollToTop();
-            }
-          }}
-          className="text-2xl font-black tracking-tighter flex items-center group"
-        >
-          <span>TRAFFICA</span>
-          <span className="text-accent group-hover:translate-x-0.5 transition-transform duration-300">.AI</span>
-        </Link> */}
 
         <MainIcon />
         {/* Desktop Navigation */}

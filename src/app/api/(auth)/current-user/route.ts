@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/jwt";
 import User from "@/models/User";
 import { NextResponse } from "next/server";
-import { tryCatchWrapper } from "@/lib/api-handler";
+import { tryCatchWrapper } from "@/lib/try-catch";
 
 export const GET = tryCatchWrapper(async () => {
     const cookieStore = await cookies();

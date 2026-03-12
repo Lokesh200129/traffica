@@ -1,0 +1,40 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "campaigns": "campaigns",
+    "clearFilters": "Clear filters",
+    "noResults": "No campaigns match your filters",
+    "sortedBy": "Sorted by",
+    "clickToSort": "Click any column header to sort",
+    "desc": "desc",
+    "asc": "asc"
+  },
+  "filters": {
+    "searchPlaceholder": "Search campaigns...",
+    "allTime": "All Time",
+    "yesterday": "Yesterday",
+    "lastWeek": "Last Week",
+    "lastMonth": "Last Month",
+    "lastYear": "Last Year",
+    "customRange": "Custom Range",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "applyRange": "Apply Range"
+  },
+  "table": {
+    "campaignId": "Campaign ID",
+    "campaignName": "Campaign Name",
+    "status": "Status",
+    "pageViews": "Page Views",
+    "duration": "Duration",
+    "trafficSource": "Traffic Source",
+    "device": "Device",
+    "geoTargeting": "Geo Targeting"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "hi": "Hindi",
+    "fr": "French"
+  }
+}

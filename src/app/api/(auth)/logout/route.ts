@@ -1,4 +1,4 @@
-import { tryCatchWrapper } from "@/lib/api-handler";
+import { tryCatchWrapper } from "@/lib/try-catch";
 import { ApiResponse } from "@/lib/api-response";
 import { cookies } from "next/headers";
 

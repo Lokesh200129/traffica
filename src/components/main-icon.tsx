@@ -25,12 +25,12 @@ const MainIcon = () => {
             href="/"
             className="flex items-center group"
         >
-            <div className="relative w-52 h-14 overflow-hidden">
+            <div className="relative h-14 w-48">
                 <Image
                     src={MainIconImg}
                     alt="Traffic Arbitrage"
                     fill
-                    className="object-cover "
+                    className="object-cover object-center "
                     priority
                 />
             </div>

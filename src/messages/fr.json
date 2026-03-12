@@ -1,0 +1,40 @@
+{
+  "dashboard": {
+    "title": "Tableau de bord",
+    "campaigns": "campagnes",
+    "clearFilters": "Effacer les filtres",
+    "noResults": "Aucune campagne trouvée",
+    "sortedBy": "Trié par",
+    "clickToSort": "Cliquez sur un en-tête pour trier",
+    "desc": "desc",
+    "asc": "asc"
+  },
+  "filters": {
+    "searchPlaceholder": "Rechercher des campagnes...",
+    "allTime": "Tout le temps",
+    "yesterday": "Hier",
+    "lastWeek": "La semaine dernière",
+    "lastMonth": "Le mois dernier",
+    "lastYear": "L'année dernière",
+    "customRange": "Plage personnalisée",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "applyRange": "Appliquer la plage"
+  },
+  "table": {
+    "campaignId": "ID Campagne",
+    "campaignName": "Nom de la campagne",
+    "status": "Statut",
+    "pageViews": "Pages vues",
+    "duration": "Durée",
+    "trafficSource": "Source de trafic",
+    "device": "Appareil",
+    "geoTargeting": "Ciblage géo"
+  },
+  "language": {
+    "label": "Langue",
+    "en": "Anglais",
+    "hi": "Hindi",
+    "fr": "Français"
+  }
+}

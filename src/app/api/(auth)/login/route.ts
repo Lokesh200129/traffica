@@ -3,7 +3,7 @@ import { signToken } from "@/lib/jwt";
 import User from "@/models/User";
 import { comparePassword } from "@/lib/auth";
 import { cookies } from "next/headers";
-import { tryCatchWrapper } from "@/lib/api-handler";
+import { tryCatchWrapper } from "@/lib/try-catch";
 
 export const POST = tryCatchWrapper(async (req: Request) => {
     const { email, password, captchaToken } = await req.json();

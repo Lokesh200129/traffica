@@ -1,4 +1,4 @@
-import { tryCatchWrapper } from "@/lib/api-handler";
+import { tryCatchWrapper } from "@/lib/try-catch";
 import { ApiResponse } from "@/lib/api-response";
 import User from "@/models/User";
 import { NextRequest } from "next/server";

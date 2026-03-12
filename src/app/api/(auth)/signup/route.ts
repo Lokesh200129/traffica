@@ -1,7 +1,7 @@
 import User from "@/models/User";
 import { hashPassword } from "@/lib/auth";
 import { ApiResponse } from "@/lib/api-response";
-import { tryCatchWrapper } from "@/lib/api-handler";
+import { tryCatchWrapper } from "@/lib/try-catch";
 import { signToken } from "@/lib/jwt";
 import { cookies } from "next/headers";
 import slugify from 'slugify';
