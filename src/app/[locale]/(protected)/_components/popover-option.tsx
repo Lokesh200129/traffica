@@ -11,6 +11,7 @@ import { useLogout } from "@/hooks/auth/use-logout"
 import { useCurrentUser } from "@/hooks/auth/use-current-user"
 import { AppButton } from "@/components/button"
 import GlobalLoader from "@/components/global-loader"
+import { FaWhatsapp } from "react-icons/fa";
 
 // ── Support icon button ───────────────────────────────────────────────────────
 function SupportIconBtn({
@@ -79,7 +80,6 @@ export default function UserProfilePopover() {
                         className="bg-background text-accent hover:bg-accent/10 flex items-start justify-start"
                     />
 
-                    {/* ── Support Section ────────────────────────────────── */}
 
                     <div className="border-t border-border p-1 mt-2" />
 
@@ -92,6 +92,7 @@ export default function UserProfilePopover() {
                         className="bg-background text-accent hover:bg-accent/10 w-full justify-start"
                     />
                     <div className="border-t border-border p-1 mt-2" />
+                    {/* ── Support Section ────────────────────────────────── */}
 
                     <div className=" px-2 flex flex-col gap-2 py-1">
                         <p className="text-sm tracking-wider text-accent font-semibold mb-2 px-1 flex items-center justify-start gap-4  ">
@@ -103,7 +104,7 @@ export default function UserProfilePopover() {
                         <div className="flex gap-2">
                             <SupportIconBtn
                                 href="https://wa.me/yourNumber"
-                                icon={MessageCircle}
+                                icon={FaWhatsapp}
                                 label="WhatsApp"
                                 title="Chat on WhatsApp"
                             />

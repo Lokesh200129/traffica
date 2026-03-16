@@ -1,11 +1,10 @@
 import { Metadata } from "next";
-import ComingSoon from "../_components/coming-soon";
-
+import NoCampaignPage from "./_components/main";
 export const metadata: Metadata = {
     title: "Overview",
     description: "",
 };
 
-const Page = () => <ComingSoon />
+const Page = () => <NoCampaignPage />
 
 export default Page;

@@ -96,7 +96,7 @@ export function SummarySidebar({ data }: SummarySidebarProps) {
         <SummaryRow label="Geo">
           <p className="text-[11px] font-semibold text-foreground">{geoType}</p>
 
-          <SummaryBadge label={country} />
+          {/* <SummaryBadge label={country} /> */}
         </SummaryRow>
 
         {activeTraffic.length > 0 && (

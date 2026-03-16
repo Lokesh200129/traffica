@@ -3,6 +3,7 @@ export interface ProfileInfo {
     email:     string;   // readonly — cannot be changed
     firstName: string;
     lastName:  string;
+    avatarUrl?: string;
 }
 
 export interface PasswordForm {
@@ -16,4 +17,5 @@ export const MOCK_PROFILE: ProfileInfo = {
     email:     "lokeshpal210310@gmail.com",
     firstName: "",
     lastName:  "",
+    avatarUrl: "",
 };

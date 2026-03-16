@@ -1,4 +1,4 @@
-import type { RangeItem } from "../types";
+import type { RangeItem } from "../_types/index";
 
 /**
  * Redistributes percentages across all RangeItems proportionally

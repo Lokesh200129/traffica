@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { SidebarTab } from "./sidebar-config";
+import { useTranslations } from "next-intl";
 
 interface BillingDropdownProps {
     tab: SidebarTab;
@@ -12,16 +13,15 @@ interface BillingDropdownProps {
 }
 
 export function BillingDropdown({ tab, pathname }: BillingDropdownProps) {
+    const t = useTranslations("sidebar");
     const Icon = tab.icon;
-
-    // ✅ strip locale prefix
+    // console.log(tab)
     const strippedPathname = pathname.replace(/^\/(en|hi|fr)/, "") || "/";
     const isChildActive = tab.dropdown?.some(d => strippedPathname === d.href) ?? false;
     const [open, setOpen] = useState(isChildActive);
 
     return (
         <div>
-            {/* Trigger — no navigation, toggle only */}
             <Button
                 variant="ghost"
                 onClick={() => setOpen(o => !o)}
@@ -33,7 +33,7 @@ export function BillingDropdown({ tab, pathname }: BillingDropdownProps) {
                 )}
             >
                 <Icon size={18} />
-                <span className="flex-1 text-left">{tab.title}</span>
+                <span className="flex-1 text-left">{t("Billing.title")}</span>
                 <ChevronDown
                     size={14}
                     className={cn(
@@ -43,25 +43,24 @@ export function BillingDropdown({ tab, pathname }: BillingDropdownProps) {
                 />
             </Button>
 
-            {/* Dropdown items */}
             {open && (
                 <div className="mt-1 ml-4 flex flex-col gap-1 border-l border-border pl-3">
                     {tab.dropdown?.map(item => {
                         const ItemIcon = item.icon;
                         const active = strippedPathname === item.href;
                         return (
-                            <Link key={item.title} href={item.href}>
+                            <Link key={item.key} href={item.href}>
                                 <Button
                                     variant="ghost"
                                     className={cn(
-                                        "w-full justify-start gap-2.5 text-xs h-9 transition-all",
+                                        "w-full justify-start gap-2.5 text-xs h-9 transition-all cursor-pointer",
                                         active
                                             ? "text-accent bg-accent/10 border-l-2 border-accent rounded-none"
                                             : "text-muted-foreground hover:text-foreground hover:bg-muted"
                                     )}
                                 >
                                     <ItemIcon size={14} />
-                                    {item.title}
+                                    {t(`Billing.${item.key}`)}
                                 </Button>
                             </Link>
                         );

@@ -18,7 +18,7 @@ const DEFAULT_VALUES: FormValues = {
   pageViews: 32000,
   duration: { mode: "fixed", fixedSec: 0, randomFrom: 0, randomTo: 0 },
   geoType: "Global",
-  countries: [],
+  country: "",
   trafficSources: [{ id: uid(), value: "Direct", percentage: 100, keyword: "" }],
   devices: [{ id: uid(), value: "All Desktop", percentage: 100 }],
 };
@@ -191,13 +191,13 @@ export default function CampaignForm() {
             tooltip={{ title: "Geo-targeting", description: "Target a specific country or deliver globally." }}
           >
             <Controller
-              name="countries"
+              name="country"
               control={control}
               render={({ field }) => (
                 <select
-                  value={field.value[0] ?? ""}
+                  value={field.value ?? ""}
                   onChange={(e) => {
-                    field.onChange(e.target.value ? [e.target.value] : []);
+                    field.onChange(e.target.value);
                     saveGeo.trigger();
                   }}
                   className={selectCls}
@@ -232,8 +232,8 @@ export default function CampaignForm() {
           duration: watched.duration ?? DEFAULT_VALUES.duration,
           trafficSources: watched.trafficSources ?? [],
           devices: watched.devices ?? [],
-          geoType: watched.countries?.length ? "Countries" : "Global",
-          countries: watched.countries ?? [],
+          geoType: watched.country?.length ? "Countries" : "Global",
+          country: watched.country ?? "",
         }}
       />
     </div>

@@ -1,4 +1,24 @@
 {
+  "sidebar": {
+    "Overview": "Overview",
+    "Campaign": "Campaign",
+    "Billing": {
+      "title": "Billing",
+      "Saved_Cards": "Saved Cards",
+      "Balance": "Balance",
+      "Settings": "Settings",
+      "History": "History"
+    },
+    "Profile": "Profile",
+    "Notification": "Notification",
+    "Agency": "Agency",
+    "create_campaign": "Create Campaign",
+    "refer_earn": {
+      "title": "Refer & Earn",
+      "subtitle": "Get credits for every referral"
+    },
+    "Logout": "Logout"
+  },
   "dashboard": {
     "title": "Dashboard",
     "campaigns": "campaigns",
@@ -30,11 +50,5 @@
     "trafficSource": "Traffic Source",
     "device": "Device",
     "geoTargeting": "Geo Targeting"
-  },
-  "language": {
-    "label": "Language",
-    "en": "English",
-    "hi": "Hindi",
-    "fr": "French"
   }
 }

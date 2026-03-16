@@ -7,7 +7,7 @@ interface CreditsBadgeProps {
 }
 
 const CreditsBadge = ({ credits = 100000, buyHref = "#" }: CreditsBadgeProps) => {
-    const formattedCredits = currencyFormatter(credits);
+    const formattedCredits = credits.toLocaleString("en-IN");
     return (
         <div className="flex items-center gap-2 bg-accent/10 border border-accent/40 rounded-full px-3 py-1.5">
             <span className="text-sm font-semibold text-accent">Credits :</span>

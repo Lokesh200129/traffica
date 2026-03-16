@@ -16,6 +16,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 
 export interface DropdownItem {
+    key: string;
     title: string;
     icon: LucideIcon;
     href: string;
@@ -36,10 +37,10 @@ export const SIDEBAR_TABS: SidebarTab[] = [
         icon: CreditCard,
         // no href — dropdown only
         dropdown: [
-            { title: "Saved Cards", icon: SavedCardsIcon, href: "/billing/saved-cards" },
-            { title: "Balance", icon: Wallet, href: "/billing/balance" },
-            { title: "Settings", icon: Settings, href: "/billing/settings" },
-            { title: "History", icon: History, href: "/billing/history" },
+            { key: "Saved_Cards", title: "Saved Cards", icon: SavedCardsIcon, href: "/billing/saved-cards" },
+            { key: "Balance", title: "Balance", icon: Wallet, href: "/billing/balance" },
+            { key: "Settings", title: "Settings", icon: Settings, href: "/billing/settings" },
+            { key: "History", title: "History", icon: History, href: "/billing/history" },
         ],
     },
     { title: "Profile", icon: User, href: "/profile" },

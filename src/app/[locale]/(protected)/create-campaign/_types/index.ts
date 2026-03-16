@@ -32,3 +32,17 @@ export interface CampaignFormData {
 }
 
 export type SummaryData = CampaignFormData;
+
+export interface UrlConfig {
+    entryUrls: string;
+    innerUrls: string;
+    entryCrawl: boolean;
+    innerCrawl: boolean;
+}
+
+export const DEFAULT_URL_CONFIG: UrlConfig = {
+    entryUrls: "",
+    innerUrls: "",
+    entryCrawl: false,
+    innerCrawl: false,
+};

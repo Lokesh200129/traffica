@@ -1,4 +1,24 @@
 {
+  "sidebar": {
+    "Overview": "Aperçu",
+    "Campaign": "Campagne",
+    "Billing": {
+      "title": "Facturation",
+      "Saved_Cards": "Cartes enregistrées",
+      "Balance": "Solde",
+      "Settings": "Paramètres",
+      "History": "Historique"
+    },
+    "Profile": "Profil",
+    "Notification": "Notification",
+    "Agency": "Agence",
+    "create_campaign": "Créer une campagne",
+    "refer_earn": {
+      "title": "Parrainez et gagnez",
+      "subtitle": "Obtenez des crédits pour chaque parrainage"
+    },
+    "Logout": "Déconnexion"
+  },
   "dashboard": {
     "title": "Tableau de bord",
     "campaigns": "campagnes",
@@ -30,11 +50,5 @@
     "trafficSource": "Source de trafic",
     "device": "Appareil",
     "geoTargeting": "Ciblage géo"
-  },
-  "language": {
-    "label": "Langue",
-    "en": "Anglais",
-    "hi": "Hindi",
-    "fr": "Français"
   }
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { SidebarTab } from "./sidebar-config";
+import { useTranslations } from "next-intl";
 
 interface SidebarNavItemProps {
     tab: SidebarTab;
@@ -9,9 +10,10 @@ interface SidebarNavItemProps {
 }
 
 export function SidebarNavItem({ tab, pathname }: SidebarNavItemProps) {
+    const t = useTranslations("sidebar");
+
     const Icon = tab.icon;
 
-    // ✅ strip locale prefix — /en/overview → /overview
     const strippedPathname = pathname.replace(/^\/(en|hi|fr)/, "") || "/";
     const active = strippedPathname === tab.href;
 
@@ -27,7 +29,7 @@ export function SidebarNavItem({ tab, pathname }: SidebarNavItemProps) {
                 )}
             >
                 <Icon size={18} />
-                {tab.title}
+                {t(tab.title)}
             </Button>
         </Link>
     );

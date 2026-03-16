@@ -17,7 +17,6 @@ export default function HelpWidget({ defaultTab = "home" }: HelpWidgetProps) {
     const [tab, setTab] = useState<HelpTabs>(defaultTab);
     const ref = useRef<HTMLDivElement>(null);
 
-    // Close on outside click
     useEffect(() => {
         const handler = (e: MouseEvent) => {
             if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -29,23 +28,29 @@ export default function HelpWidget({ defaultTab = "home" }: HelpWidgetProps) {
     }, []);
 
     return (
-        <div ref={ref} className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-
-            {/* Widget panel */}
+        <div
+            ref={ref}
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end gap-3"
+        >
             {open && (
-                <div className="w-96 h-[600px] bg-card border border-border rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-bottom-4 fade-in duration-200 relative">
-
-                    {/* Floating close button */}
+                <div className="
+                    w-[calc(100vw-2rem)] sm:w-96
+                    h-[min(600px,80svh)]
+                    bg-card border border-border rounded-3xl shadow-2xl
+                    flex flex-col overflow-hidden
+                    animate-in slide-in-from-bottom-4 fade-in duration-200 relative
+                ">
+                    {/* Floating close button
                     <button
                         onClick={() => setOpen(false)}
                         className="absolute top-3 right-3 z-10 w-7 h-7 rounded-full bg-black/30 hover:bg-black/50 flex items-center justify-center text-white transition-colors backdrop-blur-sm"
                     >
                         <X size={14} strokeWidth={2.5} />
-                    </button>
+                    </button> */}
 
                     {/* Tab content */}
                     <div className="flex-1 overflow-hidden">
-                        {tab === "home" && <HomeTab onTabChange={setTab} />}
+                        {tab === "home" && <HomeTab onTabChange={setTab} onClose={() => setOpen(false)} />}
                         {tab === "messages" && <MessagesTab />}
                         {tab === "help" && <HelpTab />}
                     </div>

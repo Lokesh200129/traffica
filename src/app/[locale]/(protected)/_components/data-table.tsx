@@ -137,7 +137,7 @@ export function DataTable<T>({
     return (
         <div>
             {/*  toolbar — search, filters, etc */}
-            <div className="pb-8 flex justify-between items-center">
+            <div className="pb-8 flex justify-between items-center relative z-50">
                 <div>
                     <h1 className="text-2xl font-bold tracking-normal">{title}</h1>
                     <p className="text-sm text-muted-foreground mt-1">{subTitle}</p>
@@ -146,8 +146,8 @@ export function DataTable<T>({
             </div>
 
             {/* Table */}
-            <div className="border border-border overflow-hidden">
-                <div className="overflow-x-scroll">
+            <div className="border border-border">
+                <div className="overflow-x-auto">
                     <ShadTable>
                         <TableHeader>
                             {table.getHeaderGroups().map(headerGroup => (
