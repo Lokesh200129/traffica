@@ -1,7 +1,7 @@
 import { Header } from '@/components/landing/header';
 import { BigBranding } from '@/components/landing/big-branding';
 import { Footer } from '@/components/landing/footer';
-import LandingPage from '@/app/[locale]/(public)/component/landing-page';
+import LandingPage from '@/app/[locale]/(public)/_components/landing-page';
 
 export default function Home() {
   return (

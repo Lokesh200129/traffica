@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  /* Brand Color Mapping */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -27,70 +28,65 @@
   --radius-md: calc(var(--radius) - 4px);
   --radius-sm: calc(var(--radius) - 6px);
 
-  --font-body: var(--font-inter);
-  --font-headline: var(--font-inter);
+  /* Anthropic Typography */
+  --font-body: 'Lora', Georgia, serif;
+  --font-headline: 'Poppins', Arial, sans-serif;
 }
 
 @layer base {
   :root {
-    /* --- LIGHT MODE (Current colors kept) --- */
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
-    --primary: 0 0% 0%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 191 44% 93%;
-    --secondary-foreground: 0 0% 0%;
-    --muted: 210 20% 94%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 24 100% 60%;
-    --accent-foreground: 0 0% 100%;
+    /* --- ANTHROPIC LIGHT MODE --- */
+    --background: 48 33% 97%;
+    /* #faf9f5 */
+    --foreground: 60 1% 8%;
+    /* #141413 */
+    --card: 48 33% 97%;
+    --card-foreground: 60 1% 8%;
+    --popover: 48 33% 97%;
+    --popover-foreground: 60 1% 8%;
+    --primary: 60 1% 8%;
+    --primary-foreground: 48 33% 97%;
+    --secondary: 48 15% 89%;
+    /* #e8e6dc */
+    --secondary-foreground: 60 1% 8%;
+    --muted: 48 15% 89%;
+    --muted-foreground: 53 6% 67%;
+    /* #b0aea5 */
+    --accent: 15 65% 60%;
+    /* #d97757 - Brand Orange */
+    --accent-foreground: 48 33% 97%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 24 100% 60%;
+    --border: 48 15% 85%;
+    --input: 48 15% 85%;
+    --ring: 15 65% 60%;
     --radius: 1rem;
-    --light-background: 210 20% 78%;
   }
 
-  /* --- DARK MODE (Professional Midnight Slate) --- */
+  /* --- ANTHROPIC DARK MODE (Professional Slate) --- */
   .dark {
-    --background: 222 47% 4%;
-    /* Professional Slate */
-    --foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --card: 222 47% 7%;
-    /* Slightly lighter than background */
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222 47% 7%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    /* Light primary in dark mode */
-    --primary-foreground: 222 47% 4%;
-
-    --secondary: 217.2 32.6% 12%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 12%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 24 100% 60%;
-    /* Keeping your signature Orange */
-    --accent-foreground: 0 0% 100%;
-
+    --background: 60 1% 8%;
+    /* #141413 */
+    --foreground: 48 33% 97%;
+    /* #faf9f5 */
+    --card: 60 1% 12%;
+    --card-foreground: 48 33% 97%;
+    --popover: 60 1% 10%;
+    --popover-foreground: 48 33% 97%;
+    --primary: 48 33% 97%;
+    --primary-foreground: 60 1% 8%;
+    --secondary: 60 1% 18%;
+    --secondary-foreground: 48 33% 97%;
+    --muted: 60 1% 18%;
+    --muted-foreground: 53 6% 67%;
+    --accent: 15 65% 60%;
+    /* Signature Orange */
+    --accent-foreground: 48 33% 97%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    /* Soft borders for dark mode */
-    --input: 217.2 32.6% 17.5%;
-    --ring: 24 100% 60%;
+    --border: 60 1% 22%;
+    --input: 60 1% 22%;
+    --ring: 15 65% 60%;
   }
 
   * {
@@ -110,43 +106,40 @@
     @apply font-bold font-headline tracking-tighter;
   }
 
-  /* globals.css */
-
   input,
   textarea,
   select {
     @apply rounded-lg border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-accent transition-colors;
   }
-
 }
 
 /* Utilities */
 @utility glass {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(250, 249, 245, 0.7);
 
+  /* Using Light Brand Color */
   .dark & {
-    background: rgba(15, 23, 42, 0.7);
-    /* Darker glass for dark mode */
+    background: rgba(20, 20, 19, 0.7);
+    /* Using Dark Brand Color */
   }
 
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(217, 119, 87, 0.2);
+  /* Subtle Orange border */
 }
 
 @utility orange-glow {
   transition: all 0.3s ease-in-out;
 
   &:hover {
-    /* Pehla layer: Bright core (Orange) */
-    /* Dusra layer: Soft wide glow (Crimson-ish) */
+    /* Anthropic Brand Orange Glow */
     box-shadow:
-      0 0 15px rgba(255, 131, 0, 0.6),
-      0 0 30px rgba(220, 20, 60, 0.3);
-
-    /* Optional: Button ko thoda uthane ke liye */
+      0 0 15px rgba(217, 119, 87, 0.6),
+      0 0 30px rgba(106, 155, 204, 0.2);
+    /* Added a hint of Brand Blue */
     transform: translateY(-1px);
-    filter: brightness(1.1);
+    filter: brightness(1.05);
   }
 }
 

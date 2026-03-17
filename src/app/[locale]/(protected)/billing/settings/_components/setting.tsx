@@ -4,22 +4,27 @@ import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { BillingSettings } from "../../_lib/mock-data-type";
 import { MOCK_SETTINGS } from "../../_lib/mock-data-type";
+import { AppButton } from "@/components/button"; // Agency page jesa button use karne ke liye
 
 const COUNTRIES = ["India", "USA", "UK", "Canada", "Australia", "Singapore", "UAE"];
 const CURRENCIES = ["INR, Indian Rupee", "USD, US Dollar", "GBP, British Pound", "AED, UAE Dirham", "SGD, Singapore Dollar"];
 const STATES = ["Not selected", "Delhi", "Maharashtra", "Karnataka", "Tamil Nadu", "Telangana", "Gujarat", "Rajasthan"];
 
+// Agency page ke labels jesa look dene ke liye
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
     return (
-        <div className="flex flex-col gap-1.5">
-            <label className="text-sm font-medium text-muted-foreground">{label}</label>
+        <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                {label}
+            </label>
             {children}
         </div>
     );
 }
 
-const inputCls = "w-full px-3 py-2.5 rounded-lg border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-accent transition-colors";
-const selectCls = `${inputCls} cursor-pointer`;
+// Shadcn Input style variables
+const inputCls = "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors";
+const selectCls = `${inputCls} cursor-pointer appearance-none`;
 
 interface BillingSettingsProps {
     initialData?: BillingSettings;
@@ -46,20 +51,21 @@ export default function BillingSettingsPage({
     };
 
     return (
-        <div>
-            {/* Header */}
+        <div className="max-w-4xl">
+            {/* Header - Agency Page Style */}
             <div className="mb-8">
                 <h1 className="text-2xl font-bold">Billing Settings</h1>
                 <p className="text-sm text-muted-foreground mt-1">
-                    Manage your billing information and preferences
+                    Manage your billing information and preferences for invoices and payments.
                 </p>
             </div>
 
-            <div className="rounded-2xl border border-border bg-card p-6">
-                <div className="flex flex-col gap-6">
+            {/* Form card - Exact Agency Page Padding & Border */}
+            <div className="rounded-2xl border border-border bg-card p-6 w-full shadow-sm">
+                <div className="flex flex-col gap-5">
 
-                    {/* ── Row 1: First + Last Name ───────────────────────── */}
-                    <div className="grid grid-cols-2 gap-4">
+                    {/* Row 1: First + Last Name */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <Field label="First Name">
                             <input className={inputCls} value={form.firstName} onChange={e => update("firstName", e.target.value)} placeholder="John" />
                         </Field>
@@ -68,8 +74,8 @@ export default function BillingSettingsPage({
                         </Field>
                     </div>
 
-                    {/* ── Row 2: Company + GSTIN ─────────────────────────── */}
-                    <div className="grid grid-cols-2 gap-4">
+                    {/* Row 2: Company + GSTIN */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <Field label="Company Name">
                             <input className={inputCls} value={form.companyName} onChange={e => update("companyName", e.target.value)} placeholder="Acme Inc." />
                         </Field>
@@ -78,13 +84,13 @@ export default function BillingSettingsPage({
                         </Field>
                     </div>
 
-                    {/* ── Row 3: Address (full width) ────────────────────── */}
+                    {/* Row 3: Address */}
                     <Field label="Company Address">
                         <input className={inputCls} value={form.companyAddress} onChange={e => update("companyAddress", e.target.value)} placeholder="123 Main Street" />
                     </Field>
 
-                    {/* ── Row 4: City + Postal ───────────────────────────── */}
-                    <div className="grid grid-cols-2 gap-4">
+                    {/* Row 4: City + Postal */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <Field label="City">
                             <input className={inputCls} value={form.city} onChange={e => update("city", e.target.value)} placeholder="Mumbai" />
                         </Field>
@@ -93,8 +99,8 @@ export default function BillingSettingsPage({
                         </Field>
                     </div>
 
-                    {/* ── Row 5: State + Country ─────────────────────────── */}
-                    <div className="grid grid-cols-2 gap-4">
+                    {/* Row 5: State + Country */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <Field label="State">
                             <select className={selectCls} value={form.state} onChange={e => update("state", e.target.value)}>
                                 {STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -107,8 +113,8 @@ export default function BillingSettingsPage({
                         </Field>
                     </div>
 
-                    {/* ── Row 6: Currency + Email ────────────────────────── */}
-                    <div className="grid grid-cols-2 gap-4">
+                    {/* Row 6: Currency + Email */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <Field label="Preferred Currency">
                             <select className={selectCls} value={form.preferredCurrency} onChange={e => update("preferredCurrency", e.target.value)}>
                                 {CURRENCIES.map(c => <option key={c} value={c}>{c}</option>)}
@@ -119,10 +125,10 @@ export default function BillingSettingsPage({
                         </Field>
                     </div>
 
-                    <div className="border-t border-border" />
+                    <div className="border-t border-border my-2" />
 
-                    {/* ── Row 7: Toggle + Save ───────────────────────────── */}
-                    <div className="flex items-center justify-between">
+                    {/* Row 7: Toggle + Save Action */}
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
                             <button
                                 onClick={() => update("sendInvoices", !form.sendInvoices)}
@@ -141,19 +147,17 @@ export default function BillingSettingsPage({
                             </span>
                         </div>
 
-                        <button
-                            onClick={handleSave}
-                            disabled={saving}
-                            className={cn(
-                                "flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all",
-                                saved
-                                    ? "bg-green-500/10 text-green-500 border border-green-500/20"
-                                    : "bg-accent text-accent-foreground hover:opacity-90"
-                            )}
-                        >
-                            {saved && <Check size={14} />}
-                            {saved ? "Saved" : saving ? "Saving..." : "Save Changes"}
-                        </button>
+                        <div className="w-full sm:w-auto min-w-[140px]">
+                            <AppButton
+                                title={saved ? "Saved" : saving ? "Saving..." : "Save Changes"}
+                                onClick={handleSave}
+                                isLoading={saving}
+                                // Custom coloring for success state
+                                className={cn(
+                                    saved && "bg-green-600 hover:bg-green-700 border-none text-white"
+                                )}
+                            />
+                        </div>
                     </div>
 
                 </div>

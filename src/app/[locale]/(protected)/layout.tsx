@@ -22,7 +22,7 @@ export default function ProtectedLayout({ children }: { children: React.ReactNod
 
             <Navbar />
             <div className="flex flex-1 overflow-hidden">
-                <aside className="hidden md:flex w-64 flex-col border-r border-border shrink-0 bg-card">
+                <aside className="hidden md:flex max-w-64 flex-col border-r border-border shrink-0 bg-card">
                     <Sidebar />
                 </aside>
 

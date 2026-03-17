@@ -6,37 +6,49 @@ const UserSchema = new Schema({
         unique: true,
         lowercase: true,
         trim: true,
-        required: true
+        sparse: true,
+        default: null,
     },
     name: {
         type: String,
-        required: [true, 'Username is required'],
+        required: [true, 'Name is required'],
     },
     email: {
         type: String,
         required: [true, 'Email is required'],
-        unique: true
+        unique: true,
     },
     password: {
         type: String,
-        required: [true, 'Password is required']
+        default: null,
+    },
+    googleId: {
+        type: String,
+        default: null,
+        sparse: true,
+        unique: true,
+    },
+    authProvider: {
+        type: String,
+        enum: ["local", "google"],
+        default: "local",
     },
     bio: {
         type: String,
-        default: ""
+        default: "",
     },
     profileImage: {
         type: String,
-        default: ""
+        default: "",
     },
     location: {
         type: String,
-        default: ""
+        default: "",
     },
     occupation: {
         type: String,
-        default: ""
-    }
+        default: "",
+    },
 }, { timestamps: true });
 
 const User = models.User || model('User', UserSchema);

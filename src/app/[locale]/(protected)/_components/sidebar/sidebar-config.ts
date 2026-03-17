@@ -3,15 +3,13 @@ import {
     Megaphone,
     CreditCard,
     User,
-    Bell,
     PlusCircle,
     LogOut,
     Gift,
     Building2,
-    CreditCard as SavedCardsIcon,
     Wallet,
-    Settings,
-    History,
+
+    BadgeIndianRupee, SlidersHorizontal, ClockArrowUp
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -32,19 +30,20 @@ export interface SidebarTab {
 export const SIDEBAR_TABS: SidebarTab[] = [
     { title: "Overview", icon: LayoutDashboard, href: "/overview" },
     { title: "Campaign", icon: Megaphone, href: "/campaign" },
+
+
     {
         title: "Billing",
-        icon: CreditCard,
-        // no href — dropdown only
+        icon: Wallet,
         dropdown: [
-            { key: "Saved_Cards", title: "Saved Cards", icon: SavedCardsIcon, href: "/billing/saved-cards" },
-            { key: "Balance", title: "Balance", icon: Wallet, href: "/billing/balance" },
-            { key: "Settings", title: "Settings", icon: Settings, href: "/billing/settings" },
-            { key: "History", title: "History", icon: History, href: "/billing/history" },
+            // { key: "Saved_Cards", title: "Saved Cards", icon: CreditCard, href: "/billing/saved-cards" },
+            { key: "Balance", title: "Balance", icon: BadgeIndianRupee, href: "/billing/balance" },
+            { key: "Settings", title: "Settings", icon: SlidersHorizontal, href: "/billing/settings" },
+            { key: "History", title: "History", icon: ClockArrowUp, href: "/billing/history" },
         ],
     },
     { title: "Profile", icon: User, href: "/profile" },
-    { title: "Notification", icon: Bell, href: "/notification" },
+    // { title: "Notification", icon: Bell, href: "/notification" },
     { title: "Agency", icon: Building2, href: "/agency" },
 ];
 

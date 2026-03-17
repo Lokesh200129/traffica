@@ -91,16 +91,15 @@ export default function UserProfilePopover() {
                         // fullWidth={true}
                         className="bg-background text-accent hover:bg-accent/10 w-full justify-start"
                     />
-                    <div className="border-t border-border p-1 mt-2" />
+                    {/* <div className="border-t border-border p-1 mt-2" /> */}
                     {/* ── Support Section ────────────────────────────────── */}
 
-                    <div className=" px-2 flex flex-col gap-2 py-1">
+                    {/* <div className=" px-2 flex flex-col gap-2 py-1">
                         <p className="text-sm tracking-wider text-accent font-semibold mb-2 px-1 flex items-center justify-start gap-4  ">
                             <MessagesSquare size={16} />
                             Support
                         </p>
 
-                        {/* Icon row — WhatsApp, Email, FAQ */}
                         <div className="flex gap-2">
                             <SupportIconBtn
                                 href="https://wa.me/yourNumber"
@@ -121,7 +120,7 @@ export default function UserProfilePopover() {
                                 title="Browse FAQ & Help docs"
                             />
                         </div>
-                    </div>
+                    </div> */}
 
                 </PopoverContent>
             </Popover>

@@ -4,23 +4,22 @@ import { useRouter } from 'next/navigation';
 import parseError from '@/lib/parse-error';
 import { toast } from "sonner";
 
-export const useLogin = () => {
+export const useGoogleAuth = () => {
     const router = useRouter();
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: async (data: any) => {
+        mutationFn: async (token: string) => {
             return await api<TUser>({
-                url: "/login",
+                url: "/google",
                 method: "POST",
-                data,
+                data: { token },
             });
         },
         onSuccess: (loggedInUser) => {
-            toast.success(`Welcome back!`);
-            router.replace('/overview');
-
+            toast.success(`Welcome!`);
             queryClient.setQueryData(["current-user"], loggedInUser);
+            router.replace('/en/overview');
         },
         onError: (err) => {
             toast.error(parseError(err));

@@ -7,7 +7,6 @@ import { cookies } from "next/headers";
 import slugify from 'slugify';
 
 export const POST = tryCatchWrapper(async (req: Request) => {
-    // 1. captchaToken ko destructure karein
     const { email, password, name, captchaToken } = await req.json();
 
     if (!email || !password || !name || !captchaToken) {
@@ -23,9 +22,13 @@ export const POST = tryCatchWrapper(async (req: Request) => {
         return ApiResponse.error("Invalid CAPTCHA validation", 400);
     }
 
-    // 4. Existing user check
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
+        // Google se already signup kiya hua hai
+        if (existingUser.authProvider === "google") {
+            return ApiResponse.error('This email is registered with Google. Please login with Google.', 400);
+        }
         return ApiResponse.error('User already exists', 400);
     }
 
@@ -36,13 +39,13 @@ export const POST = tryCatchWrapper(async (req: Request) => {
         name,
         email,
         password: hashedPassword,
-        username
+        username,
+        authProvider: "local",  // ← explicitly set karo
     });
 
     const userResponse = newUser.toObject();
     delete userResponse.password;
 
-    // 6. Token & Cookie setup
     const token = await signToken({ userId: userResponse._id.toString(), email: userResponse.email });
     const cookieStore = await cookies();
 

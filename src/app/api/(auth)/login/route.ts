@@ -24,6 +24,16 @@ export const POST = tryCatchWrapper(async (req: Request) => {
     const user = await User.findOne({ email });
     if (!user) return ApiResponse.error("Invalid Credentials", 401);
 
+    // Google user password se login karne ki koshish kare
+    if (user.authProvider === "google") {
+        return ApiResponse.error("This account uses Google Sign-In. Please login with Google.", 401);
+    }
+
+    // Password null ho — safety check
+    if (!user.password) {
+        return ApiResponse.error("Invalid Credentials", 401);
+    }
+
     const isPasswordCorrect = await comparePassword(password, user.password);
     if (!isPasswordCorrect) return ApiResponse.error("Invalid Credentials", 401);
 

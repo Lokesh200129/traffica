@@ -1,32 +1,52 @@
-import Link from "next/link";
-import { AppButton } from "@/components/button";
-import { REFER_TAB, LOGOUT_TAB } from "./sidebar-config";
+import { LOGOUT_TAB } from "./sidebar-config";
+import { cn } from "@/lib/utils";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { TooltipContainer } from "@/components/tooltip-container";
 
 interface SidebarBottomProps {
     onLogout: () => void;
+    collapsed?: boolean;
+    onToggleCollapse?: () => void;
 }
 
-export function SidebarBottom({ onLogout }: SidebarBottomProps) {
+export function SidebarBottom({ onLogout, collapsed, onToggleCollapse }: SidebarBottomProps) {
+    const Icon = LOGOUT_TAB.icon;
+
+    const btnClass = cn(
+        "w-full flex items-center text-sm h-11 transition-all cursor-pointer rounded-lg",
+        collapsed ? "justify-center px-0" : "justify-start gap-3 px-4"
+    );
+
     return (
-        <div className="mt-auto pt-4 border-t border-border space-y-2">
-            {/* Refer & Earn */}
-            <Link href={REFER_TAB.href} className="w-full block">
-                <button className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl bg-accent/10 border border-accent/30 hover:bg-accent/20 transition-colors">
-                    <REFER_TAB.icon color="#ff8a33" size={22} />
-                    <div className="text-left">
-                        <p className="font-bold text-accent">{REFER_TAB.title}</p>
-                        <p className="text-[10px] text-muted-foreground">{REFER_TAB.subtitle}</p>
-                    </div>
+        <div className="mt-auto flex flex-col gap-2 pt-2">
+
+            {/* Collapse toggle */}
+            {collapsed ? (
+                <TooltipContainer title="Expand" description="" side="right">
+                    <button onClick={onToggleCollapse} className={cn(btnClass, "text-foreground hover:bg-accent/10")}>
+                        <PanelLeftOpen size={18} />
+                    </button>
+                </TooltipContainer>
+            ) : (
+                <button onClick={onToggleCollapse} className={cn(btnClass, "text-foreground hover:bg-accent/10")}>
+                    <PanelLeftClose size={18} />
+                    <span>Collapse</span>
                 </button>
-            </Link>
+            )}
 
             {/* Logout */}
-            <AppButton
-                title={LOGOUT_TAB.title}
-                onClick={onLogout}
-                icon={LOGOUT_TAB.icon}
-                className="bg-background text-accent hover:bg-accent/10"
-            />
+            {collapsed ? (
+                <TooltipContainer title={LOGOUT_TAB.title} description="" side="right">
+                    <button onClick={onLogout} className={cn(btnClass, "text-accent hover:bg-accent/10")}>
+                        <Icon size={18} />
+                    </button>
+                </TooltipContainer>
+            ) : (
+                <button onClick={onLogout} className={cn(btnClass, "text-accent hover:bg-accent/10")}>
+                    <Icon size={18} />
+                    <span>{LOGOUT_TAB.title}</span>
+                </button>
+            )}
         </div>
     );
 }
