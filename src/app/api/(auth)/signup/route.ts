@@ -1,6 +1,6 @@
 import User from "@/models/User";
 import { hashPassword } from "@/lib/auth";
-import { ApiResponse } from "@/lib/api-response";
+import { apiSuccess, apiError } from "@/lib/api-response";
 import { tryCatchWrapper } from "@/lib/try-catch";
 import { signToken } from "@/lib/jwt";
 import { cookies } from "next/headers";
@@ -10,7 +10,7 @@ export const POST = tryCatchWrapper(async (req: Request) => {
     const { email, password, name, captchaToken } = await req.json();
 
     if (!email || !password || !name || !captchaToken) {
-        return ApiResponse.error('Missing Fields or CAPTCHA', 400);
+        return apiError('Missing Fields or CAPTCHA', 400);
     }
 
     const googleVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${captchaToken}`;
@@ -19,7 +19,7 @@ export const POST = tryCatchWrapper(async (req: Request) => {
     const captchaData = await captchaRes.json();
 
     if (!captchaData.success) {
-        return ApiResponse.error("Invalid CAPTCHA validation", 400);
+        return apiError("Invalid CAPTCHA validation", 400);
     }
 
     const existingUser = await User.findOne({ email });
@@ -27,9 +27,9 @@ export const POST = tryCatchWrapper(async (req: Request) => {
     if (existingUser) {
         // Google se already signup kiya hua hai
         if (existingUser.authProvider === "google") {
-            return ApiResponse.error('This email is registered with Google. Please login with Google.', 400);
+            return apiError('This email is registered with Google. Please login with Google.', 400);
         }
-        return ApiResponse.error('User already exists', 400);
+        return apiError('User already exists', 400);
     }
 
     const username = slugify(name, { lower: true }) + '-' + Math.random().toString(36).substring(2, 6);
@@ -56,5 +56,5 @@ export const POST = tryCatchWrapper(async (req: Request) => {
         maxAge: 60 * 60 * 24,
     });
 
-    return ApiResponse.success(userResponse, 201);
+    return apiSuccess(userResponse, "User created successfully", 201);
 });

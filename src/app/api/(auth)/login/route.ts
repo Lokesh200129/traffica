@@ -1,4 +1,4 @@
-import { ApiResponse } from "@/lib/api-response";
+import { apiSuccess, apiError } from "@/lib/api-response";
 import { signToken } from "@/lib/jwt";
 import User from "@/models/User";
 import { comparePassword } from "@/lib/auth";
@@ -9,7 +9,7 @@ export const POST = tryCatchWrapper(async (req: Request) => {
     const { email, password, captchaToken } = await req.json();
 
     if (!captchaToken) {
-        return ApiResponse.error("CAPTCHA token is missing", 400);
+        return apiError("CAPTCHA token is missing", 400);
     }
 
     const googleVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${captchaToken}`;
@@ -18,24 +18,24 @@ export const POST = tryCatchWrapper(async (req: Request) => {
     const captchaData = await captchaRes.json();
 
     if (!captchaData.success) {
-        return ApiResponse.error("Invalid CAPTCHA. Please try again.", 400);
+        return apiError("Invalid CAPTCHA. Please try again.", 400);
     }
 
     const user = await User.findOne({ email });
-    if (!user) return ApiResponse.error("Invalid Credentials", 401);
+    if (!user) return apiError("Invalid Credentials", 401);
 
     // Google user password se login karne ki koshish kare
     if (user.authProvider === "google") {
-        return ApiResponse.error("This account uses Google Sign-In. Please login with Google.", 401);
+        return apiError("This account uses Google Sign-In. Please login with Google.", 401);
     }
 
     // Password null ho — safety check
     if (!user.password) {
-        return ApiResponse.error("Invalid Credentials", 401);
+        return apiError("Invalid Credentials", 401);
     }
 
     const isPasswordCorrect = await comparePassword(password, user.password);
-    if (!isPasswordCorrect) return ApiResponse.error("Invalid Credentials", 401);
+    if (!isPasswordCorrect) return apiError("Invalid Credentials", 401);
 
     const token = await signToken({ userId: user._id.toString(), email: user.email });
 
@@ -50,5 +50,5 @@ export const POST = tryCatchWrapper(async (req: Request) => {
     const userData = user.toObject();
     delete userData.password;
 
-    return ApiResponse.success(userData, 200);
+    return apiSuccess(userData, "User logged in successfully", 200);
 });

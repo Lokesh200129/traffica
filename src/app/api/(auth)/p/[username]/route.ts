@@ -1,6 +1,6 @@
 import User from "@/models/User";
 import { tryCatchWrapper } from "@/lib/try-catch";
-import { ApiResponse } from "@/lib/api-response";
+import { apiSuccess, apiError } from "@/lib/api-response";
 import { NextRequest } from "next/server";
 
 export const GET = tryCatchWrapper(async (req: NextRequest, { params }: { params: { username: string } }
@@ -9,14 +9,14 @@ export const GET = tryCatchWrapper(async (req: NextRequest, { params }: { params
     const { username } = await params;
 
     if (!username) {
-        return ApiResponse.error("Username is required", 400);
+        return apiError("Username is required", 400);
     }
 
     const user = await User.findOne({ username }).select("-password -__v")
 
     if (!user) {
-        return ApiResponse.error("User not found", 404);
+        return apiError("User not found", 404);
     }
 
-    return ApiResponse.success(user, 200);
+    return apiSuccess(user, "User found", 200);
 });

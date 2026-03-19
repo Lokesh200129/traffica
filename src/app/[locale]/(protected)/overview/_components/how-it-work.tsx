@@ -20,7 +20,7 @@ function HowItWorksCard() {
             <div className="flex flex-col gap-5">
                 {HOW_IT_WORKS.map((step, i) => (
                     <div key={i} className="flex gap-4">
-                        <span className="text-sm font-bold text-muted-foreground/50 w-4 shrink-0 mt-0.5">
+                        <span className="text-sm font-bold text-primary w-4 shrink-0 mt-0.5">
                             {i + 1}
                         </span>
                         <div className="flex flex-col gap-0.5">

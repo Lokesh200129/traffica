@@ -18,8 +18,7 @@ export const useLogout = () => {
             });
         },
         onSuccess: () => {
-            // setTheme("system");
-            localStorage.setItem("theme", "light");
+            setTheme("light");   
             queryClient.clear();
             toast.success("Logged out successfully");
             router.replace('/');

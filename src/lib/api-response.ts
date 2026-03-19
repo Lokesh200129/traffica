@@ -1,10 +1,8 @@
+
 import { NextResponse } from "next/server";
 
-export const ApiResponse = {
-    success: (data: unknown, status = 200) => {
-        return NextResponse.json({ data, status });
-    },
-    error: (message = "Internal Server Error", status = 500, errors: unknown = null) => {
-        return NextResponse.json({ message, errors }, { status });
-    },
-};
+export const apiSuccess = (data: any, message = "Success", status = 200) =>
+    NextResponse.json({ message, ...data }, { status });
+
+export const apiError = (message: string, status = 400) =>
+    NextResponse.json({ message }, { status });

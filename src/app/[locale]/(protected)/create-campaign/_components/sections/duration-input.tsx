@@ -1,7 +1,9 @@
 import React from "react";
-import type { DurationValue, DurationMode } from "../../_types";
 import { cn } from "../../_lib/utils";
+import type { FCampaign } from "../../../_types/type";
 
+type DurationValue = FCampaign["duration"];
+type DurationMode = DurationValue["mode"];
 interface DurationInputProps {
   value: DurationValue;
   onChange: (value: DurationValue) => void;

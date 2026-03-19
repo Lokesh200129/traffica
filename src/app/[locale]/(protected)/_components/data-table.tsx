@@ -161,7 +161,7 @@ export function DataTable<T>({
                                             className={[
                                                 "bg-accent/10",
                                                 header.column.getCanSort() ? "cursor-pointer select-none" : "",
-                                                header.column.getIsSorted() ? "text-accent" : "text-muted-foreground",
+                                                header.column.getIsSorted() ? "text-accent" : "text-primary",
                                             ].join(" ")}
                                         >
                                             <div className="flex items-center gap-1">
@@ -193,7 +193,7 @@ export function DataTable<T>({
                                         className="hover:bg-accent/5 transition-colors"
                                     >
                                         {row.getVisibleCells().map(cell => (
-                                            <TableCell key={cell.id}>
+                                            <TableCell key={cell.id} className="text-foreground/80 ">
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </TableCell>
                                         ))}

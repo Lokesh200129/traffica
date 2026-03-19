@@ -3,38 +3,42 @@ import { useMemo, useState } from "react";
 import { Search, X } from "lucide-react";
 import { DataTable } from "../../_components/data-table";
 import { columns } from "./columns";
-// import { StatusBadge } from "./status-badge";
 import { DateFilterDropdown } from "./date-filter-dropdown";
-import { CAMPAIGN_DATA, DATE_FILTER_DEFAULT, type DateFilterState } from "../_lib/data";
+import { DATE_FILTER_DEFAULT, type DateFilterState } from "../_lib/data";
+import { useGetCampaigns } from "@/hooks/campaign/use-fetch-all-campaigns";
+
 export function CampaignTable() {
+    const { data: campaigns } = useGetCampaigns();
     const [nameFilter, setNameFilter] = useState("");
     const [dateFilter, setDateFilter] = useState<DateFilterState>(DATE_FILTER_DEFAULT);
 
     const filtered = useMemo(() => {
-        let data = CAMPAIGN_DATA;
+        let data = campaigns?.campaigns || [];
 
         if (nameFilter.trim()) {
             const q = nameFilter.toLowerCase();
             data = data.filter(d => d.campaignName.toLowerCase().includes(q));
         }
+
         if (dateFilter.from && dateFilter.to) {
             const from = new Date(dateFilter.from);
             const to = new Date(dateFilter.to);
             to.setHours(23, 59, 59, 999);
             data = data.filter(d => {
-                const date = new Date(d.startDate);
+                const date = new Date(d.createdAt); // ✅ startDate → createdAt
                 return date >= from && date <= to;
             });
         }
+
         return data;
-    }, [nameFilter, dateFilter]);
+    }, [campaigns, nameFilter, dateFilter]);
 
     const hasActiveFilters = nameFilter || dateFilter.preset !== "all";
 
     return (
         <DataTable
             data={filtered}
-            columns={columns}
+            columns={columns as any}
             pageSize={10}
             totalLabel="campaigns"
             title="Campaign Performance"

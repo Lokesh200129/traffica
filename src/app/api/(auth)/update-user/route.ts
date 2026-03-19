@@ -1,5 +1,5 @@
 import { tryCatchWrapper } from "@/lib/try-catch";
-import { ApiResponse } from "@/lib/api-response";
+import { apiSuccess, apiError } from "@/lib/api-response";
 import User from "@/models/User";
 import { NextRequest } from "next/server";
 // import { v2 as cloudinary } from 'cloudinary'
@@ -54,5 +54,5 @@ export const PATCH = tryCatchWrapper(async (req: NextRequest) => {
         { new: true }
     ).select('-password');
 
-    return ApiResponse.success(updatedUser, 200);
+    return apiSuccess(updatedUser, "User updated successfully", 200);
 });

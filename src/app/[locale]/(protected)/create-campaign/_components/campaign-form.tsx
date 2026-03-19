@@ -1,42 +1,42 @@
 "use client";
 
 import { useForm, Controller } from "react-hook-form";
-import type { CampaignFormData } from "../_types";
-import { uid } from "../_lib/utils";
+import type { CampaignFormData } from "../../_types/type";
 import { TRAFFIC_SOURCES, DEVICES, ALL_COUNTRIES } from "../_lib/constants";
 import { useSectionSave } from "../_hooks/useSectionSave";
 import { Section, Divider } from "./ui";
 import { PageViewsSlider, DurationInput } from "./sections";
 import { SummarySidebar } from "./sidebar/summary-sidebar";
 import { AppButton } from "@/components/button";
+import { useCreateCampaign } from "@/hooks/campaign/use-create-campaign";
 // import { useCreateCampaign } from "@/hooks/useCreateCampaign";
 
-type FormValues = CampaignFormData;
-
-const DEFAULT_VALUES: FormValues = {
+const DEFAULT_VALUES: CampaignFormData = {
   campaignName: "",
   pageViews: 32000,
   duration: { mode: "fixed", fixedSec: 0, randomFrom: 0, randomTo: 0 },
-  geoType: "Global",
   country: "",
-  trafficSources: [{ id: uid(), value: "Direct", percentage: 100, keyword: "" }],
-  devices: [{ id: uid(), value: "All Desktop", percentage: 100 }],
+  trafficSource: "Direct",
+  device: "All Desktop",
 };
 
-const selectCls = "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors";
-const inputCls = "w-full rounded-xl border border-border px-4 py-2.5 text-sm bg-background text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 aria-[invalid=true]:border-red-400 transition-colors";
+const selectCls =
+  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors";
+const inputCls =
+  "w-full rounded-xl border border-border px-4 py-2.5 text-sm bg-background text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 aria-[invalid=true]:border-red-400 transition-colors";
 
 export default function CampaignForm() {
-  // const { mutate, isPending } = useCreateCampaign();
-  const isPending = false;
+  const { mutate: createCampaign, isPending } = useCreateCampaign();
+  // const isPending = false;
 
   const {
     register,
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
-  } = useForm<FormValues>({ defaultValues: DEFAULT_VALUES });
+  } = useForm<CampaignFormData>({ defaultValues: DEFAULT_VALUES });
 
   const watched = watch();
 
@@ -47,26 +47,28 @@ export default function CampaignForm() {
   const saveDevices = useSectionSave();
   const saveGeo = useSectionSave();
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data);
-    // mutate(data)
+  const onSubmit = (data: CampaignFormData) => {
+    createCampaign(data);
+    reset();
   };
 
   return (
-    <div className="mx-auto flex gap-6 items-start">
+    <div className="mx-auto flex flex-col lg:flex-row gap-6 items-start w-full">
 
-      {/* ── Main form card ────────────────────────────────────────── */}
-      <div className="flex-1 min-w-0 rounded-2xl border bg-background shadow-sm">
-        <div className="px-8 pt-8 pb-2">
+      {/* Main form card */}
+      <div className="flex-1 min-w-0 w-full rounded-2xl border bg-background shadow-sm">
+        <div className="px-4 sm:px-8 pt-6 sm:pt-8 pb-2">
           <h2 className="text-xl font-bold">Create Campaign</h2>
           <p className="mt-0.5 text-sm text-muted-foreground">
             Configure your traffic campaign settings below.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="px-8 pb-8 pt-4 space-y-8">
-
-          {/* ── Campaign Name ─────────────────────────────────── */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="px-4 sm:px-8 pb-6 sm:pb-8 pt-4 space-y-6 sm:space-y-8"
+        >
+          {/* Campaign Name */}
           <Section
             title="Campaign Name"
             saveStatus={saveCampaign.status}
@@ -86,7 +88,7 @@ export default function CampaignForm() {
 
           <Divider />
 
-          {/* ── Page Views ────────────────────────────────────── */}
+          {/* Page Views */}
           <Section
             title="Page Views"
             saveStatus={savePageViews.status}
@@ -106,7 +108,7 @@ export default function CampaignForm() {
 
           <Divider />
 
-          {/* ── Duration ──────────────────────────────────────── */}
+          {/* Duration */}
           <Section
             title="Duration"
             saveStatus={saveDuration.status}
@@ -126,22 +128,19 @@ export default function CampaignForm() {
 
           <Divider />
 
-          {/* ── Traffic Source — single dropdown, no RangeGroup ── */}
+          {/* Traffic Source */}
           <Section
             title="Traffic Source"
             saveStatus={saveTraffic.status}
             tooltip={{ title: "Traffic Source", description: "Where visitors appear to come from." }}
           >
             <Controller
-              name="trafficSources"
+              name="trafficSource"
               control={control}
               render={({ field }) => (
                 <select
-                  value={field.value[0]?.value ?? ""}
-                  onChange={(e) => {
-                    field.onChange([{ id: uid(), value: e.target.value, percentage: 100, keyword: "" }]);
-                    saveTraffic.trigger();
-                  }}
+                  value={field.value}
+                  onChange={(e) => { field.onChange(e.target.value); saveTraffic.trigger(); }}
                   className={selectCls}
                 >
                   <option value="" disabled>Select source…</option>
@@ -155,22 +154,19 @@ export default function CampaignForm() {
 
           <Divider />
 
-          {/* ── Device Targeting ──────────────────────────────── */}
+          {/* Device Targeting */}
           <Section
             title="Device Targeting"
             saveStatus={saveDevices.status}
             tooltip={{ title: "Device Targeting", description: "Which device type receives traffic." }}
           >
             <Controller
-              name="devices"
+              name="device"
               control={control}
               render={({ field }) => (
                 <select
-                  value={field.value[0]?.value ?? ""}
-                  onChange={(e) => {
-                    field.onChange([{ id: "device_1", value: e.target.value, percentage: 100 }]);
-                    saveDevices.trigger();
-                  }}
+                  value={field.value}
+                  onChange={(e) => { field.onChange(e.target.value); saveDevices.trigger(); }}
                   className={selectCls}
                 >
                   <option value="" disabled>Select device…</option>
@@ -184,7 +180,7 @@ export default function CampaignForm() {
 
           <Divider />
 
-          {/* ── Geo-targeting ─────────────────────────────────── */}
+          {/* Geo-targeting */}
           <Section
             title="Geo-targeting"
             saveStatus={saveGeo.status}
@@ -196,10 +192,7 @@ export default function CampaignForm() {
               render={({ field }) => (
                 <select
                   value={field.value ?? ""}
-                  onChange={(e) => {
-                    field.onChange(e.target.value);
-                    saveGeo.trigger();
-                  }}
+                  onChange={(e) => { field.onChange(e.target.value); saveGeo.trigger(); }}
                   className={selectCls}
                 >
                   <option value="">Global (All Countries)</option>
@@ -213,29 +206,29 @@ export default function CampaignForm() {
 
           <Divider />
 
-          {/* ── Submit ────────────────────────────────────────── */}
           <AppButton
             title={isPending ? "Launching…" : "Launch Campaign"}
             type="submit"
             isLoading={isPending}
             fullWidth
           />
-
         </form>
       </div>
 
-      {/* ── Summary sidebar ───────────────────────────────────────── */}
-      <SummarySidebar
-        data={{
-          campaignName: watched.campaignName ?? "",
-          pageViews: watched.pageViews ?? 0,
-          duration: watched.duration ?? DEFAULT_VALUES.duration,
-          trafficSources: watched.trafficSources ?? [],
-          devices: watched.devices ?? [],
-          geoType: watched.country?.length ? "Countries" : "Global",
-          country: watched.country ?? "",
-        }}
-      />
+      {/* Summary sidebar */}
+      <div className="hidden md:block">
+        <SummarySidebar
+          data={{
+            campaignName: watched.campaignName ?? "",
+            pageViews: watched.pageViews ?? 0,
+            duration: watched.duration ?? DEFAULT_VALUES.duration,
+            trafficSource: watched.trafficSource ?? "",
+            device: watched.device ?? "",
+            country: watched.country ?? "",
+          }}
+        />
+    </div>
+
     </div>
   );
 }

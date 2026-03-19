@@ -51,7 +51,7 @@ export default function BillingSettingsPage({
     };
 
     return (
-        <div className="max-w-4xl">
+        <div className="w-full">
             {/* Header - Agency Page Style */}
             <div className="mb-8">
                 <h1 className="text-2xl font-bold">Billing Settings</h1>

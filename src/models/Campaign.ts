@@ -1,16 +1,7 @@
-import mongoose, { Schema, Document, model, models } from "mongoose";
-import { randomBytes } from "crypto";
+import mongoose, { Schema, Document, Model } from "mongoose";
+import { BCampaign } from "../../type";
 
-const generateCampaignId = () => `camp_${randomBytes(6).toString("hex")}`;
 
-const RangeItemSchema = new Schema(
-    {
-        value: { type: String, required: true },
-        percentage: { type: Number, required: true, min: 0, max: 100 },
-        keyword: { type: String, default: "" },
-    },
-    { _id: false }
-);
 
 const DurationSchema = new Schema(
     {
@@ -22,32 +13,21 @@ const DurationSchema = new Schema(
     { _id: false }
 );
 
-export interface ICampaign extends Document {
-    campaignId: string;
-    campaignName: string;
-    pageViews: number;
-    duration: { mode: string; fixedSec: number; randomFrom: number; randomTo: number };
-    trafficSources: { value: string; percentage: number; keyword?: string }[];
-    devices: { value: string; percentage: number }[];
-    country: string;
-    author: mongoose.Types.ObjectId;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-const CampaignSchema = new Schema<ICampaign>(
+const CampaignSchema = new Schema<BCampaign>(
     {
-        campaignId: { type: String, unique: true, default: generateCampaignId },
+        userId: { type: Schema.Types.ObjectId, ref: "User", required: true, index: true },
         campaignName: { type: String, required: true, trim: true },
         pageViews: { type: Number, required: true, min: 0 },
         duration: { type: DurationSchema, required: true },
-        trafficSources: { type: [RangeItemSchema], default: [] },
-        devices: { type: [RangeItemSchema], default: [] },
+        // geoType: { type: String, enum: ["Global", "Countries"], default: "Global" },
         country: { type: String, default: "" },
-        author: { type: Schema.Types.ObjectId, ref: "User", required: true },
+        trafficSource: { type: String, required: true },
+        device: { type: String, required: true },
     },
     { timestamps: true }
 );
 
-const Campaign = models.Campaign || model<ICampaign>("Campaign", CampaignSchema);
+const Campaign: Model<BCampaign> =
+    mongoose.models.Campaign ?? mongoose.model<BCampaign>("Campaign", CampaignSchema);
+
 export default Campaign;

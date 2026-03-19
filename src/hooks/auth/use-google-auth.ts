@@ -3,6 +3,7 @@ import api from "@/lib/axios";
 import { useRouter } from 'next/navigation';
 import parseError from '@/lib/parse-error';
 import { toast } from "sonner";
+import { TUser } from '../../../type';
 
 export const useGoogleAuth = () => {
     const router = useRouter();
