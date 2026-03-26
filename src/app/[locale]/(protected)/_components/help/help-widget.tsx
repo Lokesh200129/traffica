@@ -27,6 +27,14 @@ export default function HelpWidget({ defaultTab = "home" }: HelpWidgetProps) {
         return () => document.removeEventListener("mousedown", handler);
     }, []);
 
+    useEffect(() => {
+        const handler = (e: any) => {
+            setOpen(true);
+            setTab(e.detail); // "help"
+        };
+        window.addEventListener("open-help-widget", handler);
+        return () => window.removeEventListener("open-help-widget", handler);
+    }, []);
     return (
         <div
             ref={ref}
@@ -40,13 +48,7 @@ export default function HelpWidget({ defaultTab = "home" }: HelpWidgetProps) {
                     flex flex-col overflow-hidden
                     animate-in slide-in-from-bottom-4 fade-in duration-200 relative
                 ">
-                    {/* Floating close button
-                    <button
-                        onClick={() => setOpen(false)}
-                        className="absolute top-3 right-3 z-10 w-7 h-7 rounded-full bg-black/30 hover:bg-black/50 flex items-center justify-center text-white transition-colors backdrop-blur-sm"
-                    >
-                        <X size={14} strokeWidth={2.5} />
-                    </button> */}
+
 
                     {/* Tab content */}
                     <div className="flex-1 overflow-hidden">

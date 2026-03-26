@@ -29,6 +29,6 @@ export const useCreateCampaign = () => {
         },
         onError: (err) => {
             toast.error(parseError(err));
-        },
+        }, 
     });
 };

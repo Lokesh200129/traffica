@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import ReCAPTCHA from 'react-google-recaptcha';
 import GoogleLoginButton from './google-login-button';
+import { Input } from "@/components/ui/input";
 
 interface authProp {
     mode: 'login' | 'signup';
@@ -54,7 +55,7 @@ export default function AuthCard({ mode, authAction, loading, error }: authProp)
                 </p>
             </div>
 
-            {/* Google button — top pe */}
+            {/* Google button */}
             <GoogleLoginButton mode={mode} />
 
             {/* Divider */}
@@ -73,28 +74,30 @@ export default function AuthCard({ mode, authAction, loading, error }: authProp)
                     </p>
                 )}
 
+                {/* Name — signup only */}
                 {!isLogin && (
                     <div className="flex flex-col gap-1.5">
                         <label className="text-sm font-medium text-foreground">
                             Name <span className="text-destructive">*</span>
                         </label>
-                        <input
+                        <Input
                             placeholder="John Doe"
-                            className="w-full h-11 px-4 rounded-xl border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
                             {...register("name", { required: "Name is required" })}
                         />
-                        {errors.name && <p className="text-destructive text-xs">{errors.name.message as string}</p>}
+                        {errors.name && (
+                            <p className="text-destructive text-xs">{errors.name.message as string}</p>
+                        )}
                     </div>
                 )}
 
+                {/* Email */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-sm font-medium text-foreground">
                         Email <span className="text-destructive">*</span>
                     </label>
-                    <input
+                    <Input
                         type="email"
                         placeholder="name@gmail.com"
-                        className="w-full h-11 px-4 rounded-xl border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
                         {...register("email", {
                             required: "Email is required",
                             pattern: {
@@ -103,18 +106,21 @@ export default function AuthCard({ mode, authAction, loading, error }: authProp)
                             }
                         })}
                     />
-                    {errors.email && <p className="text-destructive text-xs">{errors.email.message as string}</p>}
+                    {errors.email && (
+                        <p className="text-destructive text-xs">{errors.email.message as string}</p>
+                    )}
                 </div>
 
+                {/* Password */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-sm font-medium text-foreground">
                         Password <span className="text-destructive">*</span>
                     </label>
                     <div className="relative">
-                        <input
+                        <Input
                             type={showPassword ? "text" : "password"}
                             placeholder="Enter password"
-                            className="w-full h-11 px-4 pr-11 rounded-xl border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-colors"
+                            className="pr-11"
                             {...register("password", {
                                 required: "Password is required",
                                 minLength: { value: 6, message: "Minimum 6 characters" }
@@ -128,7 +134,9 @@ export default function AuthCard({ mode, authAction, loading, error }: authProp)
                             {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                         </button>
                     </div>
-                    {errors.password && <p className="text-destructive text-xs">{errors.password.message as string}</p>}
+                    {errors.password && (
+                        <p className="text-destructive text-xs">{errors.password.message as string}</p>
+                    )}
                 </div>
 
                 {/* CAPTCHA */}

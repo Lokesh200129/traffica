@@ -18,10 +18,11 @@ export const useLogin = () => {
             });
         },
         onSuccess: (loggedInUser) => {
+            queryClient.setQueryData(["current-user"], loggedInUser); 
             toast.success(`Welcome back!`);
-            router.replace('/overview');
 
-            queryClient.setQueryData(["current-user"], loggedInUser);
+            const locale = window.location.pathname.split("/")[1] || "en"
+            window.location.href = `/${locale}/overview` 
         },
         onError: (err) => {
             toast.error(parseError(err));

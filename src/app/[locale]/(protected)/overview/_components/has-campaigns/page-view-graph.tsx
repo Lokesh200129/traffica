@@ -15,7 +15,7 @@ const MOCK_DATA = [
 export function ViewsGraph() {
     return (
         /* 2. Parent Container with forced height and relative positioning */
-        <div className="relative w-full h-[400px] min-h-[400px] block">
+        <div className="relative w-full h-[400px] min-h-[400px] block z-0">
             <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                     data={MOCK_DATA}

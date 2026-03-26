@@ -13,6 +13,7 @@ const statusDot: Record<string, string> = {
 };
 
 export function StatusBadge({ status }: { status: string }) {
+    if (!status) return <span className="text-muted-foreground text-xs">—</span>;
     return (
         <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${statusStyles[status] ?? statusStyles.Draft}`}>
             <span className={`w-1.5 h-1.5 rounded-full ${statusDot[status] ?? statusDot.Draft}`} />

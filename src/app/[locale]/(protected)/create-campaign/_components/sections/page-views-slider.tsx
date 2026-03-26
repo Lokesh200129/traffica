@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { cn, fmtNum } from "../../_lib/utils";
+import { Input } from "@/components/ui/input";
 
 const QUICK_PV: number[] = [5000, 10000, 20000, 50000, 1_000_000, 2_000_000, 3_000_000, 4_000_000, 5_000_000];
 
@@ -11,8 +12,6 @@ interface PageViewsSliderProps {
 export function PageViewsSlider({ value, onChange }: PageViewsSliderProps) {
   const [inp, setInp] = useState<string>(value.toString());
   useEffect(() => setInp(value.toString()), [value]);
-
-  const estUsers = Math.round(value / 3);
 
   const commitInput = () => {
     const parsed = parseInt(inp.replace(/,/g, ""), 10);
@@ -27,18 +26,24 @@ export function PageViewsSlider({ value, onChange }: PageViewsSliderProps) {
 
   return (
     <div className="flex gap-4 items-start">
-      <div className="flex-1 space-y-3">
 
-        {/* Input field */}
-        <input
-          className="w-48 rounded-xl border border-border px-3 py-2 text-right text-sm tabular-nums bg-background text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors"
+      {/* Left — input + quick buttons */}
+      <div className="flex-1 space-y-3">
+        <Input
+          className="w-48 text-right tabular-nums"
           value={inp}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInp(e.target.value)}
+          onChange={(e) => {
+            setInp(e.target.value)
+            const parsed = parseInt(e.target.value.replace(/,/g, ""), 10)
+            if (!isNaN(parsed)) {
+              const clamped = Math.min(5_000_000, Math.max(1000, parsed))
+              onChange(clamped)
+            }
+          }}
           onBlur={commitInput}
           onKeyDown={(e) => e.key === "Enter" && commitInput()}
         />
 
-        {/* Quick select buttons */}
         <div className="flex flex-wrap gap-2">
           {QUICK_PV.map((q) => (
             <button
@@ -58,18 +63,14 @@ export function PageViewsSlider({ value, onChange }: PageViewsSliderProps) {
         </div>
       </div>
 
-      {/* Mini stats box */}
-      <div className="shrink-0 w-36 rounded-xl bg-accent/10 border border-accent/20 px-4 py-3 space-y-2">
+      {/* Right — page views badge */}
+      <div className="shrink-0 w-36 rounded-xl bg-accent/10 border border-accent/20 px-4 py-3">
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">Page views</span>
           <span className="text-xs font-bold text-foreground">{fmtNum(value)}</span>
         </div>
-        <div className="h-px bg-accent/20" />
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">Users:</span>
-          <span className="text-xs font-bold text-foreground">{fmtNum(estUsers)}</span>
-        </div>
       </div>
+
     </div>
   );
 }

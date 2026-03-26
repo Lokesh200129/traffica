@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,15 +12,23 @@ interface BillingDropdownProps {
     tab: SidebarTab;
     pathname: string;
     collapsed?: boolean;
+    defaultOpen?: boolean;
 }
 
-export function BillingDropdown({ tab, pathname, collapsed }: BillingDropdownProps) {
+export function BillingDropdown({ tab, pathname, collapsed, defaultOpen }: BillingDropdownProps) {
     const t = useTranslations("sidebar");
     const Icon = tab.icon;
     const strippedPathname = pathname.replace(/^\/(en|hi|fr)/, "") || "/";
     const isChildActive = tab.dropdown?.some(d => strippedPathname === d.href) ?? false;
-    const [open, setOpen] = useState(isChildActive);
 
+    const [open, setOpen] = useState(defaultOpen ?? isChildActive);
+
+ 
+    useEffect(() => {
+        if (defaultOpen) {
+            setOpen(true);
+        }
+    }, [defaultOpen]);
     const btnClass = cn(
         "w-full text-sm h-11 transition-all cursor-pointer",
         collapsed ? "justify-center px-0" : "justify-start gap-3",
@@ -32,14 +40,9 @@ export function BillingDropdown({ tab, pathname, collapsed }: BillingDropdownPro
 
     return (
         <div>
-            {/* Main trigger */}
             {collapsed ? (
                 <TooltipContainer title={t("Billing.title")} description="" side="right">
-                    <Button
-                        variant="ghost"
-                        className={btnClass}
-                        onClick={() => setOpen(o => !o)}
-                    >
+                    <Button variant="ghost" className={btnClass} onClick={() => setOpen(o => !o)}>
                         <Icon size={18} className={isChildActive ? "text-accent" : ""} />
                     </Button>
                 </TooltipContainer>
@@ -58,19 +61,14 @@ export function BillingDropdown({ tab, pathname, collapsed }: BillingDropdownPro
                 </Button>
             )}
 
-            {/* Collapsed — child icons indented */}
-            {collapsed && (
-                <div className="flex flex-col gap-1 mt-1  pl-1 border-l-1 border-border ml-3">
+            {/* Collapsed — child icons */}
+            {collapsed && open && (
+                <div className="flex flex-col gap-1 mt-1 pl-1 border-l-1 border-border ml-3">
                     {tab.dropdown?.map(item => {
                         const ItemIcon = item.icon;
                         const active = strippedPathname === item.href;
                         return (
-                            <TooltipContainer
-                                key={item.key}
-                                title={t(`Billing.${item.key}`)}
-                                description=""
-                                side="right"
-                            >
+                            <TooltipContainer key={item.key} title={t(`Billing.${item.key}`)} description="" side="right">
                                 <Link href={item.href}>
                                     <Button
                                         variant="ghost"

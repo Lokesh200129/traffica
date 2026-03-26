@@ -14,6 +14,7 @@ export default function GoogleLoginButton({ mode }: GoogleLoginButtonProps) {
     const login = useGoogleLogin({
         onSuccess: (response) => googleAuth(response.access_token),
         onError: () => toast.error("Google login failed"),
+        prompt: "select_account"
     });
 
     return (
@@ -21,7 +22,7 @@ export default function GoogleLoginButton({ mode }: GoogleLoginButtonProps) {
             type="button"
             onClick={() => login()}
             disabled={isPending}
-            className="w-full flex items-center justify-center gap-3 h-11 rounded-xl border border-border bg-background hover:bg-muted transition-colors text-sm font-medium text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full flex items-center justify-center gap-3 h-11 rounded-xl border border-border bg-background hover:bg-muted transition-colors text-sm font-medium text-foreground cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
             {isPending
                 ? <Loader2 size={18} className="animate-spin" />

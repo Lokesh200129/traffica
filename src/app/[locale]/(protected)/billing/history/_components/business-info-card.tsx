@@ -1,12 +1,13 @@
 "use client"
 import { Pencil } from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 interface BusinessInfoCardProps {
     companyName?: string;
     email?: string;
     address?: string;
     taxId?: string;
-    onEdit?: () => void;
 }
 
 function InfoRow({ label, value }: { label: string; value?: string }) {
@@ -25,19 +26,21 @@ export function BusinessInfoCard({
     email,
     address,
     taxId,
-    onEdit,
 }: BusinessInfoCardProps) {
+    const params = useParams();
+    const locale = params.locale as string;
+
     return (
         <div className="bg-card border border-border rounded-2xl p-6 flex flex-col gap-4">
             <div className="flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-foreground">Business Info</h3>
-                <button
-                    onClick={onEdit}
+                <Link
+                    href={`/${locale}/billing/settings`}
                     className="flex items-center gap-1.5 text-xs text-accent hover:underline"
                 >
                     <Pencil size={12} />
                     Edit
-                </button>
+                </Link>
             </div>
 
             <div className="flex flex-col gap-3">

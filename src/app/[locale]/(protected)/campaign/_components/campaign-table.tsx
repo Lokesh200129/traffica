@@ -6,6 +6,7 @@ import { columns } from "./columns";
 import { DateFilterDropdown } from "./date-filter-dropdown";
 import { DATE_FILTER_DEFAULT, type DateFilterState } from "../_lib/data";
 import { useGetCampaigns } from "@/hooks/campaign/use-fetch-all-campaigns";
+import { Input } from "@/components/ui/input";
 
 export function CampaignTable() {
     const { data: campaigns } = useGetCampaigns();
@@ -25,7 +26,7 @@ export function CampaignTable() {
             const to = new Date(dateFilter.to);
             to.setHours(23, 59, 59, 999);
             data = data.filter(d => {
-                const date = new Date(d.createdAt); // ✅ startDate → createdAt
+                const date = new Date(d.createdAt);
                 return date >= from && date <= to;
             });
         }
@@ -47,12 +48,12 @@ export function CampaignTable() {
                 <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="relative">
                         <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
-                        <input
+                        <Input
                             type="text"
                             placeholder="Search campaigns..."
                             value={nameFilter}
                             onChange={e => setNameFilter(e.target.value)}
-                            className="pl-8 pr-8 py-2 rounded-md border border-border bg-background text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-accent w-52"
+                            className="pl-8 "
                         />
                         {nameFilter && (
                             <button

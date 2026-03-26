@@ -7,13 +7,5 @@ export const metadata: Metadata = {
     description: "",
 };
 
-const Page = () => {
-    return (
-        <div className="flex justify-center w-full">
-            <div className="w-full max-w-4xl">
-                <ProfilePage />
-            </div>
-        </div>
-    )
-}
+const Page = () => <ProfilePage />
 export default Page;

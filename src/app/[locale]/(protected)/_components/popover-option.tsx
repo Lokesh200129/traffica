@@ -1,6 +1,6 @@
 "use client"
 
-import { User, LogOut, MessageCircle, Mail, BookOpen, MessagesSquare } from "lucide-react"
+import { User, LogOut, } from "lucide-react"
 import {
     Popover,
     PopoverContent,
@@ -44,7 +44,7 @@ function SupportIconBtn({
 export default function UserProfilePopover() {
     const { data: user } = useCurrentUser()
     const { mutate: logout, isPending } = useLogout()
-
+    // console.log("current user ", user);
     if (isPending) return <GlobalLoader msg="Logging out..." />
 
     return (

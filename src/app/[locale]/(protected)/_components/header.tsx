@@ -12,15 +12,19 @@ import { useState, useRef, useEffect } from "react"
 import { FaWhatsapp } from "react-icons/fa"
 import { Mail, BookOpen } from "lucide-react"
 import { SupportIconBtn } from "./support-icon-btn"
+import { useCurrentUser } from "@/hooks/auth/use-current-user"
 
 const Header = () => {
     const { theme, setTheme } = useTheme()
     const [showNotifications, setShowNotifications] = useState(false)
     const [showSupport, setShowSupport] = useState(false)
-
+    const { data: user } = useCurrentUser()
+    const availableCredits = user?.creditBalance?.availableCredits || 0
     const bellRef = useRef<HTMLDivElement>(null)
     const supportRef = useRef<HTMLDivElement>(null)
 
+    const [mounted, setMounted] = useState(false)
+    useEffect(() => setMounted(true), [])
     useEffect(() => {
         const handler = (e: MouseEvent) => {
 
@@ -40,11 +44,11 @@ const Header = () => {
     }
 
     return (
-        <nav className="w-full h-18 hidden md:flex justify-between items-center sticky top-0 backdrop-blur-md transition-colors duration-300 border-b border-border px-6 overflow-visible">
+        <nav className="w-full h-18 hidden md:flex justify-between items-center sticky top-0  transition-colors duration-300 border-b border-border px-6 overflow-visible z-50">
             <MainIcon />
 
             <div className="flex justify-center items-center gap-4 z-999">
-                <CreditsBadge />
+                <CreditsBadge credits={user?.creditBalance?.availableCredits} />
                 <LanguageSwitcher />
 
                 {/* Bell — ref wraps button + panel dono */}
@@ -89,12 +93,16 @@ const Header = () => {
                             <div className="flex gap-2">
                                 <SupportIconBtn href="https://wa.me/yourNumber" icon={FaWhatsapp} label="WhatsApp" title="Chat on WhatsApp" />
                                 <SupportIconBtn href="mailto:support@traffica.com" icon={Mail} label="Email" title="Email support" />
-                                <SupportIconBtn href="/help/faq" icon={BookOpen} label="FAQ" title="Browse FAQ & Help docs" />
+                                <SupportIconBtn
+                                    onClick={() => window.dispatchEvent(new CustomEvent("open-help-widget", { detail: "help" }))}
+                                    href="/help/faq"
+                                    icon={BookOpen}
+                                    label="FAQ"
+                                    title="Browse FAQ & Help docs" />
                             </div>
                         </div>
                     )}
                 </div>
-
                 <Button
                     variant="ghost"
                     size="icon"
@@ -102,16 +110,20 @@ const Header = () => {
                     className={cn(
                         "cursor-pointer transition-all duration-300",
                         "h-9 w-9 rounded-full border border-border",
-                        "hover:bg-muted hover:border-accent/50",
-                        "flex items-center justify-center"
+                        "flex items-center justify-center",
+                        mounted && theme === "dark"
+                            ? "hover:bg-yellow-400/10 hover:border-yellow-400/50"
+                            : "hover:bg-slate-200 hover:border-slate-400/50"
                     )}
                 >
-                    <Sun className="h-4 w-4 text-yellow-400 hidden dark:block" />
-                    <Moon className="h-4 w-4 text-slate-700 fill-slate-700/10 dark:hidden" />
+                    {mounted && theme === "dark"
+                        ? <Sun className="h-4 w-4 text-yellow-400" />
+                        : <Moon className="h-4 w-4 text-slate-600 fill-slate-200" />
+                    }
                     <span className="sr-only">Toggle theme</span>
                 </Button>
 
-                <div className="pt-1.5">
+                <div className="pt-1.5 z-200">
                     <UserProfilePopover />
                 </div>
             </div>

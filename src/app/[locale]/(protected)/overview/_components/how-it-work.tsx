@@ -1,5 +1,7 @@
 "use client"
 
+import { Card } from "./ui/card";
+
 interface HowItWorksStep {
     title: string;
     description: string;
@@ -14,23 +16,11 @@ const HOW_IT_WORKS: HowItWorksStep[] = [
 ];
 function HowItWorksCard() {
     return (
-        <div className="bg-card border border-border rounded-2xl p-6 flex flex-col gap-5">
-            <h2 className="text-xl font-bold text-foreground">How it works?</h2>
 
-            <div className="flex flex-col gap-5">
-                {HOW_IT_WORKS.map((step, i) => (
-                    <div key={i} className="flex gap-4">
-                        <span className="text-sm font-bold text-primary w-4 shrink-0 mt-0.5">
-                            {i + 1}
-                        </span>
-                        <div className="flex flex-col gap-0.5">
-                            <p className="text-sm font-bold text-foreground">{step.title}</p>
-                            <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
+        <Card
+            title="How it works?"
+            steps={HOW_IT_WORKS}
+        />
     );
 }
 

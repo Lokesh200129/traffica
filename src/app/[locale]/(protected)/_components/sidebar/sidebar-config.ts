@@ -9,7 +9,8 @@ import {
     Building2,
     Wallet,
 
-    BadgeIndianRupee, SlidersHorizontal, ClockArrowUp
+    Receipt, SlidersHorizontal,
+    ClockArrowUp
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -37,7 +38,7 @@ export const SIDEBAR_TABS: SidebarTab[] = [
         icon: Wallet,
         dropdown: [
             // { key: "Saved_Cards", title: "Saved Cards", icon: CreditCard, href: "/billing/saved-cards" },
-            { key: "Balance", title: "Balance", icon: BadgeIndianRupee, href: "/billing/balance" },
+            { key: "Balance", title: "Balance", icon: Receipt, href: "/billing/balance" },
             { key: "Settings", title: "Settings", icon: SlidersHorizontal, href: "/billing/settings" },
             { key: "History", title: "History", icon: ClockArrowUp, href: "/billing/history" },
         ],
@@ -57,7 +58,7 @@ export const REFER_TAB = {
     title: "Refer & Earn",
     subtitle: "Get credits for every referral",
     icon: Gift,
-    href: "/refer",
+    href: "/refer-and-earn",
 };
 
 export const LOGOUT_TAB = {

@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from "react";
 import { type DateFilterState, type DatePreset, PRESETS, DATE_FILTER_DEFAULT, getPresetRange } from "../_lib/data"
+import { Input } from "@/components/ui/input";
 
 interface DateFilterDropdownProps {
     value: DateFilterState;
@@ -49,7 +50,7 @@ export function DateFilterDropdown({ value, onChange }: DateFilterDropdownProps)
         <div className="relative" ref={ref}>
             <button
                 onClick={() => setOpen(o => !o)}
-                className="flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-background text-sm text-foreground hover:bg-muted transition-colors"
+                className="flex items-center gap-2 px-3 py-2.5 rounded-md border border-border bg-background text-sm text-foreground hover:bg-muted transition-colors"
             >
                 <svg className="w-3.5 h-3.5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" />
@@ -79,22 +80,22 @@ export function DateFilterDropdown({ value, onChange }: DateFilterDropdownProps)
                         <div className="border-t border-border p-3 flex flex-col gap-2.5">
                             <div className="flex flex-col gap-1">
                                 <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Start Date</label>
-                                <input
+                                <Input
                                     type="date"
                                     value={localFrom}
                                     max={localTo || undefined}
                                     onChange={e => setLocalFrom(e.target.value)}
-                                    className="w-full px-2 py-1.5 rounded-md border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
+                                    className="w-full px-2 py-1.5"
                                 />
                             </div>
                             <div className="flex flex-col gap-1">
                                 <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">End Date</label>
-                                <input
+                                <Input
                                     type="date"
                                     value={localTo}
                                     min={localFrom || undefined}
                                     onChange={e => setLocalTo(e.target.value)}
-                                    className="w-full px-2 py-1.5 rounded-md border border-border bg-background text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
+                                    className="w-full px-2 py-1.5 "
                                 />
                             </div>
                             <button

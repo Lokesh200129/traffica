@@ -24,7 +24,7 @@ const UserSchema = new Schema({
     },
     googleId: {
         type: String,
-        default: null,
+
         sparse: true,
         unique: true,
     },
@@ -33,19 +33,22 @@ const UserSchema = new Schema({
         enum: ["local", "google"],
         default: "local",
     },
-    bio: {
-        type: String,
-        default: "",
+    creditBalance: {
+        availableCredits: {
+            type: Number,
+            default: 0,
+            min: [0, "Credits cannot be negative"]
+        },
+        lastAdded: {
+            type: Number,
+            default: 0
+        },
+        lastUpdatedAt: {
+            type: Date,
+            default: Date.now
+        }
     },
     profileImage: {
-        type: String,
-        default: "",
-    },
-    location: {
-        type: String,
-        default: "",
-    },
-    occupation: {
         type: String,
         default: "",
     },

@@ -21,7 +21,7 @@ export const useUpdateUser = () => {
             toast.success("Profile updated!");
             queryClient.setQueryData(['auth', 'user'], updatedData);
             queryClient.invalidateQueries({ queryKey: ['current-user'] });
-            queryClient.invalidateQueries({ queryKey: ['questions'] });
+        
         },
         onError: (err) => toast.error(parseError(err)),
 

@@ -18,10 +18,11 @@ export const useLogout = () => {
             });
         },
         onSuccess: () => {
-            setTheme("light");   
+            setTheme("light");
             queryClient.clear();
             toast.success("Logged out successfully");
-            router.replace('/');
+            const locale = window.location.pathname.split("/")[1] || "en"
+            window.location.href = `/${locale}`
         },
         onError: (err) => {
             toast.error(parseError(err));

@@ -17,6 +17,7 @@ const PROTECTED_ROUTES = [
 export function middleware(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
     const path = request.nextUrl.pathname;
+    const locale = path.split("/")[1] || "en"  // ← yahan se lo
 
     const pathWithoutLocale = path.replace(/^\/(en|hi|fr)/, "") || "/";
 
@@ -25,12 +26,11 @@ export function middleware(request: NextRequest) {
     );
 
     if (isProtectedRoute && !token) {
-        return NextResponse.redirect(new URL("/signup", request.url));
+        return NextResponse.redirect(new URL(`/${locale}/signup`, request.url)); 
     }
 
     return intlMiddleware(request);
 }
-
 export const config = {
     matcher: [
         '/((?!_next|_vercel|api|.*\\..*).*)',

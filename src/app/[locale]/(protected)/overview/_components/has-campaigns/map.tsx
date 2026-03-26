@@ -10,45 +10,34 @@ export function LocationsMap() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    // Isse mouse ki current position track hogi relative to the container
     const rect = e.currentTarget.getBoundingClientRect();
-
-    setPosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
   };
 
   return (
     <div
-      className="relative w-full h-[450px] bg-slate-50/50 rounded-xl overflow-hidden cursor-crosshair"
+      className="relative w-full h-[450px] rounded-xl overflow-hidden cursor-crosshair"
       onMouseMove={handleMouseMove}
     >
-      {/* Tooltip moving with cursor */}
+      {/* Tooltip */}
       {content && (
         <div
-          className="pointer-events-none absolute z-[100] bg-accent/90 text-white px-3 py-1.5 rounded-md text-[11px] font-bold shadow-xl transition-transform duration-75"
-          style={{
-            left: position.x,
-            top: position.y,
-            transform: 'translate(-50%, -120%)' // Tooltip ko cursor ke thoda upar aur center mein rakhta hai
-          }}
+          className="pointer-events-none absolute z-[100] shadow-xl transition-transform duration-75"
+          style={{ left: position.x, top: position.y, transform: "translate(-50%, -130%)" }}
         >
-          {content}
-          {/* Chota sa arrow niche */}
-          <div className="absolute left-1/2 -bottom-1 -translate-x-1/2 w-2 h-2 bg-accent/80 rotate-45" />
+          <div className="bg-[#1a1a1a] border border-orange-400/30 text-white px-3 py-1.5 rounded-lg text-[11px] font-semibold flex items-center gap-2 whitespace-nowrap">
+            <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
+            {content}
+          </div>
+          {/* Arrow */}
+          <div className="absolute left-1/2 -bottom-1.5 -translate-x-1/2 w-3 h-3 bg-[#1a1a1a] border-r border-b border-orange-400/30 rotate-45" />
         </div>
       )}
 
-      <ComposableMap
-        projectionConfig={{ scale: 135 }}
-        width={800}
-        height={400}
-      >
+      <ComposableMap projectionConfig={{ scale: 135 }} width={800} height={400}>
         <Geographies geography={geoUrl}>
           {({ geographies }) =>
             geographies.map((geo) => {
-              // ISO Codes (geo.id) ya Name se match karna
               const country = ANALYTICS_DATA.locations.find(
                 (l) => l.id === geo.id || l.name === geo.properties.name
               );
@@ -58,18 +47,22 @@ export function LocationsMap() {
                   key={geo.rsmKey}
                   geography={geo}
                   onMouseEnter={() => {
-                    if (country) {
+                    if (country)
                       setContent(`${country.name.toUpperCase()} • ${country.views} VIEWS`);
-                    }
                   }}
                   onMouseLeave={() => setContent("")}
-                  fill={country ? "var(--accent)" : "#cbd5e1"}
-                  stroke="#f8fafc"
+                  fill={country ? "#DB7857" : "#e2e8f0"}
+                  stroke="#fff"
                   strokeWidth={0.5}
                   style={{
-                    hover: { fill: "var(--accent)", outline: "none", opacity: 0.9, cursor: "pointer" },
                     default: { outline: "none" },
-                    pressed: { outline: "none" }
+                    hover: {
+                      fill: country ? "#c96a3f" : "#cbd5e1",
+                      outline: "none",
+                      filter: country ? "drop-shadow(0 0 6px rgba(219,120,87,0.6))" : "none",
+                      cursor: country ? "pointer" : "default",
+                    },
+                    pressed: { outline: "none" },
                   }}
                 />
               );

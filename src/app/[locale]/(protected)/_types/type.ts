@@ -21,8 +21,10 @@ export interface FCampaign {
 
 export interface CampaignFormData {
   campaignName: string;
+  webUrl?: string;
+  creditUsed: number;
   pageViews: number;
-  duration: FCampaign["duration"]; 
+  duration: FCampaign["duration"];
   trafficSource: string;
   device: string;
   country: string;

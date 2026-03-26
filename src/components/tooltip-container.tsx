@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 interface TooltipContainerProps {
     title: string;
-    description: string;
+    description?: string;
     children?: React.ReactNode;
     /** Side the tooltip appears on */
     side?: "top" | "right" | "bottom" | "left";

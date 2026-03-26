@@ -32,13 +32,13 @@ function EmptyCampaignHero({ onCreateCampaign }: { onCreateCampaign?: () => void
                     <h1 className="text-4xl font-bold text-foreground leading-tight">
                         Drive real traffic to your business today
                     </h1>
-                    <p className="text-muted-foreground text-sm leading-relaxed">
+                    <p className="text-foreground/70 text-sm leading-relaxed">
                         Buy high-quality targeted traffic and reach millions of potential customers across top platforms with our arbitrage network
                     </p>
                 </div>
 
                 <AppButton
-                     href="/create-campaign"
+                    href="/create-campaign"
                     title="Create campaign"
                     icon={Plus}
                     size="lg"

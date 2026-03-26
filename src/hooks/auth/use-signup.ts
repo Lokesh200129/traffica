@@ -19,8 +19,10 @@ export const useSignup = () => {
         },
         onSuccess: (data) => {
             toast.success("Account created successfully!");
-            queryClient.invalidateQueries({ queryKey: ['auth', 'user'] });
-            router.replace('/overview')
+            queryClient.invalidateQueries({ queryKey: ["current-user"] });
+
+            const locale = window.location.pathname.split("/")[1] || "en"
+            window.location.href = `/${locale}/overview` 
         },
         onError: (err) => toast.error(parseError(err)),
     });

@@ -1,179 +1,181 @@
 "use client"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Check, Camera, Trash2, User } from "lucide-react";
+import { Check, Camera, Trash2, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+    Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AppButton } from "@/components/button";
-import type { ProfileInfo } from "../_types/types";
-import { MOCK_PROFILE } from "../_types/types";
+import { useCurrentUser } from "@/hooks/auth/use-current-user";
+import { useUpdateUser } from "@/hooks/auth/use-update-user";
+import Image from "next/image";
+import DefaultAvatar from "@/assets/avatar.png";
 
-// ── Schema ────────────────────────────────────────────────────────────────────
 const profileSchema = z.object({
-    firstName: z.string().min(1, "First name is required"),
-    lastName: z.string().min(1, "Last name is required"),
+    name: z.string().min(1, "Name is required"),
+    email: z.string().email("Enter a valid email"),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
 
-// ── Avatar uploader ───────────────────────────────────────────────────────────
-function AvatarUploader({
-    avatar,
-    onUpload,
-    onRemove,
-}: {
-    avatar: string | null;
-    onUpload: (file: File) => void;
-    onRemove: () => void;
-}) {
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) onUpload(file);
-        e.target.value = "";
-    };
-
-    return (
-        <div className="flex items-center gap-5 mb-2">
-            {/* Circle */}
-            <div className="relative group shrink-0">
-                <div className="w-20 h-20 rounded-full border-2 border-border bg-muted flex items-center justify-center overflow-hidden">
-                    {avatar
-                        ? <img src={avatar} alt="Profile" className="w-full h-full object-cover" />
-                        : <User size={32} className="text-muted-foreground" />
-                    }
-                </div>
-                <button
-                    type="button"
-                    onClick={() => inputRef.current?.click()}
-                    className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                    <Camera size={18} className="text-white" />
-                </button>
-                <input ref={inputRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
-            </div>
-
-            {/* Action buttons */}
-            <div className="flex flex-col gap-2">
-                <AppButton
-                    title={avatar ? "Change Photo" : "Upload Photo"}
-                    icon={Camera}
-                    iconSize={13}
-                    size="sm"
-                    variant="outline"
-                    className="bg-background text-foreground hover:text-accent hover:border-accent border-border"
-                    onClick={() => inputRef.current?.click()}
-                    type="button"
-                />
-                {avatar && (
-                    <AppButton
-                        title="Remove"
-                        icon={Trash2}
-                        iconSize={13}
-                        size="sm"
-                        variant="outline"
-                        className="bg-background text-muted-foreground hover:text-red-500 hover:border-red-500/30 border-border"
-                        onClick={onRemove}
-                        type="button"
-                    />
-                )}
-                <p className="text-[10px] text-muted-foreground">JPG, PNG or GIF · Max 2MB</p>
-            </div>
-        </div>
-    );
-}
-
-// ── Props — backend ready ─────────────────────────────────────────────────────
-interface ProfileInfoTabProps {
-    initialData?: ProfileInfo;
-    onSave?: (data: ProfileFormValues & { avatar?: File | null }) => Promise<void>;
-}
-
-export function ProfileInfoTab({
-    initialData = MOCK_PROFILE,
-    onSave,
-}: ProfileInfoTabProps) {
-    const [avatar, setAvatar] = useState<string | null>(initialData?.avatarUrl ?? null);
-    const [avatarFile, setAvatarFile] = useState<File | null>(null);
+export function ProfileInfoTab() {
+    const { data: currentUser } = useCurrentUser();
+    const { mutateAsync: updateUser } = useUpdateUser();
     const [saved, setSaved] = useState(false);
+    const [profileImage, setProfileImage] = useState<string | null>(null);
+    const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileSchema),
-        defaultValues: {
-            firstName: initialData.firstName,
-            lastName: initialData.lastName,
-        },
+        defaultValues: { name: "", email: "" },
     });
 
+    useEffect(() => {
+        if (currentUser) {
+            form.reset({ name: currentUser.name ?? "", email: currentUser.email ?? "" });
+            setProfileImage(currentUser.profileImage ?? null);
+        }
+    }, [currentUser]);
+
+    const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) { setProfileImageFile(file); setProfileImage(URL.createObjectURL(file)); }
+        e.target.value = "";
+    };
+
+    const handleRemove = () => { setProfileImage(null); setProfileImageFile(null); };
+
+    const isChanged = form.formState.isDirty || profileImageFile !== null ||
+        (profileImage === null && !!currentUser?.profileImage);
+
     const onSubmit = async (values: ProfileFormValues) => {
-        await onSave?.({ ...values, avatar: avatarFile });
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("email", values.email);
+        if (profileImageFile) formData.append("profileImage", profileImageFile);
+        if (profileImage === null && currentUser?.profileImage) formData.append("removeImage", "true");
+
+        await updateUser(formData);
         setSaved(true);
         setTimeout(() => setSaved(false), 2500);
     };
 
+    const hasPhoto = !!profileImage;
+
     return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <div className="flex flex-col gap-6">
 
-                <AvatarUploader
-                    avatar={avatar}
-                    onUpload={(file) => { setAvatarFile(file); setAvatar(URL.createObjectURL(file)); }}
-                    onRemove={() => { setAvatar(null); setAvatarFile(null); }}
-                />
+            {/* Top: Profile Image + Name/Email */}
+            <div className="flex items-center gap-5">
+                <div className="relative group shrink-0">
+                    <div className="relative w-20 h-20 rounded-full border-2 border-border bg-muted overflow-hidden">
+                        {hasPhoto ? (
+                            <Image src={profileImage!} alt="Profile" fill className="object-cover" sizes="80px" />
+                        ) : (
+                            <Image src={DefaultAvatar} alt="Default" fill className="object-cover" sizes="80px" />
+                        )}
+                    </div>
 
-                {/* Email — readonly */}
-                <div className="flex flex-col gap-1.5">
-                    <label className="text-sm font-medium text-foreground">Email</label>
-                    <Input value={initialData.email} disabled className="bg-muted text-muted-foreground cursor-not-allowed" />
+                    {/* <div className="absolute left-[37%] -bottom-2 border-2 border-primary rounded-full  flex items-center justify-center p-1  gap-2">
+                        {hasPhoto ? (
+                            <>
+                                <button type="button" onClick={() => inputRef.current?.click()}
+                                    className="text-accent" title="Change photo">
+                                    <Camera size={14} />
+                                </button>
+                                <button type="button" onClick={handleRemove}
+                                    className="text-accent " title="Remove photo">
+                                    <Trash2 size={14} />
+                                </button>
+                            </>
+                        ) : (
+                            <button type="button" onClick={() => inputRef.current?.click()}
+                                className="text-accent " title="Add photo">
+                                <Plus size={16} />
+                            </button>
+                        )}
+                    </div> */}
+                    <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-background border border-border rounded-full p-1 shadow-md">
+                        {hasPhoto ? (
+                            <>
+                                <button type="button" onClick={() => inputRef.current?.click()}
+                                    className="p-1 rounded-full text-blue-400 cursor-pointer hover:bg-blue-400/10 transition-colors" title="Change photo">
+                                    <Camera size={13} />
+                                </button>
+                                <div className="w-px h-3 bg-border" />
+                                <button type="button" onClick={handleRemove}
+                                    className="p-1 rounded-full text-red-400 cursor-pointer hover:bg-red-400/10 transition-colors" title="Remove photo">
+                                    <Trash2 size={13} />
+                                </button>
+                            </>
+                        ) : (
+                            <button type="button" onClick={() => inputRef.current?.click()}
+                                className="p-1 rounded-full text-accent cursor-pointer hover:bg-accent/10 transition-colors" title="Add photo">
+                                <Plus size={14} />
+                            </button>
+                        )}
+                    </div>
+
+                    <input ref={inputRef} type="file" accept="image/*" onChange={handleFile} className="hidden" />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <FormField
-                        control={form.control}
-                        name="firstName"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>First Name</FormLabel>
-                                <FormControl><Input placeholder="John" {...field} /></FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="lastName"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Last Name</FormLabel>
-                                <FormControl><Input placeholder="Doe" {...field} /></FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+                <div className="flex flex-col gap-0.5">
+                    <p className="text-lg font-semibold text-foreground">{currentUser?.name ?? "—"}</p>
+                    <p className="text-sm text-muted-foreground">{currentUser?.email ?? "—"}</p>
                 </div>
+            </div>
 
-                <div>
+            {/* Form */}
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Full Name</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="John Doe" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="john@example.com" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
                     <AppButton
-                        title={saved ? "Saved" : form.formState.isSubmitting ? "Saving..." : "Save Changes"}
+                        title={saved ? "Saved" : "Save Changes"}
                         icon={saved ? Check : undefined}
                         type="submit"
                         isLoading={form.formState.isSubmitting}
-                        className={cn(saved && "bg-green-500 hover:bg-green-500/90")}
-                    />
-                </div>
+                        disabled={!isChanged}
+                        className="w-fit self-end"
 
-            </form>
-        </Form>
+                    />
+
+                </form>
+            </Form>
+        </div>
     );
 }

@@ -9,9 +9,10 @@ interface SidebarNavItemProps {
     tab: SidebarTab;
     pathname: string;
     collapsed?: boolean;
+    onClick?: () => void;  // ← add kiya
 }
 
-export function SidebarNavItem({ tab, pathname, collapsed }: SidebarNavItemProps) {
+export function SidebarNavItem({ tab, pathname, collapsed, onClick }: SidebarNavItemProps) {
     const t = useTranslations("sidebar");
     const Icon = tab.icon;
 
@@ -26,11 +27,11 @@ export function SidebarNavItem({ tab, pathname, collapsed }: SidebarNavItemProps
             ? "bg-accent/10 border-l-4 border-accent rounded-none text-primary font-semibold"
             : "hover:text-foreground hover:bg-muted border-l-4 border-transparent"
     );
-
+    // console.log(tab);
     return (
-        <Link href={tab.href!} className="w-full">
+        <Link href={tab.href!} className="w-full" onClick={onClick}>
             {collapsed ? (
-                <TooltipContainer title={t(tab.title)} description="" side="right">
+                <TooltipContainer title={tab.title} description="" side="right">
                     <Button variant="ghost" className={btnClass}>
                         <Icon size={18} className={active ? "text-accent" : ""} />
                     </Button>

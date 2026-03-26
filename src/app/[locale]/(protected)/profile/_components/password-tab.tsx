@@ -1,3 +1,4 @@
+
 "use client"
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -6,17 +7,12 @@ import { z } from "zod";
 import { Eye, EyeOff, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+    Form, FormControl, FormField, FormItem, FormLabel, FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AppButton } from "@/components/button";
+import { useUpdateUser } from "@/hooks/auth/use-update-user";
 
-// ── Schema ────────────────────────────────────────────────────────────────────
 const passwordSchema = z.object({
     newPassword: z.string().min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
@@ -27,29 +23,21 @@ const passwordSchema = z.object({
 
 type PasswordFormValues = z.infer<typeof passwordSchema>;
 
-// ── Password input with show/hide ─────────────────────────────────────────────
 function PasswordInput({ field }: { field: any }) {
     const [show, setShow] = useState(false);
     return (
         <div className="relative">
             <Input type={show ? "text" : "password"} placeholder="••••••••" className="pr-10" {...field} />
-            <button
-                type="button"
-                onClick={() => setShow(s => !s)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-            >
+            <button type="button" onClick={() => setShow(s => !s)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
                 {show ? <EyeOff size={15} /> : <Eye size={15} />}
             </button>
         </div>
     );
 }
 
-// ── Props — backend ready ─────────────────────────────────────────────────────
-interface PasswordTabProps {
-    onSave?: (data: { newPassword: string }) => Promise<void>;
-}
-
-export function PasswordTab({ onSave }: PasswordTabProps) {
+export function PasswordTab() {
+    const { mutateAsync: updateUser } = useUpdateUser();
     const [saved, setSaved] = useState(false);
 
     const form = useForm<PasswordFormValues>({
@@ -58,7 +46,9 @@ export function PasswordTab({ onSave }: PasswordTabProps) {
     });
 
     const onSubmit = async (values: PasswordFormValues) => {
-        await onSave?.({ newPassword: values.newPassword });
+        const formData = new FormData();
+        formData.append("password", values.newPassword);
+        await updateUser(formData);
         form.reset();
         setSaved(true);
         setTimeout(() => setSaved(false), 2500);
@@ -85,22 +75,21 @@ export function PasswordTab({ onSave }: PasswordTabProps) {
                     name="confirmPassword"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Re-type New Password</FormLabel>
+                            <FormLabel>Confirm Password</FormLabel>
                             <FormControl><PasswordInput field={field} /></FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
 
-                <div>
-                    <AppButton
-                        title={saved ? "Password Updated" : form.formState.isSubmitting ? "Saving..." : "Save Changes"}
-                        icon={saved ? Check : undefined}
-                        type="submit"
-                        isLoading={form.formState.isSubmitting}
-                        className={cn(saved && "bg-green-500 hover:bg-green-500/90")}
-                    />
-                </div>
+                <AppButton
+                    title={saved ? "Password Updated" : "Save Changes"}
+                    icon={saved ? Check : undefined}
+                    type="submit"
+                    isLoading={form.formState.isSubmitting}
+                    disabled={!form.formState.isDirty}
+                    className={cn("w-fit self-end", saved && "bg-green-500 hover:bg-green-500/90")}
+                />
 
             </form>
         </Form>

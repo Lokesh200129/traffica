@@ -1,5 +1,5 @@
 
-import BillingSetting from "./_components/setting";
+import Main from "./_components/main";
 
-const Page = () => <BillingSetting />;
+const Page = () => <Main />;
 export default Page;

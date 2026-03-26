@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Search, ChevronRight } from "lucide-react";
 import { FAQ_COLLECTIONS, type HelpCollection } from "../types/help-widget-types";
 import { FAQAccordion } from "../faq-accordion";
+import { Input } from "@/components/ui/input";
 
 // ── Single collection view ────────────────────────────────────────────────────
 function CollectionView({
@@ -31,14 +32,15 @@ function CollectionView({
             </div>
             <div className="px-4 py-2 border-b border-border">
                 <div className="relative">
-                    <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    <input
+                    <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10" />
+                    <Input
                         value={search}
                         onChange={e => setSearch(e.target.value)}
                         placeholder="Search articles…"
-                        className="w-full pl-8 pr-3 py-2 text-sm bg-muted rounded-lg focus:outline-none focus:ring-1 focus:ring-accent"
+                        className="pl-8"
                     />
                 </div>
+
             </div>
             <div className="flex-1 overflow-y-auto px-4 py-2">
                 {filtered.length === 0 ? (
@@ -76,12 +78,12 @@ export function HelpTab() {
             </div>
             <div className="px-4 py-6 border-b border-border">
                 <div className="relative">
-                    <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                    <input
+                    <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground z-10" />
+                    <Input
                         value={search}
                         onChange={e => setSearch(e.target.value)}
                         placeholder="Search for help…"
-                        className="w-full pl-8 pr-3 py-2.5 text-sm bg-muted rounded-xl focus:outline-none focus:ring-1 focus:ring-accent"
+                        className="pl-8"
                     />
                 </div>
             </div>

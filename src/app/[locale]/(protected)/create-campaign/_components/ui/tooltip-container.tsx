@@ -1,3 +1,4 @@
+import { Info } from "lucide-react";
 import { useState, type ReactNode } from "react";
 
 interface TooltipContainerProps {
@@ -22,20 +23,21 @@ export function TooltipContainer({
         onMouseLeave={() => setOpen(false)}
         onFocus={() => setOpen(true)}
         onBlur={() => setOpen(false)}
-        className="inline-flex items-center justify-center rounded-full text-blue-400 hover:text-blue-600 transition-colors focus:outline-none"
+        className="inline-flex items-center justify-center rounded-full  transition-colors focus:outline-none"
       >
         {children ?? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 16v-4M12 8h.01" />
-          </svg>
+          // <svg
+          //   xmlns="http://www.w3.org/2000/svg"
+          //   className="h-4 w-4"
+          //   viewBox="0 0 24 24"
+          //   fill="none"
+          //   stroke="currentColor"
+          //   strokeWidth="2"
+          // >
+          //   <circle cx="12" cy="12" r="10" />
+          //   <path d="M12 16v-4M12 8h.01" />
+          // </svg>
+          <Info size={14} className="hover:cursor-pointer text-accent" />
         )}
       </button>
 

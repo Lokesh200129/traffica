@@ -2,32 +2,54 @@
 
 import { useForm, Controller } from "react-hook-form";
 import type { CampaignFormData } from "../../_types/type";
-import { TRAFFIC_SOURCES, DEVICES, ALL_COUNTRIES } from "../_lib/constants";
+import { TRAFFIC_SOURCES, DEVICES } from "../_lib/constants";
 import { useSectionSave } from "../_hooks/useSectionSave";
 import { Section, Divider } from "./ui";
 import { PageViewsSlider, DurationInput } from "./sections";
 import { SummarySidebar } from "./sidebar/summary-sidebar";
 import { AppButton } from "@/components/button";
+import { Input } from "@/components/ui/input";
+import { SearchableSelect } from "../../billing/settings/_components/searchable-select";
 import { useCreateCampaign } from "@/hooks/campaign/use-create-campaign";
-// import { useCreateCampaign } from "@/hooks/useCreateCampaign";
+import { Country } from "country-state-city";
+import { cn } from "@/lib/utils";
+
+const ALL_COUNTRIES = Country.getAllCountries()
+const COUNTRY_OPTIONS = ALL_COUNTRIES.map(c => ({ value: c.name, label: c.name }))
+
+// ── SelectInput — 
+function SelectInput({ className, children, ...props }: React.ComponentProps<"select">) {
+  return (
+    <select
+      className={cn(
+        "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
+        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
+        "disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer text-foreground",
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </select>
+  )
+}
 
 const DEFAULT_VALUES: CampaignFormData = {
   campaignName: "",
+  webUrl: "",
   pageViews: 32000,
   duration: { mode: "fixed", fixedSec: 0, randomFrom: 0, randomTo: 0 },
   country: "",
   trafficSource: "Direct",
   device: "All Desktop",
+  creditUsed: 0
 };
 
-const selectCls =
-  "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors";
-const inputCls =
-  "w-full rounded-xl border border-border px-4 py-2.5 text-sm bg-background text-foreground focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 aria-[invalid=true]:border-red-400 transition-colors";
+const creditToBeUsed = 20
+
 
 export default function CampaignForm() {
   const { mutate: createCampaign, isPending } = useCreateCampaign();
-  // const isPending = false;
 
   const {
     register,
@@ -48,9 +70,12 @@ export default function CampaignForm() {
   const saveGeo = useSectionSave();
 
   const onSubmit = (data: CampaignFormData) => {
-    createCampaign(data);
+    const newData = { ...data, creditUsed: creditToBeUsed }
+    console.log(newData);
+    createCampaign(newData);
     reset();
   };
+
 
   return (
     <div className="mx-auto flex flex-col lg:flex-row gap-6 items-start w-full">
@@ -74,25 +99,46 @@ export default function CampaignForm() {
             saveStatus={saveCampaign.status}
             tooltip={{ title: "Campaign Name", description: "A unique identifier for this campaign in your dashboard." }}
           >
-            <input
+            <Input
               {...register("campaignName", { required: "Campaign name is required" })}
               onChange={(e) => { register("campaignName").onChange(e); saveCampaign.trigger(); }}
               placeholder="e.g. Summer Sale 2025"
               aria-invalid={!!errors.campaignName}
-              className={inputCls}
             />
             {errors.campaignName && (
               <p className="text-xs text-red-500 mt-1">{errors.campaignName.message}</p>
             )}
           </Section>
 
+          <Section
+            title="Web URL"
+            saveStatus={saveCampaign.status}
+            tooltip={{ title: "Web URL", description: "The destination URL where traffic will be sent." }}
+          >
+            <Input
+              {...register("webUrl", {
+                required: "Web URL is required",
+                pattern: {
+                  value: /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/,
+                  message: "Enter a valid URL"
+                }
+              })}
+              onChange={(e) => { register("webUrl").onChange(e); saveCampaign.trigger(); }}
+              placeholder="https://example.com"
+              type="url"
+              aria-invalid={!!errors.webUrl}
+            />
+            {errors.webUrl && (
+              <p className="text-xs text-red-500 mt-1">{errors.webUrl.message}</p>
+            )}
+          </Section>
           <Divider />
 
           {/* Page Views */}
           <Section
             title="Page Views"
             saveStatus={savePageViews.status}
-            tooltip={{ title: "Page Views", description: "Total page views to deliver. Est. users ≈ views ÷ 3." }}
+            tooltip={{ title: "Page Views", description: "Total page views to deliver." }}
           >
             <Controller
               name="pageViews"
@@ -138,16 +184,15 @@ export default function CampaignForm() {
               name="trafficSource"
               control={control}
               render={({ field }) => (
-                <select
+                <SelectInput
                   value={field.value}
                   onChange={(e) => { field.onChange(e.target.value); saveTraffic.trigger(); }}
-                  className={selectCls}
                 >
                   <option value="" disabled>Select source…</option>
                   {TRAFFIC_SOURCES.map((s) => (
                     <option key={s} value={s}>{s}</option>
                   ))}
-                </select>
+                </SelectInput>
               )}
             />
           </Section>
@@ -164,16 +209,15 @@ export default function CampaignForm() {
               name="device"
               control={control}
               render={({ field }) => (
-                <select
+                <SelectInput
                   value={field.value}
                   onChange={(e) => { field.onChange(e.target.value); saveDevices.trigger(); }}
-                  className={selectCls}
                 >
                   <option value="" disabled>Select device…</option>
                   {DEVICES.map((d) => (
                     <option key={d} value={d}>{d}</option>
                   ))}
-                </select>
+                </SelectInput>
               )}
             />
           </Section>
@@ -190,16 +234,12 @@ export default function CampaignForm() {
               name="country"
               control={control}
               render={({ field }) => (
-                <select
+                <SearchableSelect
+                  options={COUNTRY_OPTIONS}
                   value={field.value ?? ""}
-                  onChange={(e) => { field.onChange(e.target.value); saveGeo.trigger(); }}
-                  className={selectCls}
-                >
-                  <option value="">Global (All Countries)</option>
-                  {ALL_COUNTRIES.map((c) => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
+                  onChange={(val) => { field.onChange(val); saveGeo.trigger(); }}
+                  placeholder=" Global (All Countries)"
+                />
               )}
             />
           </Section>
@@ -225,9 +265,10 @@ export default function CampaignForm() {
             trafficSource: watched.trafficSource ?? "",
             device: watched.device ?? "",
             country: watched.country ?? "",
+            creditUsed: creditToBeUsed
           }}
         />
-    </div>
+      </div>
 
     </div>
   );

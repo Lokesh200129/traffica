@@ -5,7 +5,7 @@ import { AppButton } from '@/components/button';
 
 const ComingSoon = () => {
     return (
-        <div className=" flex flex-col items-center justify-center min-h-[75vh] w-full px-4">
+        <div className=" flex flex-col items-center justify-center min-h-[75vh] w-full">
 
             <div className=" w-full  flex items-center justify-center p-12 bg-card text-card-foreground rounded-2xl border border-border shadow-lg transition-all duration-300">
                 <div className="w-full text-center">

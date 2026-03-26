@@ -2,12 +2,14 @@ import { NextRequest } from "next/server";
 import Campaign from "@/models/Campaign";
 import withAuth from "@/lib/try-catch-with-auth";
 import { apiSuccess, apiError } from "@/lib/api-response";
+import User from "@/models/User";
+import { CreditHistory } from "@/models/CreditHistory";
 
-// ── POST /api/campaigns ───────────────────────────────────────────────────────
+
 export const POST = withAuth(async (req: NextRequest, user) => {
     const body = await req.json();
 
-    const { campaignName, pageViews, duration, country, trafficSource, device } = body;
+    const { campaignName, pageViews, duration, country, trafficSource, device, webUrl, creditUsed } = body;
 
     // ── Validation ───────────────────────────────────────────────────────────
     if (!campaignName || typeof campaignName !== "string")
@@ -25,7 +27,22 @@ export const POST = withAuth(async (req: NextRequest, user) => {
     if (!device || typeof device !== "string")
         return apiError("device is required");
 
-    // ── Save ──────────────────────────────────────────────────────────────────
+    if (!webUrl || typeof webUrl !== "string")
+        return apiError("webUrl is required");
+
+    if (typeof creditUsed !== "number" || creditUsed < 0)
+        return apiError("creditUsed must be a non-negative number");
+
+    // ── Check sufficient credits ──────────────────────────────────────────────
+    const currentUser = await User.findById(user._id);
+    console.log(currentUser);
+    if (!currentUser)
+        return apiError("User not found", 404);
+
+    if (currentUser.creditBalance.available < creditUsed)
+        return apiError("Insufficient credits", 400);
+
+    // ── Create campaign ───────────────────────────────────────────────────────
     const campaign = await Campaign.create({
         userId: user._id,
         campaignName: campaignName.trim(),
@@ -36,10 +53,33 @@ export const POST = withAuth(async (req: NextRequest, user) => {
             randomFrom: duration.randomFrom ?? 0,
             randomTo: duration.randomTo ?? 0,
         },
-      
+        webUrl: webUrl.trim(),
         country: country ?? "",
         trafficSource,
         device,
+        creditUsed,
+        status: "PENDING",
+    });
+
+    // ── Deduct credits ────────────────────────────────────────────────────────
+    const balanceBefore = currentUser.creditBalance.availableCredits;
+    const balanceAfter = balanceBefore - creditUsed;
+
+    await User.findByIdAndUpdate(user._id, {
+        $inc: { "creditBalance.availableCredits": -creditUsed },
+        $set: { "creditBalance.lastUpdatedAt": new Date() },
+    });
+    
+    // ── Save credit history ───────────────────────────────────────────────────
+    await CreditHistory.create({
+        userId: user._id,
+        type: "DEBIT",
+        creditsAdded: creditUsed,
+        balanceBefore,
+        balanceAfter,
+        description: `Campaign "${campaignName.trim()}" started · ${creditUsed.toLocaleString()} credits deducted`,
+        referenceType: "CAMPAIGN",
+        referenceId: campaign._id.toString(),
     });
 
     return apiSuccess(campaign.toObject(), "Campaign created successfully", 201);

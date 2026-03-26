@@ -17,7 +17,7 @@ export const POST = tryCatchWrapper(async (req: Request) => {
     const captchaRes = await fetch(googleVerifyUrl, { method: "POST" });
     const captchaData = await captchaRes.json();
 
-    if (!captchaData.success) {
+    if (!captchaData.success) { 
         return apiError("Invalid CAPTCHA. Please try again.", 400);
     }
 

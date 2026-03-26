@@ -5,14 +5,17 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useState } from 'react';
 import { Toaster } from 'sonner';
 import ClientProvider from './client-provider';
-// import PostFormModal from './post-form-modal';
 import { ThemeProvider } from '@/components/theme-provider'
+import BillingModal from "@/app/[locale]/(protected)/_components/balance-input";
+
 export default function Providers({ children }: { children: React.ReactNode }) {
     const [queryClient] = useState(() => new QueryClient({
         defaultOptions: {
             queries: {
-                staleTime: 60 * 1000,
+                staleTime: 60 * 1000 * 2,
                 refetchOnWindowFocus: false,
+                refetchOnMount: "always",
+                retry: 1,
             },
         },
     }));
@@ -23,10 +26,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
             <ClientProvider>
                 <ThemeProvider
                     attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
+                    defaultTheme="light"
+                    enableSystem={false}
                 >
+                    <BillingModal />
+
                     {children}
                 </ThemeProvider>
             </ClientProvider>

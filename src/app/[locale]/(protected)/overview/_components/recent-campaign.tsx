@@ -1,86 +1,34 @@
-import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-
-// 1. New Realistic Sample Data
-const campaigns = [
-    {
-        id: 1,
-        name: "SummerCollection_2024",
-        status: "Approved",
-        image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=100&h=100&fit=crop",
-    },
-    {
-        id: 2,
-        name: "Nike_AirMax_Launch",
-        status: "Approved",
-        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&h=100&fit=crop",
-    },
-    {
-        id: 3,
-        name: "TechGadgets_Reviews",
-        status: "Approved",
-        image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=100&h=100&fit=crop",
-    },
-    {
-        id: 4,
-        name: "Starbucks_MorningBrew",
-        status: "Approved",
-        image: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=100&h=100&fit=crop",
-    },
-    {
-        id: 5,
-        name: "Zara_Winter_Sale",
-        status: "Approved",
-        image: "https://images.unsplash.com/photo-1445205170230-053b830c6050?w=100&h=100&fit=crop",
-    },
-];
-
-export default function RecentCampaigns() {
-    return (
-        <Card className="bg-card w-full border border-border">
-            {/* <CardHeader className=""> */}
-            <CardTitle className="text-xl font-bold text-slate-900 tracking-tight px-6">
-                Recent Campaigns
-            </CardTitle>
-            {/* </CardHeader> */}
-            <CardContent className="pt-0">
-                <div className="flex flex-col">
-                    {campaigns.map((item, index) => (
-                        <div key={item.id} className="w-full">
-                            {/* Main Row Container: items-center ensures vertical alignment */}
-                            <div className="flex items-center gap-4 py-4">
-
-                                {/* 1. Image Container */}
-                                <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-border ">
-                                    <Image
-                                        src={item.image}
-                                        alt={item.name}
-                                        fill
-                                        className="object-cover"
-                                        sizes="48px"
-                                    />
-                                </div>
-
-                                {/* 2. Content Container: justify-center for vertical text alignment */}
-                                <div className="flex flex-col justify-center gap-1.5">
-                                    <p className="text-[14px] font-semibold text-slate-800 tracking-tight leading-none">
-                                        {item.name}
-                                    </p>
-                                    <Badge
-                                        variant="outline"
-                                        className="w-fit bg-emerald-50 text-emerald-700 border-emerald-100 text-[10px] font-semibold px-2.5 py-0.5 hover:bg-emerald-100 transition-colors"
-                                    >
-                                        {item.status}
-                                    </Badge>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    ))}
-                </div>
-            </CardContent>
-        </Card>
-    );
+"use client"
+import { Card } from "./ui/card"
+import { useGetCampaigns } from "@/hooks/campaign/use-fetch-all-campaigns"
+// const campaigns = [
+//     { id: 1, name: "SummerCollection_2024", status: "Approved" },
+//     { id: 2, name: "Nike_AirMax_Launch", status: "Approved" },
+//     { id: 3, name: "TechGadgets_Reviews", status: "Approved" },
+//     { id: 4, name: "Starbucks_MorningBrew", status: "Pending" },
+//     { id: 5, name: "Zara_Winter_Sale", status: "Rejected" },
+// ]
+const BADGE_STYLES: Record<string, string> = {
+    APPROVED: "bg-green-500/10 text-green-500 border-green-500/20",
+    PENDING: "bg-yellow-500/10 text-yellow-500 border-yellow-500/20",
+    REJECTED: "bg-red-500/10 text-red-500 border-red-500/20",
+    COMPLETED: "bg-blue-500/10 text-blue-500 border-blue-500/20",
 }
+export default function RecentCampaigns() {
+    const { data: allCampaigns } = useGetCampaigns()
+    const data = allCampaigns?.campaigns?.slice(0, 6) || []
+    console.log(data);
+    const steps = data?.map(c => ({
+        title: c.campaignName,
+        badge: {
+            label: c.status.charAt(0) + c.status.slice(1).toLowerCase(), // PENDING → Pending
+            className: BADGE_STYLES[c.status] ?? BADGE_STYLES.PENDING
+        }
+    }))
+    return (
+        <Card
+            title="Recent Campaigns"
+            steps={steps!}
+        />
+    )
+} 

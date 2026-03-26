@@ -15,16 +15,16 @@ const TABS: { key: BillingTab; label: string }[] = [
 
 export function BillingToggle({ active, onChange }: BillingToggleProps) {
     return (
-        <div className="inline-flex rounded-xl border border-border bg-muted p-1 gap-1">
+        <div className="inline-flex rounded-2xl border border-accent/20  p-1 gap-1">
             {TABS.map(tab => (
                 <button
                     key={tab.key}
                     onClick={() => onChange(tab.key)}
                     className={cn(
-                        "px-5 py-2 rounded-lg text-sm font-medium transition-all w-full",
+                        "px-5 py-2 rounded-xl text-sm font-medium transition-all w-full",
                         active === tab.key
-                            ? "bg-accent/80 text-white shadow-sm"
-                            : "text-muted-foreground hover:text-foreground"
+                            ? "bg-accent text-white shadow-sm border border-accent/20"
+                            : "text-foreground/60 hover:text-foreground"
                     )}
                 >
                     {tab.label}

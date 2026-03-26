@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ALL_COUNTRIES } from "../_lib/countries";
+import { Country } from "country-state-city";
 import { AppButton } from "@/components/button";
 import {
     Form,
@@ -14,6 +14,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useCreateAgency } from "@/hooks/agency/use-create-agency";
+import { SearchableSelect } from "../../billing/settings/_components/searchable-select";
+
+// ── Ek baar calculate ─────────────────────────────────────────────────────────
+const ALL_COUNTRIES = Country.getAllCountries()
 
 // ── Schema ────────────────────────────────────────────────────────────────────
 const agencySchema = z.object({
@@ -26,28 +31,24 @@ const agencySchema = z.object({
 
 type AgencyFormValues = z.infer<typeof agencySchema>;
 
-// const inputCls = "";
-// const selectCls = "w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/20 transition-colors";
+// ── Main Component ────────────────────────────────────────────────────────────
+export default function AgencyPage() {
+    const { mutate: submitForm } = useCreateAgency();
 
-// ── Props — backend ready ─────────────────────────────────────────────────────
-interface AgencyPageProps {
-    onSubmit?: (data: AgencyFormValues) => Promise<void>;
-}
-
-export default function AgencyPage({ onSubmit }: AgencyPageProps) {
     const form = useForm<AgencyFormValues>({
         resolver: zodResolver(agencySchema),
         defaultValues: {
             agencyName: "",
             website: "",
-            country: "India",
+            country: "",
             services: "",
             plan: "",
         },
     });
 
     const handleSubmit = async (data: AgencyFormValues) => {
-        await onSubmit?.(data);
+        submitForm(data);
+        form.reset();
     };
 
     return (
@@ -65,7 +66,7 @@ export default function AgencyPage({ onSubmit }: AgencyPageProps) {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-5">
 
-                        {/* Agency Name + Website — 2 col */}
+                        {/* Row 1 — Agency Name + Website */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <FormField
                                 control={form.control}
@@ -84,7 +85,7 @@ export default function AgencyPage({ onSubmit }: AgencyPageProps) {
                                 control={form.control}
                                 name="website"
                                 render={({ field }) => (
-                                    <FormItem> 
+                                    <FormItem>
                                         <FormLabel>Website</FormLabel>
                                         <FormControl>
                                             <Input placeholder="https://youragency.com" {...field} />
@@ -95,28 +96,29 @@ export default function AgencyPage({ onSubmit }: AgencyPageProps) {
                             />
                         </div>
 
-                        {/* Country */}
-                        <FormField
-                            control={form.control}
-                            name="country"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Country</FormLabel>
-                                    <FormControl>
-                                        <select {...field} className="p-2.5" >
-                                            
-                                            <option value="" disabled>Select country…</option>
-                                            {ALL_COUNTRIES.map((c) => (
-                                                <option key={c} value={c}>{c}</option>
-                                            ))}
-                                        </select>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        {/* Row 2 — Country (half width) */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="country"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Country</FormLabel>
+                                        <FormControl>
+                                            <SearchableSelect
+                                                options={ALL_COUNTRIES.map(c => ({ value: c.name, label: c.name }))}
+                                                value={field.value}
+                                                onChange={field.onChange}
+                                                placeholder="Search country..."
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
 
-                        {/* Services */}
+                        {/* Row 3 — Services */}
                         <FormField
                             control={form.control}
                             name="services"
@@ -126,7 +128,7 @@ export default function AgencyPage({ onSubmit }: AgencyPageProps) {
                                     <FormControl>
                                         <Textarea
                                             placeholder="e.g. SEO, paid media management, web traffic campaigns for e-commerce clients…"
-                                            className={` min-h-28 resize-y`}
+                                            className="min-h-28 resize-y"
                                             {...field}
                                         />
                                     </FormControl>
@@ -135,7 +137,7 @@ export default function AgencyPage({ onSubmit }: AgencyPageProps) {
                             )}
                         />
 
-                        {/* Plan */}
+                        {/* Row 4 — Plan */}
                         <FormField
                             control={form.control}
                             name="plan"
@@ -145,7 +147,7 @@ export default function AgencyPage({ onSubmit }: AgencyPageProps) {
                                     <FormControl>
                                         <Textarea
                                             placeholder="e.g. We will bundle your traffic service into our monthly retainer packages…"
-                                            className={` min-h-28 resize-y`}
+                                            className="min-h-28 resize-y"
                                             {...field}
                                         />
                                     </FormControl>

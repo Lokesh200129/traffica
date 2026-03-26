@@ -1,22 +1,14 @@
 "use client"
-import { ShoppingCart, ArrowRight } from "lucide-react";
-import type { BalanceData } from "../../_lib/mock-data-type";
-import { MOCK_BALANCE } from "../../_lib/mock-data-type";
+import { ShoppingCart } from "lucide-react";
 import { AppButton } from "@/components/button";
+import { useBalanceModal } from "@/store/balance-modal";
+import { useCurrentUser } from "@/hooks/auth/use-current-user";
 
-// ── Main Component ────────────────────────────────────────────────────────────
-interface BalanceProps {
-    data?: BalanceData;
-    onBuyCredits?: () => void;
-    onConvert?: () => void;
-}
+export default function Balance() {
+    const { toggle } = useBalanceModal();
+    const { data: user, isLoading } = useCurrentUser();
 
-export default function Balance({
-    data = MOCK_BALANCE,
-    onBuyCredits,
-    onConvert,
-}: BalanceProps) {
-    const totalCredits = data.tiers.reduce((sum, t) => sum + t.credits, 0);
+    const availableCredits = user?.creditBalance?.availableCredits || 0;
 
     return (
         <div>
@@ -28,27 +20,26 @@ export default function Balance({
                 </p>
             </div>
 
-            {/* Credits card — Buy + Convert both here */}
+            {/* Credits card */}
             <div className="rounded-2xl border border-border bg-card p-6 flex items-center justify-between">
                 <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                         Total Credits Available
                     </p>
-                    <p className="text-4xl font-bold tabular-nums">
-                        {totalCredits.toLocaleString("en-IN")}
-                    </p>
+                    {isLoading ? (
+                        <div className="h-10 w-32 rounded-lg bg-muted animate-pulse" />
+                    ) : (
+                        <p className="text-4xl font-bold tabular-nums">
+                            {availableCredits.toLocaleString("en-IN")}
+                        </p>
+                    )}
                 </div>
 
-                <div className="flex items-center gap-2">
-
-
-                    {/* Buy — primary CTA */}
-                    <AppButton
-                        title="Buy Credits"
-                        icon={ShoppingCart}
-                        onClick={onBuyCredits}
-                    />
-                </div>
+                <AppButton
+                    title="Buy Credits"
+                    icon={ShoppingCart}
+                    onClick={toggle}
+                />
             </div>
         </div>
     );

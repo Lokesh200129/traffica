@@ -1,8 +1,8 @@
 import { tryCatchWrapper } from "./try-catch";
 import { getAuthUser } from "@/lib/auth"; // your existing auth function
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-type AuthHandler = (req: NextRequest, user: Awaited<ReturnType<typeof getAuthUser>>, ...args: any[]) => Promise<Response>;
+type AuthHandler = (req: NextRequest, user: NonNullable<Awaited<ReturnType<typeof getAuthUser>>>, ...args: any[]) => Promise<any>;
 
 function withAuth(handler: AuthHandler) {
     return tryCatchWrapper(async (req: NextRequest, ...args: any[]) => {

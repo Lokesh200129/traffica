@@ -38,6 +38,7 @@ export default [
       "no-redeclare": "warn",
       "react/react-in-jsx-scope": "off",
       "@next/next/no-html-link-for-pages": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
     },
   },
 ];

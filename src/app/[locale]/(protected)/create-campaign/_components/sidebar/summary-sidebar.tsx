@@ -1,4 +1,4 @@
-// import type { SummaryData } from "../../_types";
+
 import { CampaignFormData } from "../../../_types/type";
 import { fmtNum } from "../../_lib/utils";
 
@@ -14,21 +14,21 @@ function SummaryRow({ label, children }: { label: string; children: React.ReactN
   );
 }
 
-function calcPrice(pageViews: number): string {
-  return ((pageViews / 1000) * 0.85).toFixed(2);
-}
+// function calcPrice(pageViews: number): string {
+//   return ((pageViews / 1000) * 0.85).toFixed(2);
+// }
 
 interface SummarySidebarProps {
   data: CampaignFormData;
 }
 
 export function SummarySidebar({ data }: SummarySidebarProps) {
-  const { campaignName, pageViews, duration, trafficSource, device, country } = data;
+  const { campaignName, pageViews, duration, trafficSource, device, country, creditUsed } = data;
 
   const estUsers = Math.round(pageViews / 3);
-  const basePrice = parseFloat(calcPrice(pageViews));
-  const tax = parseFloat((basePrice * 0.18).toFixed(2));
-  const totalPrice = (basePrice + tax).toFixed(2);
+  // const basePrice = parseFloat(calcPrice(pageViews));
+  // const tax = parseFloat((basePrice * 0.18).toFixed(2));
+  // const totalPrice = (basePrice + tax).toFixed(2);
 
   const hasDuration =
     (duration.mode === "fixed" && duration.fixedSec > 0) ||
@@ -98,8 +98,8 @@ export function SummarySidebar({ data }: SummarySidebarProps) {
       {/* Price */}
       <div className="border-t border-border px-4 py-3 bg-muted/30">
         <div className="flex justify-between items-center">
-          <span className="text-xs font-semibold text-foreground">Total</span>
-          <span className="text-sm font-bold text-accent">${totalPrice}</span>
+          <span className="text-xs font-semibold text-foreground">Total credit to be used</span>
+          <span className="text-sm font-bold text-accent">{creditUsed}</span>
         </div>
       </div>
 
