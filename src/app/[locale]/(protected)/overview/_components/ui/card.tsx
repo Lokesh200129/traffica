@@ -19,7 +19,7 @@ interface CardProps {
 
 export function Card({
     title = "How it works?",
-    steps,
+    steps = [],
     className
 }: CardProps) {
     return (
@@ -27,7 +27,9 @@ export function Card({
             <h2 className="text-xl font-bold text-foreground">{title}</h2>
 
             <div className="flex flex-col gap-5">
-                {steps.map((step, i) => (
+                {
+                    steps.length > 0 ?
+                        steps.map((step, i) => (
                     <div key={i} className="flex gap-4">
 
                         {/* Number */}
@@ -59,7 +61,9 @@ export function Card({
 
                         </div>
                     </div>
-                ))}
+                        )) :
+                        <p className="text-sm text-muted-foreground h-full flex items-center justify-center py-20">No campaigns found</p>
+                }
             </div>
         </div>
     )

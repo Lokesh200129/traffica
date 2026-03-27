@@ -1,14 +1,19 @@
+"use client"
 import HeroSection from "./hero-section"
 import BottomSection from "./bottom-section";
 import HasCampaignSection from './has-campaigns/main'
+import Overview from './overview';
+import { useGetCampaigns } from "@/hooks/campaign/use-fetch-all-campaigns";
+
 
 function Main() {
-    // todo : check if user has campaigns, if not show empty state with create campaign button
+    const { data: allCampaigns } = useGetCampaigns();
+    
+    const campaigns = allCampaigns?.campaigns || [];
     return (
         <div className="space-y-6">
             <HeroSection />
-            {/* <Overview /> */}
-            <HasCampaignSection />
+            {campaigns?.length > 0 ? <HasCampaignSection /> : <Overview />}
             <BottomSection />
         </div>
     )

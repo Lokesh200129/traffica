@@ -44,9 +44,9 @@ const AppButton = React.forwardRef<HTMLButtonElement, AppButtonProps>(
                 {isLoading ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin shrink-0" />
                 ) : (
-                    Icon && <Icon size={iconSize} className="mr-2 shrink-0" />
+                    Icon && <Icon size={iconSize} className="mr-1 shrink-0" />
                 )}
-                <span className="truncate">{title}</span>
+                <span className="">{title}</span>
             </>
         );
 

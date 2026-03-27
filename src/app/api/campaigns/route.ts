@@ -35,11 +35,11 @@ export const POST = withAuth(async (req: NextRequest, user) => {
 
     // ── Check sufficient credits ──────────────────────────────────────────────
     const currentUser = await User.findById(user._id);
-    console.log(currentUser);
+    // console.log(currentUser);
     if (!currentUser)
         return apiError("User not found", 404);
 
-    if (currentUser.creditBalance.available < creditUsed)
+    if (currentUser?.creditBalance?.availableCredits < creditUsed)
         return apiError("Insufficient credits", 400);
 
     // ── Create campaign ───────────────────────────────────────────────────────
@@ -62,12 +62,12 @@ export const POST = withAuth(async (req: NextRequest, user) => {
     });
 
     // ── Deduct credits ────────────────────────────────────────────────────────
-    const balanceBefore = currentUser.creditBalance.availableCredits;
+    const balanceBefore = currentUser?.creditBalance?.availableCredits;
     const balanceAfter = balanceBefore - creditUsed;
 
     await User.findByIdAndUpdate(user._id, {
-        $inc: { "creditBalance.availableCredits": -creditUsed },
-        $set: { "creditBalance.lastUpdatedAt": new Date() },
+        $inc: { "creditBalance?.availableCredits": -creditUsed },
+        $set: { "creditBalance?.lastUpdatedAt": new Date() },
     });
     
     // ── Save credit history ───────────────────────────────────────────────────

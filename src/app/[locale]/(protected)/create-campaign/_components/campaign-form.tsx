@@ -13,7 +13,8 @@ import { SearchableSelect } from "../../billing/settings/_components/searchable-
 import { useCreateCampaign } from "@/hooks/campaign/use-create-campaign";
 import { Country } from "country-state-city";
 import { cn } from "@/lib/utils";
-
+import { useCurrentUser } from "@/hooks/auth/use-current-user";
+import { toast } from "sonner";
 const ALL_COUNTRIES = Country.getAllCountries()
 const COUNTRY_OPTIONS = ALL_COUNTRIES.map(c => ({ value: c.name, label: c.name }))
 
@@ -50,6 +51,7 @@ const creditToBeUsed = 20
 
 export default function CampaignForm() {
   const { mutate: createCampaign, isPending } = useCreateCampaign();
+  const { data: user } = useCurrentUser();
 
   const {
     register,
@@ -71,7 +73,12 @@ export default function CampaignForm() {
 
   const onSubmit = (data: CampaignFormData) => {
     const newData = { ...data, creditUsed: creditToBeUsed }
-    console.log(newData);
+
+    if (user!.creditBalance!.availableCredits! < newData.creditUsed) {
+      toast.error("You are out of credits!")
+      return
+    }
+
     createCampaign(newData);
     reset();
   };

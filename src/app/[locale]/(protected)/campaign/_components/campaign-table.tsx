@@ -7,7 +7,8 @@ import { DateFilterDropdown } from "./date-filter-dropdown";
 import { DATE_FILTER_DEFAULT, type DateFilterState } from "../_lib/data";
 import { useGetCampaigns } from "@/hooks/campaign/use-fetch-all-campaigns";
 import { Input } from "@/components/ui/input";
-
+import { AppButton } from "@/components/button";
+import { Plus } from "lucide-react";
 export function CampaignTable() {
     const { data: campaigns } = useGetCampaigns();
     const [nameFilter, setNameFilter] = useState("");
@@ -46,6 +47,13 @@ export function CampaignTable() {
             subTitle="Detailed insights into your creator traffic and conversion metrics."
             toolbar={
                 <div className="flex flex-wrap items-center justify-between gap-2">
+                    <AppButton
+                        title="Create"
+                        href="/create-campaign"
+                        icon={Plus}
+                        className="rounded-md"
+                    />
+                    {/* search filter*/}
                     <div className="relative">
                         <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
                         <Input
@@ -64,7 +72,7 @@ export function CampaignTable() {
                             </button>
                         )}
                     </div>
-
+                    {/* date wise filter */}
                     <div className="flex items-center gap-2">
                         <DateFilterDropdown value={dateFilter} onChange={setDateFilter} />
                         {hasActiveFilters && (

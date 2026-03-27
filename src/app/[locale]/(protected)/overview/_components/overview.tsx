@@ -6,7 +6,7 @@ export default function Overview({ onCreateCampaign }: { onCreateCampaign?: () =
     return (
         <div className="flex flex-col gap-4">
             {/* Heading — outside card */}
-            <h1 className="text-2xl font-bold text-foreground">Overview</h1>
+            {/* <h1 className="text-2xl font-bold text-foreground">Overview</h1> */}
 
             {/* Card */}
             <div className="bg-card border border-border rounded-2xl flex flex-col items-center justify-center  p-8 gap-6">

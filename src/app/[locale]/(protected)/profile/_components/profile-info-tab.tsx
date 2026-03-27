@@ -152,11 +152,12 @@ export function ProfileInfoTab() {
                         <FormField
                             control={form.control}
                             name="email"
+                            disabled
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="john@example.com" {...field} />
+                                        <Input placeholder="john@example.com" {...field} readOnly />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
