@@ -77,7 +77,6 @@ const NOTIFICATIONS = [
     },
 ]
 
-// ── This is the component — move to page.tsx when connecting to DB ────────────
 export default function NotificationsPage() {
     const [activeFilter, setActiveFilter] = useState<NotificationFilter>("all")
 

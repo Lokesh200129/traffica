@@ -49,36 +49,30 @@ export interface BillingTransaction {
     invoiceUrl?: string;
 }
 
-// ── Mock Data ─────────────────────────────────────────────────────────────────
-export const MOCK_CARDS: SavedCard[] = [
-    { id: "card-1", last4: "4242", brand: "visa", expMonth: 12, expYear: 2027, holderName: "Arjun Sharma", isDefault: true },
-    { id: "card-2", last4: "5555", brand: "mastercard", expMonth: 8, expYear: 2026, holderName: "Arjun Sharma", isDefault: false },
-    { id: "card-3", last4: "3782", brand: "amex", expMonth: 3, expYear: 2028, holderName: "Traffica Inc.", isDefault: false },
-];
 
-export const MOCK_BALANCE: BalanceData = {
-    tiers: [
-        { type: "Economy", credits: 1240 },
-        { type: "Expert", credits: 380 },
-    ],
-};
+// export const MOCK_BALANCE: BalanceData = {
+//     tiers: [
+//         { type: "Economy", credits: 1240 },
+//         { type: "Expert", credits: 380 },
+//     ],
+// };
 
-export const MOCK_SETTINGS: BillingSettings = {
-    firstName: "",
-    lastName: "",
-    companyName: "",
-    gstin: "",
-    companyAddress: "",
-    city: "",
-    postalCode: "",
-    state: "",
-    country: "India",
-    preferredCurrency: "INR, Indian Rupee",
-    billingEmail: "",
-    sendInvoices: false,
-};
+// export const MOCK_SETTINGS: BillingSettings = {
+//     firstName: "",
+//     lastName: "",
+//     companyName: "",
+//     gstin: "",
+//     companyAddress: "",
+//     city: "",
+//     postalCode: "",
+//     state: "",
+//     country: "India",
+//     preferredCurrency: "INR, Indian Rupee",
+//     billingEmail: "",
+//     sendInvoices: false,
+// };
 
-export const MOCK_TRANSACTIONS: BillingTransaction[] = [
+export const _TRANSACTIONS: BillingTransaction[] = [
     { id: "txn-001", date: "2025-01-22", amount: 2999, currency: "INR", reference: "REF-8821A", type: "Purchase", description: "Expert Traffic Pack — 500 credits", invoiceUrl: "#" },
     { id: "txn-002", date: "2025-01-18", amount: 999, currency: "INR", reference: "REF-7712B", type: "Purchase", description: "Economy Traffic Pack — 200 credits", invoiceUrl: "#" },
     { id: "txn-003", date: "2025-01-10", amount: 500, currency: "INR", reference: "REF-6630C", type: "Credit", description: "Referral bonus — Priya M.", invoiceUrl: undefined },

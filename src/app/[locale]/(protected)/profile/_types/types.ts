@@ -1,6 +1,6 @@
 // ── Profile Types ─────────────────────────────────────────────────────────────
 export interface ProfileInfo {
-    email:     string;   // readonly — cannot be changed
+    email: string;  
     firstName: string;
     lastName:  string;
     avatarUrl?: string;
@@ -13,9 +13,9 @@ export interface PasswordForm {
 }
 
 // ── Mock Data ─────────────────────────────────────────────────────────────────
-export const MOCK_PROFILE: ProfileInfo = {
-    email:     "lokeshpal210310@gmail.com",
-    firstName: "",
-    lastName:  "",
-    avatarUrl: "",
-};
+// export const MOCK_PROFILE: ProfileInfo = {
+//     email:     "lokeshpal210310@gmail.com",
+//     firstName: "",
+//     lastName:  "",
+//     avatarUrl: "",
+// };

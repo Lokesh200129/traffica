@@ -45,6 +45,11 @@ export default function BalanceInput() {
         }
     }
 
+    const handleClose = () => {
+        toggle()
+        setAmount("")
+    }
+
     if (!isOpen) return null;
 
     if(isPending) return GlobalLoader({ msg: "Creating payment order..." })
@@ -74,7 +79,7 @@ export default function BalanceInput() {
                             </div>
                         </div>
                         <button
-                            onClick={toggle}
+                            onClick={handleClose}
                             disabled={isLoading}
                             className="h-8 w-8 rounded-full flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors disabled:opacity-40"
                         >

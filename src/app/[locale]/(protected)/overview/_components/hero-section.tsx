@@ -69,7 +69,14 @@ function EmptyCampaignHero({ onCreateCampaign }: { onCreateCampaign?: () => void
                             <div className="flex -space-x-2">
                                 {stat.avatars.map((src, j) => (
                                     // <img key={j} src={src} alt="user" className="w-8 h-8 rounded-full border-2 border-white object-cover bg-muted" />
-                                    <Image src={src} key={j} alt="user" className="w-8 h-8 rounded-full border-2 border-white object-cover bg-muted" />
+                                    <Image
+                                        src={src}
+                                        key={j}
+                                        alt="user"
+                                        width={32}
+                                        height={32}
+                                        unoptimized
+                                        className="w-8 h-8 rounded-full border-2 border-white object-cover bg-muted" />
                                 ))}
                             </div>
                         )}

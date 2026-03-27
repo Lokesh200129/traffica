@@ -25,9 +25,9 @@ export function LanguageSwitcher() {
   const current = LANGUAGES.find(l => l.code === locale) ?? LANGUAGES[0];
 
   return (
-    <Popover>
+    <Popover >
       <PopoverTrigger asChild>
-        <button className="flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-background text-sm text-foreground hover:bg-muted transition-colors">
+        <button suppressHydrationWarning className="flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-background text-sm text-foreground hover:bg-muted transition-colors">
           <Globe size={15} className="text-muted-foreground" />
           <span>{current.label}</span>
           <ChevronDown size={13} className="text-muted-foreground shrink-0" />

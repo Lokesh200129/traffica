@@ -8,7 +8,7 @@ const withNextIntl = createNextIntlPlugin(
 const nextConfig = {
   /* config options here */
   reactStrictMode: false,
-  // Development mein assetPrefix khali rakhein
+
   assetPrefix: process.env.NODE_ENV === 'production' ? undefined : '',
   images: {
     remotePatterns: [
@@ -36,8 +36,31 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "api.dicebear.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
+  headers: async () => [
+    {
+      source: "/(.*)",
+      headers: [
+        {
+          key: "Cross-Origin-Opener-Policy",
+          value: "same-origin-allow-popups"  // ← yeh add karo
+        }
+      ]
+    }
+  ]
 };
 
 export default withNextIntl(nextConfig);

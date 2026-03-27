@@ -3,6 +3,7 @@ import { signToken } from "@/lib/jwt";
 import User from "@/models/User";
 import { cookies } from "next/headers";
 import { tryCatchWrapper } from "@/lib/try-catch";
+import slugify from "slugify";
 
 export const POST = tryCatchWrapper(async (req: Request) => {
     const { token } = await req.json();
@@ -32,10 +33,13 @@ export const POST = tryCatchWrapper(async (req: Request) => {
     let user = await User.findOne({ email });
 
     if (!user) {
+
+        const username = slugify(name, { lower: true }) + '-' + Math.random().toString(36).substring(2, 6);
         user = await User.create({
+            username,
             email,
             name,
-            avatar: picture,
+            profileImage: picture,
             googleId,
             authProvider: "google",
             password: null,
