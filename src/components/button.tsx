@@ -8,8 +8,6 @@ import { LucideIcon, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-// Agar aapke pas button.tsx mein buttonVariants export ho raha hai toh usse use karein
-// Warna hum manual types define kar rahe hain jo standard hain.
 interface AppButtonProps
     extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     title: string;
