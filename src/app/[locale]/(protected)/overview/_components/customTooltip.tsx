@@ -13,7 +13,7 @@ interface CustomTooltipProps {
     items?: TooltipItem[]        // icon + name match karne ke liye
     label?: string               // optional header
     valueSuffix?: string         // "views", "clicks" etc — default "views"
-    formatter?: (value: number) => string  // custom value format
+    formatter?: (_value: number) => string  // custom value format
 }
 
 export function CustomTooltip({

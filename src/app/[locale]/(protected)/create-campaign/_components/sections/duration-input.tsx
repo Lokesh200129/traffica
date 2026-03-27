@@ -8,7 +8,7 @@ type DurationMode = DurationValue["mode"];
 
 interface DurationInputProps {
   value: DurationValue;
-  onChange: (value: DurationValue) => void;
+  onChange: (_value: DurationValue) => void;
 }
 
 const TABS: { id: DurationMode; label: string }[] = [

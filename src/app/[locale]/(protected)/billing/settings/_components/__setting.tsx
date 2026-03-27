@@ -14,7 +14,7 @@ type Option = { value: string; label: string }
 function SearchableSelect({ options, value, onChange, placeholder, disabled = false }: {
     options: Option[]
     value: string
-    onChange: (value: string) => void
+    onChange: (_value: string) => void
     placeholder: string
     disabled?: boolean
 }) {

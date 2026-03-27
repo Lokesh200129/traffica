@@ -1,5 +1,5 @@
 
-import { apiSuccess, apiError } from "@/lib/api-response";
+import { apiSuccess } from "@/lib/api-response";
 import withAuth from "@/lib/try-catch-with-auth";
 import { Transaction } from "@/models/Transaction";
 

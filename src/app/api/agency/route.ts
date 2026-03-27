@@ -18,7 +18,7 @@ const POST = withAuth(async (req: NextRequest, user) => {
 
 })
 
-const GET = withAuth(async (req: NextRequest) => {
+const GET = withAuth(async () => {
     const agencies = await Agency.find().sort({ createdAt: -1 });
     return apiSuccess(agencies, "Agencies retrieved successfully", 200);
 

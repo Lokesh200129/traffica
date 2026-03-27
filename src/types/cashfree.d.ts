@@ -1,3 +1,3 @@
 declare module '@cashfreepayments/cashfree-js' {
-    export function load(options: { mode: "sandbox" | "production" }): Promise<any>;
+    export function load(_options: { mode: "sandbox" | "production" }): Promise<any>;
 }

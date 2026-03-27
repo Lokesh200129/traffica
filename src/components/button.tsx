@@ -33,7 +33,7 @@ const AppButton = React.forwardRef<HTMLButtonElement, AppButtonProps>(
             variant = "default",
             size = "default",
             disabled,
-            children,
+
             ...props
         },
         ref

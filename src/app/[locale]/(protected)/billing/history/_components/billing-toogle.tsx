@@ -5,7 +5,7 @@ export type BillingTab = "payments" | "credits";
 
 interface BillingToggleProps {
     active: BillingTab;
-    onChange: (tab: BillingTab) => void;
+    onChange: (_tab: BillingTab) => void;
 }
 
 const TABS: { key: BillingTab; label: string }[] = [

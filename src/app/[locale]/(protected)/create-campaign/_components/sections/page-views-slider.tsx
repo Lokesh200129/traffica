@@ -6,7 +6,7 @@ const QUICK_PV: number[] = [5000, 10000, 20000, 50000, 1_000_000, 2_000_000, 3_0
 
 interface PageViewsSliderProps {
   value: number;
-  onChange: (value: number) => void;
+  onChange: (_value: number) => void;
 }
 
 export function PageViewsSlider({ value, onChange }: PageViewsSliderProps) {

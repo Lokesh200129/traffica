@@ -1,6 +1,5 @@
 "use client"
 import { useState } from "react";
-import { Metadata } from "next";
 import NotificationItem from "./notification_tab";
 import { cn } from "@/lib/utils";
 

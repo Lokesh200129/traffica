@@ -19,7 +19,7 @@ const Header = () => {
     const [showNotifications, setShowNotifications] = useState(false)
     const [showSupport, setShowSupport] = useState(false)
     const { data: user } = useCurrentUser()
-    const availableCredits = user?.creditBalance?.availableCredits || 0
+    // const availableCredits = user?.creditBalance?.availableCredits || 0
     const bellRef = useRef<HTMLDivElement>(null)
     const supportRef = useRef<HTMLDivElement>(null)
 

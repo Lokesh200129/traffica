@@ -1,7 +1,5 @@
-import Link from "next/link";
-import currencyFormatter from "@/lib/currency-format";
+
 import { useBalanceModal } from "@/store/balance-modal"
-import { Button } from "@/components/ui/button";
 import { AppButton } from '@/components/button';
 
 interface CreditsBadgeProps {

@@ -34,11 +34,19 @@ export default [
       "@typescript-eslint/no-unused-vars": "warn",     // Unused vars = Warning, not Error
       "@typescript-eslint/no-unsafe-function-type": "off",
       "no-undef": "off",                                // Next.js handles globals, ESLint doesn't need to
-      "no-unused-vars": "warn",
       "no-redeclare": "warn",
       "react/react-in-jsx-scope": "off",
       "@next/next/no-html-link-for-pages": "off",
       "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-unused-vars": ["warn", {
+        "argsIgnorePattern": "^_",      // ✅ _open, _req etc ignore
+        "varsIgnorePattern": "^_",      // ✅ _unused variables bhi ignore
+      }],
+      "no-unused-vars": ["warn", {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+      }],
+
     },
   },
 ];

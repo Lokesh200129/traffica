@@ -1,6 +1,7 @@
 "use client"
 import { Plus } from "lucide-react";
 import { AppButton } from "@/components/button";
+import Image from "next/image";
 
 const STATS = [
     {
@@ -67,7 +68,8 @@ function EmptyCampaignHero({ onCreateCampaign }: { onCreateCampaign?: () => void
                         {stat.avatars && (
                             <div className="flex -space-x-2">
                                 {stat.avatars.map((src, j) => (
-                                    <img key={j} src={src} alt="user" className="w-8 h-8 rounded-full border-2 border-white object-cover bg-muted" />
+                                    // <img key={j} src={src} alt="user" className="w-8 h-8 rounded-full border-2 border-white object-cover bg-muted" />
+                                    <Image src={src} key={j} alt="user" className="w-8 h-8 rounded-full border-2 border-white object-cover bg-muted" />
                                 ))}
                             </div>
                         )}

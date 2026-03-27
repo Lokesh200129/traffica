@@ -1,6 +1,4 @@
 import { AppButton } from "@/components/button";
-import Link from "next/link";
-
 export default function NotFound() {
     return (
         <div className="min-h-screen bg-background flex flex-col items-center justify-center text-center px-6 space-y-6">

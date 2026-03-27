@@ -1,45 +1,45 @@
 import { Metadata } from "next";
-import NotificationItem from "./_components/notification_tab";
+// import NotificationItem from "./_components/notification_tab";
 import NotificationsPage from './_components/notification_page'
 export const metadata: Metadata = {
     title: "Notification",
     description: "",
 };
 
-const NOTIFICATIONS = [
-    {
-        id: "1",
-        title: "Campaign Approved",
-        description: "Your 'Summer Sale' campaign has been reviewed and is now live.",
-        timestamp: new Date(),
-        isRead: false,
-        type: "campaign" as const,
-    },
-    {
-        id: "2",
-        title: "Credits Low",
-        description: "Your balance is below $10. Please recharge to keep your campaigns running.",
-        timestamp: "2 hours ago",
-        isRead: true,
-        type: "billing" as const,
-    },
-    {
-        id: "3",
-        title: "Referral Reward",
-        description: "You earned 5,000 credits from your referral. Keep sharing!",
-        timestamp: "1 day ago",
-        isRead: true,
-        type: "reward" as const,
-    },
-    {
-        id: "4",
-        title: "Payment Successful",
-        description: "Your payment of $50 was successful. Credits have been added to your account.",
-        timestamp: "2 days ago",
-        isRead: true,
-        type: "billing" as const,
-    },
-]
+// const NOTIFICATIONS = [
+//     {
+//         id: "1",
+//         title: "Campaign Approved",
+//         description: "Your 'Summer Sale' campaign has been reviewed and is now live.",
+//         timestamp: new Date(),
+//         isRead: false,
+//         type: "campaign" as const,
+//     },
+//     {
+//         id: "2",
+//         title: "Credits Low",
+//         description: "Your balance is below $10. Please recharge to keep your campaigns running.",
+//         timestamp: "2 hours ago",
+//         isRead: true,
+//         type: "billing" as const,
+//     },
+//     {
+//         id: "3",
+//         title: "Referral Reward",
+//         description: "You earned 5,000 credits from your referral. Keep sharing!",
+//         timestamp: "1 day ago",
+//         isRead: true,
+//         type: "reward" as const,
+//     },
+//     {
+//         id: "4",
+//         title: "Payment Successful",
+//         description: "Your payment of $50 was successful. Credits have been added to your account.",
+//         timestamp: "2 days ago",
+//         isRead: true,
+//         type: "billing" as const,
+//     },
+// ]
 
 const Page = () => {
     return (

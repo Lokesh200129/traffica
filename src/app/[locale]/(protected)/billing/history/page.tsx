@@ -14,7 +14,7 @@ export default function BillingHistoryPage() {
     const toggle = useBalanceModal((state) => state.toggle);
 
     const { data: user } = useCurrentUser();
-    const { data: billing, isLoading: billingLoading } = useGetBillingDetails();
+    const { data: billing } = useGetBillingDetails();
     console.log(billing);
     return (
         <div className="flex flex-col gap-12">

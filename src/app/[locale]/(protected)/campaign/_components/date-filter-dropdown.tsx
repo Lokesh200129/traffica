@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 
 interface DateFilterDropdownProps {
     value: DateFilterState;
-    onChange: (v: DateFilterState) => void;
+    onChange: (_v: DateFilterState) => void;
 }
 
 export function DateFilterDropdown({ value, onChange }: DateFilterDropdownProps) {

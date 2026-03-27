@@ -1,6 +1,6 @@
 "use client"
 import { useState, useRef, useEffect } from "react";
-import { X, MessageSquare, ChevronDown } from "lucide-react";
+import { MessageSquare, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { type HelpTabs } from "./types/help-widget-types";
 import { BottomNav } from "./bottom-nav";

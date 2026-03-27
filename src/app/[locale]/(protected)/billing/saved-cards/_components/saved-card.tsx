@@ -229,8 +229,8 @@ import { EmptyCardsState } from "./empty-card-state";
 interface SavedCardsProps {
     initialCards?: SavedCard[];
     onAddCard?: () => void;
-    onDeleteCard?: (id: string) => void;
-    onSetDefault?: (id: string) => void;
+    onDeleteCard?: (_id: string) => void;
+    onSetDefault?: (_id: string) => void;
 }
 
 export default function SavedCards({

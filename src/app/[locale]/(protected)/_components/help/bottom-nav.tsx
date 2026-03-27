@@ -11,7 +11,7 @@ const TABS: { id: HelpTabs; label: string; icon: typeof Home }[] = [
 
 interface BottomNavProps {
     active: HelpTabs;
-    onChange: (t: HelpTabs) => void;
+    onChange: (_t: HelpTabs) => void;
 }
 
 export function BottomNav({ active, onChange }: BottomNavProps) {

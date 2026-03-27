@@ -1,7 +1,6 @@
 import {
     LayoutDashboard,
     Megaphone,
-    CreditCard,
     User,
     PlusCircle,
     LogOut,

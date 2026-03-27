@@ -26,7 +26,7 @@ export function Hero() {
         title: "Strategy Activated!",
         description: result.message,
       });
-    } catch (error) {
+    } catch {
       toast({
         variant: "destructive",
         title: "Error",

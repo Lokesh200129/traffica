@@ -22,7 +22,7 @@ export const useCreateCampaign = () => {
                 data,
             });
         },
-        onSuccess: (newCampaign) => {
+        onSuccess: () => {
             toast.success("Campaign launched successfully!");
             router.replace('/campaign');
             queryClient.invalidateQueries({ queryKey: ["campaigns"] });

@@ -13,8 +13,8 @@ const brandConfig: Record<SavedCard["brand"], { label: string; bg: string }> = {
 
 interface CardItemProps {
     card: SavedCard;
-    onSetDefault: (id: string) => void;
-    onDelete: (id: string) => void;
+    onSetDefault: (_id: string) => void;
+    onDelete: (_id: string) => void;
 }
 
 export function CardItem({ card, onSetDefault, onDelete }: CardItemProps) {

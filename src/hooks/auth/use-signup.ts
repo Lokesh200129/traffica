@@ -7,7 +7,6 @@ import { TUser } from "../../../type";
 export const useSignup = () => {
 
     const queryClient = useQueryClient();
-    const router = useRouter();
 
     const signupMutation = useMutation({
         mutationFn: async (data: TUser) => {
@@ -17,7 +16,7 @@ export const useSignup = () => {
                 data,
             });
         },
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success("Account created successfully!");
             queryClient.invalidateQueries({ queryKey: ["current-user"] });
 

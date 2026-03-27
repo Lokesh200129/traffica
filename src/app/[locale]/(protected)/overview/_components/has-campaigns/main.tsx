@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { ViewsGraph } from "./page-view-graph";
 import { DeviceChart } from "./device-pie-chart";
 import SourcesList from "./source-bar-chart";

@@ -2,12 +2,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from "@/lib/axios";
 import { toast } from "sonner";
-import { useRouter } from 'next/navigation';
 import parseError from '@/lib/parse-error';
 import { useTheme } from "next-themes";
+
 export const useLogout = () => {
     const queryClient = useQueryClient();
-    const router = useRouter();
     const { setTheme } = useTheme();
 
     return useMutation({

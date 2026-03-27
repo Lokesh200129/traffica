@@ -9,7 +9,7 @@ const TEAM_AVATARS = [
 ];
 
 interface HomeTabProps {
-    onTabChange: (t: HelpTabs) => void;
+    onTabChange: (_t: HelpTabs) => void;
     onClose: () => void;
 }
 

@@ -1,8 +1,7 @@
-import { apiSuccess, apiError } from "@/lib/api-response";
+import { apiSuccess} from "@/lib/api-response";
 import { BillingDetail } from "@/models/BillingDetail";
 import { NextRequest } from "next/server";
 import withAuth from "@/lib/try-catch-with-auth";
-import { connectDB } from "@/lib/db";
 
 export const GET = withAuth(async (req: NextRequest, user) => {
 
