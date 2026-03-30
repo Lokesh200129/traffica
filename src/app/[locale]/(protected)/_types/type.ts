@@ -3,7 +3,7 @@ export interface FCampaign {
   userId: string;
   campaignName: string;
   pageViews: number;
-  duration: {
+  duration?: {
     mode: "fixed" | "random";
     fixedSec: number;
     randomFrom: number;
@@ -24,7 +24,6 @@ export interface CampaignFormData {
   webUrl?: string;
   creditUsed: number;
   pageViews: number;
-  duration: FCampaign["duration"];
   trafficSource: string;
   device: string;
   country: string;

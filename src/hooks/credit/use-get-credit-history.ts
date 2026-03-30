@@ -27,7 +27,7 @@ interface CreditHistoryResponse {
     };
 }
 
-export const useCreditHistory = (limit = 10) => {
+export const useCreditHistory = (limit = 5) => {
     const [page, setPage] = useState(1);
 
     const { data, isLoading, isFetching } = useQuery({
@@ -37,7 +37,7 @@ export const useCreditHistory = (limit = 10) => {
                 url: `/credit-history?page=${page}&limit=${limit}`,
                 method: "GET",
             }),
-        placeholderData: (prev) => prev, // ✅ old data dikhta rahe while fetching
+        placeholderData: (prev) => prev,
     });
 
     return {

@@ -27,7 +27,7 @@ export default function Main() {
             <div className="flex flex-col md:flex-row gap-6">
 
                 {/* Devices  */}
-                <Card className="w-1/2 rounded-2xl shadow-sm border-border flex flex-col">
+                <Card className="w-full md:w-1/2 rounded-2xl shadow-sm border-border flex flex-col">
                     <CardHeader className="flex flex-row items-center justify-between px-6 pt-4">
                         <CardTitle className="text-sm font-bold uppercase tracking-widest text-foreground">
                             Devices
@@ -47,7 +47,7 @@ export default function Main() {
                 </Card>
 
                 {/* Sources */}
-                <Card className="w-1/2 rounded-2xl shadow-sm border-border flex flex-col">
+                <Card className=" w-full md:w-1/2 rounded-2xl shadow-sm border-border flex flex-col">
                     <CardHeader className="flex flex-row items-center justify-between px-6 pt-4">
                         <CardTitle className="text-sm font-bold uppercase tracking-widest text-foreground">
                             Sources
@@ -73,17 +73,10 @@ export default function Main() {
                     <CardTitle className="text-sm font-bold uppercase tracking-widest text-foreground">
                         Locations
                     </CardTitle>
-                    {/* <Select defaultValue="clicks">
-                        <SelectTrigger className="w-[110px] h-9 text-[11px] font-bold uppercase border-border">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="clicks">Clicks</SelectItem>
-                        </SelectContent>
-                    </Select> */}
+
                 </CardHeader>
                 <CardContent className="px-6 pb-6">
-                    <div className="h-[450px] w-full rounded-xl overflow-hidden">
+                    <div className=" rounded-xl overflow-hidden">
                         <LocationsMap />
                     </div>
                 </CardContent>

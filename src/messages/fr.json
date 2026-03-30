@@ -2,13 +2,7 @@
   "sidebar": {
     "Overview": "Aperçu",
     "Campaign": "Campagne",
-    "Billing": {
-      "title": "Facturation",
-      "Saved_Cards": "Cartes enregistrées",
-      "Balance": "Solde",
-      "Settings": "Paramètres",
-      "History": "Historique"
-    },
+    "Billing":  "Facturation",
     "Profile": "Profil",
     "Notification": "Notification",
     "Agency": "Agence",

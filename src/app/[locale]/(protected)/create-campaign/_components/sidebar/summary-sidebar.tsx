@@ -23,16 +23,16 @@ interface SummarySidebarProps {
 }
 
 export function SummarySidebar({ data }: SummarySidebarProps) {
-  const { campaignName, pageViews, duration, trafficSource, device, country, creditUsed } = data;
+  const { campaignName, pageViews, trafficSource, device, country, creditUsed } = data;
 
   const estUsers = Math.round(pageViews / 3);
   // const basePrice = parseFloat(calcPrice(pageViews));
   // const tax = parseFloat((basePrice * 0.18).toFixed(2));
   // const totalPrice = (basePrice + tax).toFixed(2);
 
-  const hasDuration =
-    (duration.mode === "fixed" && duration.fixedSec > 0) ||
-    (duration.mode === "random" && (duration.randomFrom > 0 || duration.randomTo > 0));
+  // const hasDuration =
+  //   (duration.mode === "fixed" && duration.fixedSec > 0) ||
+  //   (duration.mode === "random" && (duration.randomFrom > 0 || duration.randomTo > 0));
 
   return (
     // <div className="w-full rounded-2xl border border-border bg-background  overflow-hidden">
@@ -61,7 +61,7 @@ export function SummarySidebar({ data }: SummarySidebarProps) {
           </div>
         </div>
 
-        {hasDuration && (
+        {/* {hasDuration && (
           <SummaryRow label="Duration">
             {duration.mode === "fixed" ? (
               <p className="text-[11px] font-semibold text-foreground">
@@ -73,7 +73,7 @@ export function SummarySidebar({ data }: SummarySidebarProps) {
               </p>
             )}
           </SummaryRow>
-        )}
+        )} */}
 
         <SummaryRow label="Geo">
           <p className="text-[11px] font-semibold text-foreground">

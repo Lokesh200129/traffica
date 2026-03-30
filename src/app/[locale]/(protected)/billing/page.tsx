@@ -1,11 +1,10 @@
 import { Metadata } from "next";
-import ComingSoon from "../_components/coming-soon";
-
+import Main from "./_components/main";
 export const metadata: Metadata = {
     title: "Billing",
     description: "",
 };
 
-const Page = () => <ComingSoon />
+const Page = () => <Main />
 
 export default Page;  

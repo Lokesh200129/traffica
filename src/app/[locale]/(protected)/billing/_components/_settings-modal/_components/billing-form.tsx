@@ -28,26 +28,29 @@ const DEFAULT_SELECTION = {
     stateCode: "",
 }
 
-export function BillingForm() {
+export function BillingForm({ setOpen }: { setOpen: (open: boolean) => void }) {
     const { data: billingData } = useGetBillingDetails()
     const { mutateAsync: saveSettings } = useSaveBillingDetails()
     const [form, setForm] = useState(DEFAULT_FORM)
+    const [initialForm, setInitialForm] = useState(DEFAULT_FORM)
     const [selection, setSelection] = useState(DEFAULT_SELECTION)
     const [saving, setSaving] = useState(false)
 
     const states = useMemo(() =>
         selection.countryCode ? State.getStatesOfCountry(selection.countryCode) : []
-    , [selection.countryCode])
+        , [selection.countryCode])
 
     const cities = useMemo(() =>
         selection.countryCode && selection.stateCode
             ? City.getCitiesOfState(selection.countryCode, selection.stateCode)
             : []
-    , [selection.countryCode, selection.stateCode])
+        , [selection.countryCode, selection.stateCode])
 
     useEffect(() => {
         if (!billingData) return
-        setForm({ ...DEFAULT_FORM, ...billingData })
+        const merged = { ...DEFAULT_FORM, ...billingData }
+        setForm(merged)
+        setInitialForm(merged)
 
         const foundCountry = ALL_COUNTRIES.find(c => c.name === billingData.country)
         if (!foundCountry) return
@@ -58,6 +61,8 @@ export function BillingForm() {
 
         setSelection({ countryCode, stateCode: foundState?.isoCode || "" })
     }, [billingData])
+
+    const isDirty = JSON.stringify(form) !== JSON.stringify(initialForm)
 
     const update = (key: keyof typeof DEFAULT_FORM, value: string | boolean) =>
         setForm(prev => ({ ...prev, [key]: value }))
@@ -77,14 +82,16 @@ export function BillingForm() {
     const handleSave = async () => {
         setSaving(true)
         await saveSettings(form)
+        setInitialForm(form) // reset dirty state after save
         setSaving(false)
+        setOpen(false)
     }
 
     return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4 overflow-y-auto overflow-x-visible max-h-[80vh] w-full">
 
             {/* Row 1 — Company Name + GSTIN */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mx-1">
                 <Field label="Company Name">
                     <Input value={form.companyName}
                         onChange={e => update("companyName", e.target.value)}
@@ -98,7 +105,7 @@ export function BillingForm() {
             </div>
 
             {/* Row 2 — Billing Email + Company Address */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mx-1">
                 <Field label="Billing Email">
                     <Input type="email" value={form.billingEmail}
                         onChange={e => update("billingEmail", e.target.value)}
@@ -112,7 +119,7 @@ export function BillingForm() {
             </div>
 
             {/* Row 3 — Postal Code + Country */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mx-1">
                 <Field label="Postal Code">
                     <Input value={form.postalCode}
                         onChange={e => update("postalCode", e.target.value)}
@@ -129,7 +136,7 @@ export function BillingForm() {
             </div>
 
             {/* Row 4 — State + City */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mx-1">
                 <Field label="State">
                     <SearchableSelect
                         options={states.map(s => ({ value: s.isoCode, label: s.name }))}
@@ -172,7 +179,13 @@ export function BillingForm() {
                     </span>
                 </div>
                 <div className="w-full sm:w-auto min-w-[140px]">
-                    <AppButton title="Save Changes" onClick={handleSave} isLoading={saving} />
+                    <AppButton
+                        title="Save Changes"
+                        onClick={handleSave}
+                        isLoading={saving}
+                        disabled={!isDirty}
+                        className={!isDirty ? "opacity-40 cursor-not-allowed" : ""}
+                    />
                 </div>
             </div>
 

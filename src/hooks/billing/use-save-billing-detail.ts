@@ -15,9 +15,9 @@ export const useSaveBillingDetails = () => {
                 data,
             });
         },
-        onSuccess: (updatedData) => {
+        onSuccess: () => {
             toast.success("Billing settings saved!");
-            queryClient.setQueryData(["billing-settings"], updatedData);
+            queryClient.invalidateQueries({ queryKey: ["billing-details"] });
         },
         onError: (err) => toast.error(parseError(err)),
     });

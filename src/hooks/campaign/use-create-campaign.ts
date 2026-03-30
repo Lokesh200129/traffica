@@ -25,10 +25,10 @@ export const useCreateCampaign = () => {
         onSuccess: () => {
             toast.success("Campaign launched successfully!");
             router.replace('/campaign');
-            queryClient.invalidateQueries({ queryKey: ["campaigns"] });
+            queryClient.invalidateQueries({ queryKey: ["campaigns", "current-user"] });
         },
         onError: (err) => {
             toast.error(parseError(err));
-        }, 
+        },
     });
 };

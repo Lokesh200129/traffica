@@ -14,7 +14,7 @@ export const PATCH = withAuth(async (req: NextRequest, user) => {
     const file = formData.get('profileImage') as File | null;
     const removeImage = formData.get('removeImage') === 'true';
     const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
+    // const email = formData.get('email') as string;
     // const _id = formData.get('_id');
     const _id = user._id;
     const existingUser = await User.findById(_id);
@@ -71,7 +71,6 @@ export const PATCH = withAuth(async (req: NextRequest, user) => {
         {
             $set: {
                 ...(name && { name }),
-                ...(email && { email }),
                 ...(password && { password: await hashPassword(password) }),
                 profileImage: imageUrl,
             }

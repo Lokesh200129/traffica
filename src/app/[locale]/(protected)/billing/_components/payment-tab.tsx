@@ -136,7 +136,7 @@ export default function PaymentsTab() {
         )
         : transactions;
 
-    console.log(filtered);
+    // console.log(filtered);
     return (
         <DataTable
             data={filtered}

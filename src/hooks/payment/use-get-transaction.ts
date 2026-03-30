@@ -25,7 +25,7 @@ interface TransactionsResponse {
     };
 }
 
-export const useTransactions = (limit = 10) => {
+export const useTransactions = (limit = 5) => {
     const [page, setPage] = useState(1);
 
     const { data, isLoading, isFetching } = useQuery({

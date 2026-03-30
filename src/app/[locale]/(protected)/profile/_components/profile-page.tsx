@@ -22,20 +22,8 @@ export default function ProfilePage() {
             <div className="mb-8">
                 <h1 className="text-2xl font-bold">My Profile</h1>
             </div>
-
-            {/* active === tab.key
-            ? "bg-accent text-white shadow-sm border border-accent/20"
-            : "text-foreground/60 hover:text-foreground" */}
-
-
+            {/* tabs */}
             <Tabs defaultValue="info">
-                {/* <TabsList className="mb-6 space-x-6 ">
-                    <TabsTrigger value="info" className={tabTriggerClass}>Profile Information</TabsTrigger>
-                    {currentUser?.authProvider !== 'google' && (
-                        <TabsTrigger value="password" className={tabTriggerClass}>Password</TabsTrigger>
-                    )}
-                    <TabsTrigger value="delete" className={tabTriggerClass}>Delete Account</TabsTrigger>
-                </TabsList> */}
 
                 <TabsList className="mb-6 space-x-6 text-primary bg-transparent h-auto p-0 inline-flex rounded-2xl border border-accent/20  p-1 gap-1">
                     <TabsTrigger value="info" className={tabTriggerClass}>
@@ -52,6 +40,8 @@ export default function ProfilePage() {
                         Delete Account
                     </TabsTrigger>
                 </TabsList>
+                
+                {/* tabs content */}
                 <div className="rounded-2xl border border-border bg-card p-6">
                     <TabsContent value="info">
                         <ProfileInfoTab />

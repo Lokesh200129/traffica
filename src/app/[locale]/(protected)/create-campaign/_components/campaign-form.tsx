@@ -2,53 +2,33 @@
 
 import { useForm, Controller } from "react-hook-form";
 import type { CampaignFormData } from "../../_types/type";
-import { TRAFFIC_SOURCES, DEVICES } from "../_lib/constants";
+import { DEVICES } from "../_lib/constants";
 import { useSectionSave } from "../_hooks/useSectionSave";
-import { Section, Divider } from "./ui";
-import { PageViewsSlider, DurationInput } from "./sections";
+import { Section } from "./ui";
 import { SummarySidebar } from "./sidebar/summary-sidebar";
 import { AppButton } from "@/components/button";
 import { Input } from "@/components/ui/input";
-import { SearchableSelect } from "../../billing/settings/_components/searchable-select";
 import { useCreateCampaign } from "@/hooks/campaign/use-create-campaign";
-import { Country } from "country-state-city";
-import { cn } from "@/lib/utils";
 import { useCurrentUser } from "@/hooks/auth/use-current-user";
-import { toast } from "sonner";
-const ALL_COUNTRIES = Country.getAllCountries()
-const COUNTRY_OPTIONS = ALL_COUNTRIES.map(c => ({ value: c.name, label: c.name }))
+import { toast } from "sonner"
+import StyledDropdown from "../_components/dropdown";
+import { PAGE_VIEW_OPTIONS, ALL_COUNTRIES, TRAFFIC_SOURCES } from "../_lib/constants";
 
-// ── SelectInput — 
-function SelectInput({ className, children, ...props }: React.ComponentProps<"select">) {
-  return (
-    <select
-      className={cn(
-        "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
-        "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent",
-        "disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer text-foreground",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </select>
-  )
-}
 
+// ── Default values ────────────────────────────────────────────────────────────
 const DEFAULT_VALUES: CampaignFormData = {
   campaignName: "",
   webUrl: "",
-  pageViews: 32000,
-  duration: { mode: "fixed", fixedSec: 0, randomFrom: 0, randomTo: 0 },
+  pageViews: 10000,
   country: "",
   trafficSource: "Direct",
   device: "All Desktop",
-  creditUsed: 0
+  creditUsed: 0,
 };
 
-const creditToBeUsed = 20
+const creditToBeUsed = 20;
 
-
+// ── Main form 
 export default function CampaignForm() {
   const { mutate: createCampaign, isPending } = useCreateCampaign();
   const { data: user } = useCurrentUser();
@@ -65,24 +45,20 @@ export default function CampaignForm() {
   const watched = watch();
 
   const saveCampaign = useSectionSave();
-  const savePageViews = useSectionSave();
-  const saveDuration = useSectionSave();
   const saveTraffic = useSectionSave();
   const saveDevices = useSectionSave();
   const saveGeo = useSectionSave();
+  const savePageViews = useSectionSave();
 
   const onSubmit = (data: CampaignFormData) => {
-    const newData = { ...data, creditUsed: creditToBeUsed }
-
+    const newData = { ...data, creditUsed: creditToBeUsed };
     if (user!.creditBalance!.availableCredits! < newData.creditUsed) {
-      toast.error("You are out of credits!")
-      return
+      toast.error("You are out of credits!");
+      return;
     }
-
     createCampaign(newData);
     reset();
   };
-
 
   return (
     <div className="mx-auto flex flex-col lg:flex-row gap-6 items-start w-full">
@@ -104,7 +80,7 @@ export default function CampaignForm() {
           <Section
             title="Campaign Name"
             saveStatus={saveCampaign.status}
-            tooltip={{ title: "Campaign Name", description: "A unique identifier for this campaign in your dashboard." }}
+            tooltip={{ title: "Campaign Name", description: "A unique identifier for this campaign." }}
           >
             <Input
               {...register("campaignName", { required: "Campaign name is required" })}
@@ -117,6 +93,7 @@ export default function CampaignForm() {
             )}
           </Section>
 
+          {/* web url */}
           <Section
             title="Web URL"
             saveStatus={saveCampaign.status}
@@ -127,8 +104,8 @@ export default function CampaignForm() {
                 required: "Web URL is required",
                 pattern: {
                   value: /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?$/,
-                  message: "Enter a valid URL"
-                }
+                  message: "Enter a valid URL",
+                },
               })}
               onChange={(e) => { register("webUrl").onChange(e); saveCampaign.trigger(); }}
               placeholder="https://example.com"
@@ -139,7 +116,6 @@ export default function CampaignForm() {
               <p className="text-xs text-red-500 mt-1">{errors.webUrl.message}</p>
             )}
           </Section>
-          <Divider />
 
           {/* Page Views */}
           <Section
@@ -151,35 +127,16 @@ export default function CampaignForm() {
               name="pageViews"
               control={control}
               render={({ field }) => (
-                <PageViewsSlider
+                <StyledDropdown
+                  options={PAGE_VIEW_OPTIONS}
                   value={field.value}
-                  onChange={(v) => { field.onChange(v); savePageViews.trigger(); }}
+                  onChange={(val) => { field.onChange(val); savePageViews.trigger(); }}
+                  placeholder="Select page views…"
                 />
               )}
             />
           </Section>
 
-          <Divider />
-
-          {/* Duration */}
-          <Section
-            title="Duration"
-            saveStatus={saveDuration.status}
-            tooltip={{ title: "Duration", description: "Set a fixed interval or a randomised range in seconds." }}
-          >
-            <Controller
-              name="duration"
-              control={control}
-              render={({ field }) => (
-                <DurationInput
-                  value={field.value}
-                  onChange={(v) => { field.onChange(v); saveDuration.trigger(); }}
-                />
-              )}
-            />
-          </Section>
-
-          <Divider />
 
           {/* Traffic Source */}
           <Section
@@ -191,20 +148,16 @@ export default function CampaignForm() {
               name="trafficSource"
               control={control}
               render={({ field }) => (
-                <SelectInput
+                <StyledDropdown
+                  options={TRAFFIC_SOURCES.map(s => ({ label: s, value: s }))}
                   value={field.value}
-                  onChange={(e) => { field.onChange(e.target.value); saveTraffic.trigger(); }}
-                >
-                  <option value="" disabled>Select source…</option>
-                  {TRAFFIC_SOURCES.map((s) => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </SelectInput>
+                  onChange={(val) => { field.onChange(val); saveTraffic.trigger(); }}
+                  placeholder="Select source…"
+                />
               )}
             />
           </Section>
 
-          <Divider />
 
           {/* Device Targeting */}
           <Section
@@ -216,20 +169,15 @@ export default function CampaignForm() {
               name="device"
               control={control}
               render={({ field }) => (
-                <SelectInput
+                <StyledDropdown
+                  options={DEVICES.map(d => ({ label: d, value: d }))}
                   value={field.value}
-                  onChange={(e) => { field.onChange(e.target.value); saveDevices.trigger(); }}
-                >
-                  <option value="" disabled>Select device…</option>
-                  {DEVICES.map((d) => (
-                    <option key={d} value={d}>{d}</option>
-                  ))}
-                </SelectInput>
+                  onChange={(val) => { field.onChange(val); saveDevices.trigger(); }}
+                  placeholder="Select device…"
+                />
               )}
             />
           </Section>
-
-          <Divider />
 
           {/* Geo-targeting */}
           <Section
@@ -241,17 +189,16 @@ export default function CampaignForm() {
               name="country"
               control={control}
               render={({ field }) => (
-                <SearchableSelect
-                  options={COUNTRY_OPTIONS}
+                <StyledDropdown
+                  options={ALL_COUNTRIES.map(c => ({ label: c, value: c }))}
                   value={field.value ?? ""}
                   onChange={(val) => { field.onChange(val); saveGeo.trigger(); }}
-                  placeholder=" Global (All Countries)"
+                  placeholder="Global (All Countries)"
                 />
               )}
             />
           </Section>
 
-          <Divider />
 
           <AppButton
             title={isPending ? "Launching…" : "Launch Campaign"}
@@ -263,20 +210,18 @@ export default function CampaignForm() {
       </div>
 
       {/* Summary sidebar */}
-      <div className="hidden md:block">
+      <div className="hidden md:block  sticky top-6 self-start">
         <SummarySidebar
           data={{
             campaignName: watched.campaignName ?? "",
             pageViews: watched.pageViews ?? 0,
-            duration: watched.duration ?? DEFAULT_VALUES.duration,
             trafficSource: watched.trafficSource ?? "",
             device: watched.device ?? "",
             country: watched.country ?? "",
-            creditUsed: creditToBeUsed
+            creditUsed: creditToBeUsed,
           }}
         />
       </div>
-
     </div>
   );
 }

@@ -2,13 +2,7 @@
   "sidebar": {
     "Overview": "Overview",
     "Campaign": "Campaign",
-    "Billing": {
-      "title": "Billing",
-      "Saved_Cards": "Saved Cards",
-      "Balance": "Balance",
-      "Settings": "Settings",
-      "History": "History"
-    },
+    "Billing": "Billing",
     "Profile": "Profile",
     "Notification": "Notification",
     "Agency": "Agency",

@@ -1,10 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import api from "@/lib/axios";
 import { BCampaign } from '../../../type';
+import { DateFilterState } from '@/app/[locale]/(protected)/campaign/_lib/data';
 
 interface GetCampaignsParams {
     page?: number;
     limit?: number;
+    name?: string;
+    dateFilter?: DateFilterState;
 }
 
 interface CampaignsResponse {
@@ -20,12 +23,20 @@ interface CampaignsResponse {
     };
 }
 
-export const useGetCampaigns = ({ page = 1, limit = 10 }: GetCampaignsParams = {}) => {
+export const useGetCampaigns = ({ page = 1, limit = 10, name = "", dateFilter }: GetCampaignsParams = {}) => {
     return useQuery({
-        queryKey: ["campaigns", page, limit],
+        queryKey: ["campaigns", page, limit, name, dateFilter],
         queryFn: async () => {
+            const params = new URLSearchParams({
+                page: String(page),
+                limit: String(limit),
+                ...(name && { name }),
+                ...(dateFilter?.from && { from: dateFilter.from }),
+                ...(dateFilter?.to && { to: dateFilter.to }),
+            });
+            console.log(params);
             return await api<CampaignsResponse>({
-                url: `/campaigns?page=${page}&limit=${limit}`,
+                url: `/campaigns?${params.toString()}`,
                 method: "GET",
             });
         },

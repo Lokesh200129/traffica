@@ -21,7 +21,9 @@ export default function Balance() {
             </div>
 
             {/* Credits card */}
-            <div className="rounded-2xl border border-border bg-card p-6 flex items-center justify-between">
+            <div className="rounded-2xl border border-border bg-card p-6 flex items-start justify-between">
+                {/* left side
+                 */}
                 <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">
                         Total Credits Available

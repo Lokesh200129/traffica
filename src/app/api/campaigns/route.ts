@@ -4,38 +4,22 @@ import withAuth from "@/lib/try-catch-with-auth";
 import { apiSuccess, apiError } from "@/lib/api-response";
 import User from "@/models/User";
 import { CreditHistory } from "@/models/CreditHistory";
-
+import { campaignSchema } from "@/lib/validation/campaign";
 
 export const POST = withAuth(async (req: NextRequest, user) => {
     const body = await req.json();
+    const validation = campaignSchema.safeParse(body);
 
-    const { campaignName, pageViews, duration, country, trafficSource, device, webUrl, creditUsed } = body;
+    if (!validation.success) {
+        return apiError(validation.error.errors[0].message, 400);
+    }
 
-    // ── Validation ───────────────────────────────────────────────────────────
-    if (!campaignName || typeof campaignName !== "string")
-        return apiError("campaignName is required");
-
-    if (typeof pageViews !== "number" || pageViews < 0)
-        return apiError("pageViews must be a non-negative number");
-
-    if (!duration?.mode || !["fixed", "random"].includes(duration.mode))
-        return apiError("duration.mode must be 'fixed' or 'random'");
-
-    if (!trafficSource || typeof trafficSource !== "string")
-        return apiError("trafficSource is required");
-
-    if (!device || typeof device !== "string")
-        return apiError("device is required");
-
-    if (!webUrl || typeof webUrl !== "string")
-        return apiError("webUrl is required");
-
-    if (typeof creditUsed !== "number" || creditUsed < 0)
-        return apiError("creditUsed must be a non-negative number");
-
-    // ── Check sufficient credits ──────────────────────────────────────────────
+    const { campaignName, pageViews, trafficSource, device, webUrl, creditUsed } = validation.data;
+    let { country } = validation.data;
+    if (country === "") country = "global";
+    // ── Check sufficient credits
     const currentUser = await User.findById(user._id);
-    // console.log(currentUser);
+
     if (!currentUser)
         return apiError("User not found", 404);
 
@@ -47,14 +31,8 @@ export const POST = withAuth(async (req: NextRequest, user) => {
         userId: user._id,
         campaignName: campaignName.trim(),
         pageViews,
-        duration: {
-            mode: duration.mode,
-            fixedSec: duration.fixedSec ?? 0,
-            randomFrom: duration.randomFrom ?? 0,
-            randomTo: duration.randomTo ?? 0,
-        },
         webUrl: webUrl.trim(),
-        country: country ?? "",
+        country,
         trafficSource,
         device,
         creditUsed,
@@ -62,14 +40,14 @@ export const POST = withAuth(async (req: NextRequest, user) => {
     });
 
     // ── Deduct credits ────────────────────────────────────────────────────────
-    const balanceBefore = currentUser?.creditBalance?.availableCredits;
+    const balanceBefore = currentUser.creditBalance.availableCredits;
     const balanceAfter = balanceBefore - creditUsed;
 
     await User.findByIdAndUpdate(user._id, {
-        $inc: { "creditBalance?.availableCredits": -creditUsed },
-        $set: { "creditBalance?.lastUpdatedAt": new Date() },
+        $inc: { "creditBalance.availableCredits": -creditUsed },
+        $set: { "creditBalance.lastUpdatedAt": new Date() },
     });
-    
+
     // ── Save credit history ───────────────────────────────────────────────────
     await CreditHistory.create({
         userId: user._id,
@@ -86,6 +64,35 @@ export const POST = withAuth(async (req: NextRequest, user) => {
 });
 
 // ── GET /api/campaigns ────────────────────────────────────────────────────────
+// export const GET = withAuth(async (req: NextRequest, user) => {
+//     const { searchParams } = new URL(req.url);
+
+//     const page = Math.max(1, Number(searchParams.get("page") ?? 1));
+//     const limit = Math.min(50, Math.max(1, Number(searchParams.get("limit") ?? 10)));
+//     const skip = (page - 1) * limit;
+
+//     const filter = { userId: user._id };
+
+//     const [campaigns, total] = await Promise.all([
+//         Campaign.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
+//         Campaign.countDocuments(filter),
+//     ]);
+
+//     const totalPages = Math.ceil(total / limit);
+//     // console.log({ campaigns, total, totalPages });
+//     return apiSuccess({
+//         campaigns,
+//         pagination: {
+//             total,
+//             totalPages,
+//             currentPage: page,
+//             limit,
+//             hasNextPage: page < totalPages,
+//             hasPrevPage: page > 1,
+//         },
+//     }, "Campaigns fetched successfully");
+// });
+
 export const GET = withAuth(async (req: NextRequest, user) => {
     const { searchParams } = new URL(req.url);
 
@@ -93,7 +100,31 @@ export const GET = withAuth(async (req: NextRequest, user) => {
     const limit = Math.min(50, Math.max(1, Number(searchParams.get("limit") ?? 10)));
     const skip = (page - 1) * limit;
 
-    const filter = { userId: user._id };
+    // New filters
+    const name = searchParams.get("name");
+    const startDate = searchParams.get("startDate");
+    const endDate = searchParams.get("endDate");
+
+    const filter: Record<string, any> = { userId: user._id };
+
+    // Campaign name filter (case-insensitive partial match)
+    if (name) {
+        filter.campaignName = { $regex: name, $options: "i" };
+    }
+
+    // Date range filter
+    if (startDate || endDate) {
+        filter.createdAt = {};
+        if (startDate) {
+            filter.createdAt.$gte = new Date(startDate);
+        }
+        if (endDate) {
+            // Include the full end date day
+            const end = new Date(endDate);
+            end.setHours(23, 59, 59, 999);
+            filter.createdAt.$lte = end;
+        }
+    }
 
     const [campaigns, total] = await Promise.all([
         Campaign.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),

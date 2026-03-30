@@ -19,7 +19,7 @@
 //             </span>
 //         ),
 //     },
-    
+
 //     {
 //         accessorKey: "device",
 //         header: "Device",
@@ -138,20 +138,6 @@ export const columns: ColumnDef<FCampaign>[] = [
             const v = getValue() as number;
             return (
                 <span>{v === 0 ? "—" : v.toLocaleString("en-IN")}</span>
-            );
-        },
-    },
-    {
-        accessorKey: "duration",
-        header: "Duration",
-        cell: ({ row }) => {
-            const d = row.original.duration;
-            return (
-                <span>
-                    {d.mode === "fixed"
-                        ? `${d.fixedSec}s`
-                        : `${d.randomFrom}s – ${d.randomTo}s`}
-                </span>
             );
         },
     },

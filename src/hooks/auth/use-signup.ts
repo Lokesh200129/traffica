@@ -1,7 +1,6 @@
 import api from "@/lib/axios";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from "sonner";
-import { useRouter } from 'next/navigation';
 import parseError from "@/lib/parse-error";
 import { TUser } from "../../../type";
 export const useSignup = () => {

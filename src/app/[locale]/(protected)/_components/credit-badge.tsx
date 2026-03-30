@@ -13,19 +13,12 @@ const CreditsBadge = ({ credits = 0 }: CreditsBadgeProps) => {
     const toggle = useBalanceModal((state) => state.toggle)
 
     return (
-        <div className="flex items-center gap-2 bg-accent/10 border border-accent/40 rounded-full px-3 py-1.5 w-full">
-            <span className="text-sm font-semibold text-accent">Credits :</span>
+        <div className="flex items-center justify-between gap-2 bg-accent/10 border border-accent/40 rounded-full px-3 py-1.5 w-full">
+            <div className="flex gap-2">
+                <span className="text-sm font-semibold text-accent">Credits :</span>
 
-            <span className="text-xs font-semibold ">{formattedCredits}</span>
-            {/* <Button
-                variant="ghost"
-                size="icon"
-                onClick={toggle}
-                className="bg-accent text-white text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-accent/90 transition-colors"
-
-            >
-                Buy Credits
-            </Button> */}
+                <span className="text-xs font-semibold ">{formattedCredits}</span>
+            </div>
             <AppButton
 
                 size="icon"

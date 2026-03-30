@@ -17,7 +17,6 @@ import DefaultAvatar from "@/assets/avatar.png";
 
 const profileSchema = z.object({
     name: z.string().min(1, "Name is required"),
-    email: z.string().email("Enter a valid email"),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -30,14 +29,15 @@ export function ProfileInfoTab() {
     const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
+    console.log("current ", currentUser);
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileSchema),
-        defaultValues: { name: "", email: "" },
+        defaultValues: { name: "" },
     });
 
     useEffect(() => {
         if (currentUser) {
-            form.reset({ name: currentUser.name ?? "", email: currentUser.email ?? "" });
+            form.reset({ name: currentUser.name ?? "" });
             setProfileImage(currentUser.profileImage ?? null);
         }
     }, [currentUser]);
@@ -56,7 +56,6 @@ export function ProfileInfoTab() {
     const onSubmit = async (values: ProfileFormValues) => {
         const formData = new FormData();
         formData.append("name", values.name);
-        formData.append("email", values.email);
         if (profileImageFile) formData.append("profileImage", profileImageFile);
         if (profileImage === null && currentUser?.profileImage) formData.append("removeImage", "true");
 
@@ -81,25 +80,7 @@ export function ProfileInfoTab() {
                         )}
                     </div>
 
-                    {/* <div className="absolute left-[37%] -bottom-2 border-2 border-primary rounded-full  flex items-center justify-center p-1  gap-2">
-                        {hasPhoto ? (
-                            <>
-                                <button type="button" onClick={() => inputRef.current?.click()}
-                                    className="text-accent" title="Change photo">
-                                    <Camera size={14} />
-                                </button>
-                                <button type="button" onClick={handleRemove}
-                                    className="text-accent " title="Remove photo">
-                                    <Trash2 size={14} />
-                                </button>
-                            </>
-                        ) : (
-                            <button type="button" onClick={() => inputRef.current?.click()}
-                                className="text-accent " title="Add photo">
-                                <Plus size={16} />
-                            </button>
-                        )}
-                    </div> */}
+
                     <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 bg-background border border-border rounded-full p-1 shadow-md">
                         {hasPhoto ? (
                             <>
@@ -134,7 +115,7 @@ export function ProfileInfoTab() {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 py-4 gap-4">
                         <FormField
                             control={form.control}
                             name="name"
@@ -150,7 +131,6 @@ export function ProfileInfoTab() {
                         />
 
                         <FormField
-                            control={form.control}
                             name="email"
                             disabled
                             render={({ field }) => (

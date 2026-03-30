@@ -52,16 +52,15 @@ export function DataTable<T>({
     onPrev,
 }: DataTableProps<T>) {
 
-    // ✅ sorting state — kaun sa column, asc ya desc
     const [sorting, setSorting] = useState<SortingState>([]);
 
     const table = useReactTable({
         data,
         columns,
-        state: { sorting },                        // ✅ table ko current sort state batao
-        onSortingChange: setSorting,               // ✅ jab user click kare toh state update ho
+        state: { sorting },                        //  table ko current sort state batao
+        onSortingChange: setSorting,               //  jab user click kare toh state update ho
         getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),    // ✅ current page ka data sort karo
+        getSortedRowModel: getSortedRowModel(),    //  current page ka data sort karo
     });
 
     const hasPagination = onNext !== undefined || onPrev !== undefined;
@@ -70,12 +69,12 @@ export function DataTable<T>({
         <div>
             {/* Header */}
             {(title || toolbar) && (
-                <div className="pb-8 flex justify-between items-center">
+                <div className="pb-8 flex flex-col gap-8 md:flex-row justify-between items-center">
                     <div>
                         {title && <h1 className="text-2xl font-bold tracking-normal">{title}</h1>}
                         {subTitle && <p className="text-sm text-muted-foreground mt-1">{subTitle}</p>}
                     </div>
-                    {toolbar && <div>{toolbar}</div>}
+                    {toolbar && <div >{toolbar}</div>}
                 </div>
             )}
 

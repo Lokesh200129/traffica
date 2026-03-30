@@ -5,7 +5,7 @@ import MainIconImg from '../assets/main-icon.png'
 const MainIcon = () => {
     return (
         <Link
-            href="/"
+            href="/overview"
             className="flex items-center group"
         >
             <div className="relative h-14 w-48">

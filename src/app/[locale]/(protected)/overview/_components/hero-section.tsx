@@ -25,7 +25,7 @@ const STATS = [
 
 function EmptyCampaignHero({ onCreateCampaign }: { onCreateCampaign?: () => void }) {
     return (
-        <div className="flex items-center justify-between px-10 py-12 rounded-2xl bg-[#f5f5e8] dark:bg-muted">
+        <div className="flex flex-col md:flex-row items-center justify-between px-10 py-12 rounded-2xl bg-primary/10">
 
             {/* Left */}
             <div className="flex flex-col gap-6 max-w-sm">
@@ -49,7 +49,7 @@ function EmptyCampaignHero({ onCreateCampaign }: { onCreateCampaign?: () => void
             </div>
 
             {/* Right — Stat Cards */}
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 pt-10 md:pt-0">
                 {STATS.map((stat, i) => (
                     <div key={i} className="bg-card rounded-2xl shadow-sm px-5 py-4 flex items-center justify-between gap-8 min-w-[220px]">
                         <div>

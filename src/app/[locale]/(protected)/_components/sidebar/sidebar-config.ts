@@ -7,9 +7,6 @@ import {
     Gift,
     Building2,
     Wallet,
-
-    Receipt, SlidersHorizontal,
-    ClockArrowUp
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -23,27 +20,14 @@ export interface DropdownItem {
 export interface SidebarTab {
     title: string;
     icon: LucideIcon;
-    href?: string;       // optional — dropdown tabs don't navigate
-    dropdown?: DropdownItem[];
+    href: string;       // optional — dropdown tabs don't navigate
 }
 
 export const SIDEBAR_TABS: SidebarTab[] = [
     { title: "Overview", icon: LayoutDashboard, href: "/overview" },
     { title: "Campaign", icon: Megaphone, href: "/campaign" },
-
-
-    {
-        title: "Billing",
-        icon: Wallet,
-        dropdown: [
-            // { key: "Saved_Cards", title: "Saved Cards", icon: CreditCard, href: "/billing/saved-cards" },
-            { key: "Balance", title: "Balance", icon: Receipt, href: "/billing/balance" },
-            { key: "Settings", title: "Settings", icon: SlidersHorizontal, href: "/billing/settings" },
-            { key: "History", title: "History", icon: ClockArrowUp, href: "/billing/history" },
-        ],
-    },
+    { title: "Billing", icon: Wallet, href: "/billing", },
     { title: "Profile", icon: User, href: "/profile" },
-    // { title: "Notification", icon: Bell, href: "/notification" },
     { title: "Agency", icon: Building2, href: "/agency" },
 ];
 

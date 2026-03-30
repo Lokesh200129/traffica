@@ -16,7 +16,7 @@ export function LocationsMap() {
 
   return (
     <div
-      className="relative w-full h-[450px] rounded-xl overflow-hidden cursor-crosshair"
+      className="relative w-full md:h-[450px] rounded-xl overflow-hidden cursor-crosshair"
       onMouseMove={handleMouseMove}
     >
       {/* Tooltip */}

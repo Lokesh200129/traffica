@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateAgency } from "@/hooks/agency/use-create-agency";
-import { SearchableSelect } from "../../billing/settings/_components/searchable-select";
+import { SearchableSelect } from "../../billing/_components/_settings-modal/_components/searchable-select";
 
 // ── Ek baar calculate ─────────────────────────────────────────────────────────
 const ALL_COUNTRIES = Country.getAllCountries()

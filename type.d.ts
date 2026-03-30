@@ -82,3 +82,28 @@ export interface ITransaction extends Document {
 
 
 }
+// ── Payment (existing) ────────────────────────────────────────────────────────
+export type TransactionType = "Purchase" | "Credit" | "Debit" | "Refund";
+
+export interface BillingTransaction {
+    id: string;
+    date: string;
+    amount: number;
+    reference: string;
+    type: TransactionType;
+    description: string;
+    invoiceUrl?: string;
+}
+
+// ── Credits ───────────────────────────────────────────────────────────────────
+export type CreditAction = "Campaign Created" | "Credit Added" | "Refund" | "Bonus";
+
+export interface CreditTransaction {
+    id: string;
+    date: string;
+    credits: number;         // positive = added, negative = consumed
+    action: CreditAction;
+    campaignName?: string;   // filled when action = "Campaign Created"
+    description: string;
+    balanceAfter: number;
+}
