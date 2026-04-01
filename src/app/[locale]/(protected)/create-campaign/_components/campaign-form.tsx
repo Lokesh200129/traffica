@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm, Controller } from "react-hook-form";
-import type { CampaignFormData } from "../../_types/type";
+import type { TCampaignFormData } from "@/types/campaign";
 import { DEVICES } from "../_lib/constants";
 import { useSectionSave } from "../_hooks/useSectionSave";
 import { Section } from "./ui";
@@ -13,10 +13,12 @@ import { useCurrentUser } from "@/hooks/auth/use-current-user";
 import { toast } from "sonner"
 import StyledDropdown from "../_components/dropdown";
 import { PAGE_VIEW_OPTIONS, ALL_COUNTRIES, TRAFFIC_SOURCES } from "../_lib/constants";
+import { CampaignSuccessDialog } from "./ui/sucess-dialog";
+import { useState } from "react";
 
 
 // ── Default values ────────────────────────────────────────────────────────────
-const DEFAULT_VALUES: CampaignFormData = {
+const DEFAULT_VALUES: TCampaignFormData = {
   campaignName: "",
   webUrl: "",
   pageViews: 10000,
@@ -32,6 +34,7 @@ const creditToBeUsed = 20;
 export default function CampaignForm() {
   const { mutate: createCampaign, isPending } = useCreateCampaign();
   const { data: user } = useCurrentUser();
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const {
     register,
@@ -40,7 +43,7 @@ export default function CampaignForm() {
     watch,
     reset,
     formState: { errors },
-  } = useForm<CampaignFormData>({ defaultValues: DEFAULT_VALUES });
+  } = useForm<TCampaignFormData>({ defaultValues: DEFAULT_VALUES });
 
   const watched = watch();
 
@@ -50,13 +53,14 @@ export default function CampaignForm() {
   const saveGeo = useSectionSave();
   const savePageViews = useSectionSave();
 
-  const onSubmit = (data: CampaignFormData) => {
+  const onSubmit = (data: TCampaignFormData) => {
     const newData = { ...data, creditUsed: creditToBeUsed };
     if (user!.creditBalance!.availableCredits! < newData.creditUsed) {
       toast.error("You are out of credits!");
       return;
     }
     createCampaign(newData);
+    setShowSuccess(true);
     reset();
   };
 
@@ -222,6 +226,10 @@ export default function CampaignForm() {
           }}
         />
       </div>
+      <CampaignSuccessDialog
+        open={showSuccess}
+        onClose={() => setShowSuccess(false)}
+      />
     </div>
   );
 }

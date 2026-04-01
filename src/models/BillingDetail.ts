@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IBillingDetail } from "../../type";
+import { IBillingDetail } from "@/types/billing";
 
 
 const BillingDetailSchema = new Schema<IBillingDetail>(

@@ -1,5 +1,5 @@
 
-import { CampaignFormData } from "../../../_types/type";
+import { TCampaignFormData } from "@/types/campaign";
 import { fmtNum } from "../../_lib/utils";
 
 
@@ -19,7 +19,7 @@ function SummaryRow({ label, children }: { label: string; children: React.ReactN
 // }
 
 interface SummarySidebarProps {
-  data: CampaignFormData;
+  data: TCampaignFormData;
 }
 
 export function SummarySidebar({ data }: SummarySidebarProps) {
@@ -29,10 +29,6 @@ export function SummarySidebar({ data }: SummarySidebarProps) {
   // const basePrice = parseFloat(calcPrice(pageViews));
   // const tax = parseFloat((basePrice * 0.18).toFixed(2));
   // const totalPrice = (basePrice + tax).toFixed(2);
-
-  // const hasDuration =
-  //   (duration.mode === "fixed" && duration.fixedSec > 0) ||
-  //   (duration.mode === "random" && (duration.randomFrom > 0 || duration.randomTo > 0));
 
   return (
     // <div className="w-full rounded-2xl border border-border bg-background  overflow-hidden">

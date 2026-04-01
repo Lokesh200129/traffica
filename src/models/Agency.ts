@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { TAgency } from "../../type"
+import { TAgency } from "@/types/campaign";
 
 
 const AgencySchema = new Schema<TAgency>(

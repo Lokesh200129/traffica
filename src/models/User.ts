@@ -18,6 +18,10 @@ const UserSchema = new Schema({
         required: [true, 'Email is required'],
         unique: true,
     },
+    role: {
+        type: String,
+        enum: ['admin', 'client']
+    },
     password: {
         type: String,
         default: null,

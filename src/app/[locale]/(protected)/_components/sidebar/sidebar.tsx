@@ -23,7 +23,7 @@ const Sidebar = () => {
 
     if (isPending) return <GlobalLoader msg="Logging out..." />;
     if (!mounted) return <aside className="w-64 h-full border-r bg-background" />;
-    // console.log(SIDEBAR_TABS);
+
     return (
         <aside className={cn(
             "dark h-full bg-background flex flex-col border-r border-border transition-all duration-500",

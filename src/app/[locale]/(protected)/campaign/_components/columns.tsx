@@ -1,81 +1,10 @@
-// import type { ColumnDef } from "@tanstack/react-table";
-// import { StatusBadge } from "./status-badge";
-// import type { FCampaign } from "../../_types/type";
 
-// export const columns: ColumnDef<FCampaign>[] = [
-//     {
-//         accessorKey: "campaignName",
-//         header: "Campaign Name",
-//         cell: ({ getValue }) => (
-//             <span >{getValue() as string}</span>
-//         ),
-//     },
-//     {
-//         accessorKey: "trafficSource",
-//         header: "Traffic Source",
-//         cell: ({ getValue }) => (
-//             <span >
-//                 {getValue() as string}
-//             </span>
-//         ),
-//     },
-
-//     {
-//         accessorKey: "device",
-//         header: "Device",
-//         cell: ({ getValue }) => (
-//             <span >{getValue() as string}</span>
-//         ),
-//     },
-//     {
-//         accessorKey: "country",
-//         header: "Geo Targeting",
-//         cell: ({ getValue }) => (
-//             <span >{(getValue() as string) || "Global"}</span>
-//         ),
-//     },
-//     {
-//         accessorKey: "pageViews",
-//         header: "Page Views",
-//         cell: ({ getValue }) => {
-//             const v = getValue() as number;
-//             return (
-//                 <span >
-//                     {v === 0 ? "—" : v.toLocaleString("en-IN")}
-//                 </span>
-//             );
-//         },
-//     },
-//     {
-//         accessorKey: "duration",
-//         header: "Duration",
-//         cell: ({ row }) => {
-//             const d = row.original.duration;
-//             return (
-//                 <span >
-//                     {d.mode === "fixed"
-//                         ? `${d.fixedSec}s`
-//                         : `${d.randomFrom}s – ${d.randomTo}s`}
-//                 </span>
-//             );
-//         },
-//     },
-//     {
-//         accessorKey: "createdAt",
-//         header: "Created",
-//         cell: ({ getValue }) => (
-//             <span >
-//                 {new Date(getValue() as string).toLocaleDateString("en-IN")}
-//             </span>
-//         ),
-//     },
-// ];
 import type { ColumnDef } from "@tanstack/react-table";
 import { StatusBadge } from "./status-badge";
-import type { FCampaign } from "../../_types/type";
+import type { TFrontendCampaign } from "@/types/campaign";
 import { ExternalLink } from "lucide-react";
-
-export const columns: ColumnDef<FCampaign>[] = [
+import { TooltipContainer } from "../../create-campaign/_components/ui/tooltip-container";
+export const columns: ColumnDef<TFrontendCampaign>[] = [
     {
         accessorKey: "campaignName",
         header: "Campaign Name",
@@ -107,7 +36,15 @@ export const columns: ColumnDef<FCampaign>[] = [
         accessorKey: "status",
         header: "Status",
         cell: ({ getValue }) => (
-            <StatusBadge status={getValue() as string} />
+            <div className="flex items-center gap-1 relative ">
+                <StatusBadge status={getValue() as string} />
+                {getValue() as string === "PENDING" && (
+                    <TooltipContainer title={getValue() as string}
+                        description="Traffic may take up to 12 hours to begin. During this time, visitors are evaluated based on demographics, intent, and interests before being forwarded to your site."
+                        position="right"
+                    />
+                )}
+            </div>
         ),
     },
     {

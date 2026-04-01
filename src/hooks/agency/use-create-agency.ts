@@ -1,6 +1,6 @@
 
 import { useMutation } from "@tanstack/react-query";    
-import { TAgency } from "../../../type";
+import { TAgency } from "@/types/campaign";
 import { toast } from "sonner";
 import parseError from "@/lib/parse-error";
 import api from "@/lib/axios";

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import api from "@/lib/axios";
-import { BCampaign } from '../../../type';
+import { TBackendCampaign, TCampaignFormData } from '@/types/campaign';
 import { DateFilterState } from '@/app/[locale]/(protected)/campaign/_lib/data';
 
 interface GetCampaignsParams {
@@ -12,7 +12,7 @@ interface GetCampaignsParams {
 
 interface CampaignsResponse {
     message: string;
-    campaigns: BCampaign[];
+    campaigns: TBackendCampaign[];
     pagination: {
         total: number;
         totalPages: number;
@@ -34,7 +34,7 @@ export const useGetCampaigns = ({ page = 1, limit = 10, name = "", dateFilter }:
                 ...(dateFilter?.from && { from: dateFilter.from }),
                 ...(dateFilter?.to && { to: dateFilter.to }),
             });
-            console.log(params);
+
             return await api<CampaignsResponse>({
                 url: `/campaigns?${params.toString()}`,
                 method: "GET",

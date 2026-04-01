@@ -63,36 +63,6 @@ export const POST = withAuth(async (req: NextRequest, user) => {
     return apiSuccess(campaign.toObject(), "Campaign created successfully", 201);
 });
 
-// ── GET /api/campaigns ────────────────────────────────────────────────────────
-// export const GET = withAuth(async (req: NextRequest, user) => {
-//     const { searchParams } = new URL(req.url);
-
-//     const page = Math.max(1, Number(searchParams.get("page") ?? 1));
-//     const limit = Math.min(50, Math.max(1, Number(searchParams.get("limit") ?? 10)));
-//     const skip = (page - 1) * limit;
-
-//     const filter = { userId: user._id };
-
-//     const [campaigns, total] = await Promise.all([
-//         Campaign.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit).lean(),
-//         Campaign.countDocuments(filter),
-//     ]);
-
-//     const totalPages = Math.ceil(total / limit);
-//     // console.log({ campaigns, total, totalPages });
-//     return apiSuccess({
-//         campaigns,
-//         pagination: {
-//             total,
-//             totalPages,
-//             currentPage: page,
-//             limit,
-//             hasNextPage: page < totalPages,
-//             hasPrevPage: page > 1,
-//         },
-//     }, "Campaigns fetched successfully");
-// });
-
 export const GET = withAuth(async (req: NextRequest, user) => {
     const { searchParams } = new URL(req.url);
 

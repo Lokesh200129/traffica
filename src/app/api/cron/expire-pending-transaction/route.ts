@@ -30,7 +30,7 @@ export const GET = async (req: NextRequest) => {
         status: "PENDING",
         createdAt: { $lt: oneHourAgo },
     });
-    console.log(pendingTransactions);
+ 
     const results = { success: 0, cancelled: 0, failed: 0 };
 
     for (const txn of pendingTransactions) {
@@ -87,7 +87,7 @@ export const GET = async (req: NextRequest) => {
                 });
 
                 results.success++;
-                console.log(`✅ Recovered: ${txn.orderId}`);
+                console.log(`Recovered: ${txn.orderId}`);
 
             } else {
                 //  Actually failed/expired 

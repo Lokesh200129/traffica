@@ -40,13 +40,14 @@ export const POST = tryCatchWrapper(async (req: Request) => {
         email,
         password: hashedPassword,
         username,
-        authProvider: "local",  // ← explicitly set karo
+        authProvider: "local",
+        role: "client",
     });
 
     const userResponse = newUser.toObject();
     delete userResponse.password;
 
-    const token = await signToken({ userId: userResponse._id.toString(), email: userResponse.email });
+    const token = await signToken({ userId: userResponse._id.toString(), email: userResponse.email, role: userResponse.role });
     const cookieStore = await cookies();
 
     cookieStore.set("token", token, {

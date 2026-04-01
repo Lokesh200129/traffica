@@ -11,40 +11,12 @@ import { useLogout } from "@/hooks/auth/use-logout"
 import { useCurrentUser } from "@/hooks/auth/use-current-user"
 import { AppButton } from "@/components/button"
 import GlobalLoader from "@/components/global-loader"
-// import { FaWhatsapp } from "react-icons/fa";
-
-// ── Support icon button ───────────────────────────────────────────────────────
-// function SupportIconBtn({
-//     href,
-//     icon: Icon,
-//     label,
-//     title,
-// }: {
-//     href: string;
-//     icon: React.ElementType;
-//     label: string;
-//     title: string;
-// }) {
-//     return (
-//         <a
-//             href={href}
-//             target="_blank"
-//             rel="noopener noreferrer"
-//             title={title}
-//             aria-label={title}
-//             className="flex flex-col items-center justify-center gap-1.5 flex-1 py-2.5 rounded-lg border border-border bg-muted/40 hover:bg-accent/10 hover:border-accent/40 hover:text-accent text-muted-foreground transition-all group"
-//         >
-//             <Icon size={17} className="transition-transform group-hover:scale-110" />
-//             <span className="text-[10px] font-medium">{label}</span>
-//         </a>
-//     )
-// }
 
 // ── Main Component ────────────────────────────────────────────────────────────
 export default function UserProfilePopover() {
     const { data: user } = useCurrentUser()
     const { mutate: logout, isPending } = useLogout()
-    // console.log("current user ", user);
+    
     if (isPending) return <GlobalLoader msg="Logging out..." />
 
     return (

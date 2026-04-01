@@ -27,7 +27,7 @@ export function SidebarNavItem({ tab, pathname, collapsed, onClick }: SidebarNav
             ? "bg-accent/10 border-l-4 border-accent rounded-none text-primary font-semibold"
             : "hover:text-foreground hover:bg-muted border-l-4 border-transparent"
     );
-    // console.log(tab);
+ 
     return (
         <Link href={tab.href!} className="w-full" onClick={onClick}>
             {collapsed ? (

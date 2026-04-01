@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";
 import { routing } from "@/i18n/routing";
-
+import { verifyToken } from "@/lib/jwt";
 const intlMiddleware = createIntlMiddleware(routing);
 
 const PROTECTED_ROUTES = [
@@ -16,8 +16,9 @@ const PROTECTED_ROUTES = [
 
 export function middleware(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
+    const acessToken = verifyToken(token!);
     const path = request.nextUrl.pathname;
-    const locale = path.split("/")[1] || "en"  // ← yahan se lo
+    const locale = path.split("/")[1] || "en"
 
     const pathWithoutLocale = path.replace(/^\/(en|hi|fr)/, "") || "/";
 
@@ -25,8 +26,8 @@ export function middleware(request: NextRequest) {
         pathWithoutLocale.startsWith(route)
     );
 
-    if (isProtectedRoute && !token) {
-        return NextResponse.redirect(new URL(`/${locale}/signup`, request.url)); 
+    if (isProtectedRoute && !acessToken) {
+        return NextResponse.redirect(new URL(`/${locale}/signup`, request.url));
     }
 
     return intlMiddleware(request);

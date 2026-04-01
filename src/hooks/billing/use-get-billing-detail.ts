@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
-import { IBillingDetail } from "../../../type";
+import { IBillingDetail } from "@/types/billing";
 
 export const useGetBillingDetails = () => {
     return useQuery({

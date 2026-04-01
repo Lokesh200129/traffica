@@ -2,7 +2,7 @@ import api from "@/lib/axios";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from "sonner";
 import parseError from "@/lib/parse-error";
-import { TUser } from "../../../type";
+import { TUser } from "@/types/user";
 export const useSignup = () => {
 
     const queryClient = useQueryClient();

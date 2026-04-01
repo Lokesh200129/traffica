@@ -78,21 +78,21 @@ const columns: ColumnDef<CreditHistoryItem>[] = [
             <span className="text-sm text-muted-foreground">{getValue() as string}</span>
         ),
     },
-    {
-        accessorKey: "referenceType",
-        header: "referenceType",
-        cell: ({ getValue }) => {
-            const referenceType = getValue() as string;
-            return (
-                <span className={`inline-flex px-2 py-0.5 rounded text-[11px] font-medium ${referenceType === "PAYMENT"
-                    ? "bg-blue-500/10 text-blue-500"
-                    : "bg-purple-500/10 text-purple-500"
-                    }`}>
-                    {referenceType}
-                </span>
-            );
-        },
-    },
+    // {
+    //     accessorKey: "referenceType",
+    //     header: "referenceType",
+    //     cell: ({ getValue }) => {
+    //         const referenceType = getValue() as string;
+    //         return (
+    //             <span className={`inline-flex px-2 py-0.5 rounded text-[11px] font-medium ${referenceType === "PAYMENT"
+    //                 ? "bg-blue-500/10 text-blue-500"
+    //                 : "bg-purple-500/10 text-purple-500"
+    //                 }`}>
+    //                 {referenceType}
+    //             </span>
+    //         );
+    //     },
+    // },
 ];
 
 export default function CreditHistoryTab() {

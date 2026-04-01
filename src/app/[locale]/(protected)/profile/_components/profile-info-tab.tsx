@@ -28,8 +28,6 @@ export function ProfileInfoTab() {
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
-
-    console.log("current ", currentUser);
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileSchema),
         defaultValues: { name: "" },

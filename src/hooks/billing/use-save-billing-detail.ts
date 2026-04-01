@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { toast } from "sonner";
 import parseError from "@/lib/parse-error";
-import { IBillingDetail } from "../../../type";
+import { IBillingDetail } from "@/types/billing";
 
 export const useSaveBillingDetails = () => {
     const queryClient = useQueryClient();

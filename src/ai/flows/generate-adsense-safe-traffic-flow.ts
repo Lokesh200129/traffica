@@ -11,28 +11,28 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 const GenerateAdSenseSafeTrafficInputSchema = z.object({
-  websiteUrl: z.string().url().describe('The URL of the website to generate AdSense-safe social media traffic for.'),
+    websiteUrl: z.string().url().describe('The URL of the website to generate AdSense-safe social media traffic for.'),
 });
 export type GenerateAdSenseSafeTrafficInput = z.infer<typeof GenerateAdSenseSafeTrafficInputSchema>;
 
 const GenerateAdSenseSafeTrafficOutputSchema = z.object({
-  status: z.enum(['success', 'failed']).describe('The status of the traffic generation request.'),
-  message: z.string().describe('A message indicating the outcome of the traffic generation process.'),
-  estimatedDailyReach: z.number().optional().describe('An estimated daily reach in terms of unique visitors, if successful.'),
-  trafficSources: z.array(z.string()).optional().describe('List of social media platforms from which traffic will be generated.'),
-  adsenseSafetyConfirmed: z.boolean().describe('Confirms that the traffic generation strategy is designed for AdSense safety.'),
+    status: z.enum(['success', 'failed']).describe('The status of the traffic generation request.'),
+    message: z.string().describe('A message indicating the outcome of the traffic generation process.'),
+    estimatedDailyReach: z.number().optional().describe('An estimated daily reach in terms of unique visitors, if successful.'),
+    trafficSources: z.array(z.string()).optional().describe('List of social media platforms from which traffic will be generated.'),
+    adsenseSafetyConfirmed: z.boolean().describe('Confirms that the traffic generation strategy is designed for AdSense safety.'),
 });
 export type GenerateAdSenseSafeTrafficOutput = z.infer<typeof GenerateAdSenseSafeTrafficOutputSchema>;
 
 export async function generateAdSenseSafeTraffic(input: GenerateAdSenseSafeTrafficInput): Promise<GenerateAdSenseSafeTrafficOutput> {
-  return generateAdSenseSafeTrafficFlow(input);
+    return generateAdSenseSafeTrafficFlow(input);
 }
 
 const generateAdSenseSafeTrafficPrompt = ai.definePrompt({
-  name: 'generateAdSenseSafeTrafficPrompt',
-  input: { schema: GenerateAdSenseSafeTrafficInputSchema },
-  output: { schema: GenerateAdSenseSafeTrafficOutputSchema },
-  prompt: `You are an advanced AI system designed to generate high-quality, AdSense-safe social media traffic.
+    name: 'generateAdSenseSafeTrafficPrompt',
+    input: { schema: GenerateAdSenseSafeTrafficInputSchema },
+    output: { schema: GenerateAdSenseSafeTrafficOutputSchema },
+    prompt: `You are an advanced AI system designed to generate high-quality, AdSense-safe social media traffic.
 Your goal is to simulate the process of initiating traffic generation for a given website URL.
 
 When provided with a website URL, you will:
@@ -46,16 +46,16 @@ Based on the user's request for the website: {{{websiteUrl}}}, generate a respon
 });
 
 const generateAdSenseSafeTrafficFlow = ai.defineFlow(
-  {
-    name: 'generateAdSenseSafeTrafficFlow',
-    inputSchema: GenerateAdSenseSafeTrafficInputSchema,
-    outputSchema: GenerateAdSenseSafeTrafficOutputSchema,
-  },
-  async (input) => {
-    const { output } = await generateAdSenseSafeTrafficPrompt(input);
-    if (!output) {
-      throw new Error('Failed to generate traffic information.');
+    {
+        name: 'generateAdSenseSafeTrafficFlow',
+        inputSchema: GenerateAdSenseSafeTrafficInputSchema,
+        outputSchema: GenerateAdSenseSafeTrafficOutputSchema,
+    },
+    async (input) => {
+        const { output } = await generateAdSenseSafeTrafficPrompt(input);
+        if (!output) {
+            throw new Error('Failed to generate traffic information.');
+        }
+        return output;
     }
-    return output;
-  }
 );

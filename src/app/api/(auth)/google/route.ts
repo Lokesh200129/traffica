@@ -56,6 +56,7 @@ export const POST = tryCatchWrapper(async (req: Request) => {
     const jwtToken = await signToken({
         userId: user._id.toString(),
         email: user.email,
+        role: user.role,
     });
 
     const cookieStore = await cookies();
