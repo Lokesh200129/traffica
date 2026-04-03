@@ -43,6 +43,7 @@ export const POST = tryCatchWrapper(async (req: Request) => {
             googleId,
             authProvider: "google",
             password: null,
+            role: "client",
         });
     } else if (user.authProvider === "local") {
         return apiError("Email already registered. Please login with password.", 409);
@@ -64,7 +65,7 @@ export const POST = tryCatchWrapper(async (req: Request) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         path: "/",
-        maxAge: 60 * 60 * 24,
+        maxAge: 7 * 60 * 60 * 24,
     });
 
     const userData = user.toObject();

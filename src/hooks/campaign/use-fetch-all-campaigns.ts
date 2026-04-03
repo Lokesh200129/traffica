@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import api from "@/lib/axios";
-import { TBackendCampaign, TCampaignFormData } from '@/types/campaign';
+import { TBackendCampaign } from '@/types/campaign';
 import { DateFilterState } from '@/app/[locale]/(protected)/campaign/_lib/data';
 
 interface GetCampaignsParams {

@@ -28,7 +28,6 @@ const DEFAULT_VALUES: TCampaignFormData = {
   creditUsed: 0,
 };
 
-const creditToBeUsed = 20;
 
 // ── Main form 
 export default function CampaignForm() {
@@ -52,6 +51,7 @@ export default function CampaignForm() {
   const saveDevices = useSectionSave();
   const saveGeo = useSectionSave();
   const savePageViews = useSectionSave();
+  const creditToBeUsed = watched.pageViews
 
   const onSubmit = (data: TCampaignFormData) => {
     const newData = { ...data, creditUsed: creditToBeUsed };

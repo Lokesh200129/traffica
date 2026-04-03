@@ -95,7 +95,7 @@ export function SummarySidebar({ data }: SummarySidebarProps) {
       <div className="border-t border-border px-4 py-3 bg-muted/30">
         <div className="flex justify-between items-center">
           <span className="text-xs font-semibold text-foreground">Total credit to be used</span>
-          <span className="text-sm font-bold text-accent">{creditUsed}</span>
+          <span className="text-sm font-bold text-accent">{creditUsed.toLocaleString("en-in")}</span>
         </div>
       </div>
 

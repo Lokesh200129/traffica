@@ -17,7 +17,7 @@ export const POST = withAuth(async (req: Request, user) => {
 	const body = await req.json();
 	const { amount, customerId, customerPhone, customerEmail } = body;
 
-	const orderId = `order_${Date.now()}`; // ✅ generate once
+	const orderId = `order_${Date.now()}`;
 
 	 const usdToInr = await getUsdToInr();
     const amountInInr = parseFloat((amount * usdToInr).toFixed(2)); 

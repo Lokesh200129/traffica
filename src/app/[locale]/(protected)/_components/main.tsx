@@ -1,4 +1,4 @@
-"use client"
+
 import Sidebar from "./sidebar/sidebar";
 import Navbar from "./header";
 import Footer from './footer'

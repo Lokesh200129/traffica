@@ -22,7 +22,7 @@ export function BottomNav({ active, onChange }: BottomNavProps) {
                     key={tab.id}
                     onClick={() => onChange(tab.id)}
                     className={cn(
-                        "flex-1 flex flex-col items-center gap-1 py-3 transition-colors",
+                        "flex-1 flex flex-col items-center gap-1 py-3 transition-colors cursor-pointer",
                         active === tab.id
                             ? "text-accent"
                             : "text-muted-foreground hover:text-foreground"

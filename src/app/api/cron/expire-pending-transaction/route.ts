@@ -30,7 +30,7 @@ export const GET = async (req: NextRequest) => {
         status: "PENDING",
         createdAt: { $lt: oneHourAgo },
     });
- 
+
     const results = { success: 0, cancelled: 0, failed: 0 };
 
     for (const txn of pendingTransactions) {
@@ -82,7 +82,7 @@ export const GET = async (req: NextRequest) => {
                     balanceBefore,
                     balanceAfter,
                     description: `Purchased ${tokensToAdd.toLocaleString()} credits for $${txn.amount.toFixed(2)} (auto-recovered)`,
-                    referenceType: "PAYMENT",
+                    referenceType: "PAYMENT", 
                     referenceId: txn.orderId,
                 });
 

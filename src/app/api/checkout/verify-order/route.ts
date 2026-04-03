@@ -14,7 +14,7 @@ const cashfree = new Cashfree(
     process.env.CASHFREE_CLIENT_SECRET!
 );
 
-const TOKENS_PER_UNIT = 100;
+const TOKENS_PER_UNIT = 1000;
 
 export const POST = withAuth(async (req: Request, user) => {
     const { orderId } = await req.json();
@@ -101,7 +101,7 @@ export const POST = withAuth(async (req: Request, user) => {
             creditsAdded: tokensToAdd,
             balanceBefore,
             balanceAfter,
-            description: `Purchased ${tokensToAdd.toLocaleString()} credits for ₹${existingTransaction.amount}`,
+            description: `Purchased ${tokensToAdd.toLocaleString()} credits for ${"$"}${existingTransaction.amount}`,
             referenceType: "PAYMENT",
             referenceId: orderId,
         });

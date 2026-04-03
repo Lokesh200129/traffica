@@ -9,15 +9,15 @@ import { useCreatePaymentOrder } from "@/hooks/payment/use-create-payment-order"
 import GlobalLoader from "@/components/global-loader"
 
 const QUICK_AMOUNTS = [
-    { amount: 10, credits: "1,000", label: "Starter", popular: false },
-    { amount: 25, credits: "2,500", label: "Growth", popular: false },
-    { amount: 50, credits: "5,000", label: "Pro", popular: true },
-    { amount: 100, credits: "10,000", label: "Scale", popular: false },
-    { amount: 250, credits: "25,000", label: "Business", popular: false },
-    { amount: 500, credits: "50,000", label: "Enterprise", popular: false },
+    { amount: 10, credits: "10,000", label: "Starter", popular: false },
+    { amount: 25, credits: "25,000", label: "Growth", popular: false },
+    { amount: 50, credits: "50,000", label: "Pro", popular: true },
+    { amount: 100, credits: "100,000", label: "Scale", popular: false },
+    { amount: 250, credits: "250,000", label: "Business", popular: false },
+    { amount: 500, credits: "500,000", label: "Enterprise", popular: false },
 ]
 
-const CREDITS_PER_DOLLAR = 100
+const CREDITS_PER_DOLLAR = 1000
 const minimumAmount = 10
 
 export default function BalanceInput() {
@@ -52,7 +52,7 @@ export default function BalanceInput() {
 
     if (!isOpen) return null;
 
-    if(isPending) return GlobalLoader({ msg: "Creating payment order..." })
+    if (isPending) return GlobalLoader({ msg: "Creating payment order..." })
     return (
         <div
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in duration-200"

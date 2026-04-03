@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { PartyPopper, X } from "lucide-react";
+import { PartyPopper } from "lucide-react";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 

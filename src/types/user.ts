@@ -6,6 +6,7 @@ export type TUser = {
     password?: string,
     profileImage?: string
     authProvider?: "local" | "google";
+    
     creditBalance?: {
         availableCredits?: number,
         lastAdded?: number,

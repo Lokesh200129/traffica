@@ -3,7 +3,8 @@ import { BigBranding } from '@/components/landing/big-branding';
 import { Footer } from '@/components/landing/footer';
 import LandingPage from '@/app/[locale]/(public)/_components/landing-page';
 
-export default function Page() {
+export default async function Page() {
+ 
   return (
     <main className="min-h-screen relative">
       <Header />

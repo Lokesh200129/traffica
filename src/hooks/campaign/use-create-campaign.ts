@@ -10,7 +10,7 @@ export interface CampaignResponse extends TBackendCampaign {
 }
 
 export const useCreateCampaign = () => {
-    const router = useRouter();
+    // const router = useRouter();
     const queryClient = useQueryClient();
 
     return useMutation({
