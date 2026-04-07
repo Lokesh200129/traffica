@@ -2,7 +2,7 @@
 import { Plus } from "lucide-react";
 import { AppButton } from "@/components/button";
 import Image from "next/image";
-
+import overviewImage from "@/assets/overview_placeholder.webp";
 export default function Overview({ onCreateCampaign }: { onCreateCampaign?: () => void }) {
     return (
         <div className="flex flex-col gap-4">
@@ -12,9 +12,11 @@ export default function Overview({ onCreateCampaign }: { onCreateCampaign?: () =
             {/* Card */}
             <div className="bg-card border border-border rounded-2xl flex flex-col items-center justify-center  p-8 gap-6">
                 <Image
-                    src="https://cdni.iconscout.com/illustration/premium/thumb/woman-working-on-laptop-illustration-download-in-svg-png-gif-file-formats--freelancer-pack-business-illustrations-3025992.png"
+                    height={100}
+                    width={100}
+                    src={overviewImage}
                     alt="No campaigns"
-                    className="w-64 h-64 object-contain"
+                    className="size-64 object-contain"
                 />
 
                 <div className="flex flex-col items-center gap-2 text-center">
