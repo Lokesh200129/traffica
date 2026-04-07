@@ -13,7 +13,7 @@ const cashfree = new Cashfree(
     process.env.CASHFREE_CLIENT_SECRET!
 );
 
-const TOKENS_PER_UNIT = 100;
+const TOKENS_PER_UNIT = 1000;
 
 export const GET = async (req: NextRequest) => {
     const authHeader = req.headers.get("authorization");
@@ -82,7 +82,7 @@ export const GET = async (req: NextRequest) => {
                     balanceBefore,
                     balanceAfter,
                     description: `Purchased ${tokensToAdd.toLocaleString()} credits for $${txn.amount.toFixed(2)} (auto-recovered)`,
-                    referenceType: "PAYMENT", 
+                    referenceType: "PAYMENT",
                     referenceId: txn.orderId,
                 });
 

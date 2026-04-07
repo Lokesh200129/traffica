@@ -46,8 +46,8 @@ export default function BalanceInput() {
     }
 
     const handleClose = () => {
-        toggle()
         setAmount("")
+        toggle()
     }
 
     if (!isOpen) return null;
@@ -75,7 +75,7 @@ export default function BalanceInput() {
                             </div>
                             <div>
                                 <h2 className="text-base font-bold leading-none">Add Credits</h2>
-                                <p className="text-[11px] text-primary mt-0.5">$1 = 100 credits</p>
+                                <p className="text-[11px] text-primary mt-0.5">$ 1 = 1,000 credits</p>
                             </div>
                         </div>
                         <button

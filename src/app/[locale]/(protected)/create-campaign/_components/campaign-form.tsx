@@ -71,9 +71,9 @@ export default function CampaignForm() {
       <div className="flex-1 min-w-0 w-full rounded-2xl border bg-background shadow-sm">
         <div className="px-4 sm:px-8 pt-6 sm:pt-8 pb-2">
           <h2 className="text-xl font-bold">Create Campaign</h2>
-          <p className="mt-0.5 text-sm text-muted-foreground">
+          {/* <p className="mt-0.5 text-sm text-muted-foreground">
             Configure your traffic campaign settings below.
-          </p>
+          </p> */}
         </div>
 
         <form

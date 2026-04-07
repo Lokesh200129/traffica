@@ -1,3 +1,4 @@
+
 {
   "name": "traffica",
   "version": "0.1.0",
@@ -6,8 +7,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "test:load": "k6 run tests/load/campaign.js"
+    "lint": "eslint"
   },
   "dependencies": {
     "@cashfreepayments/cashfree-js": "^1.0.6",

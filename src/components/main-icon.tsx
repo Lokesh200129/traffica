@@ -8,12 +8,12 @@ const MainIcon = () => {
             href="/overview"
             className="flex items-center group"
         >
-            <div className="relative h-14 w-48">
+            <div className="relative h-18 w-48">
                 <Image
                     src={MainIconImg}
                     alt="Traffic Arbitrage"
                     fill
-                    className="object-cover object-center "
+                    className="object-cover object-center  scale-90"
                     priority
                 />
             </div>

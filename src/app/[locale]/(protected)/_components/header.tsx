@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import UserProfilePopover from './popover-option'
 import CreditsBadge from "./credit-badge"
-import { LanguageSwitcher } from "./language-switcher"
 import { NotificationPanel } from "./notification/notification-panel"
 import { useState, useRef, useEffect } from "react"
 import { FaWhatsapp } from "react-icons/fa"
@@ -49,7 +48,7 @@ const Header = () => {
 
             <div className="flex justify-center items-center gap-4 z-999">
                 <CreditsBadge credits={user?.creditBalance?.availableCredits} />
-                <LanguageSwitcher />
+                {/* <LanguageSwitcher />   */}
 
                 {/* Bell — ref wraps button + panel dono */}
                 <div className="relative" ref={bellRef}>

@@ -57,10 +57,10 @@ export function DataTable<T>({
     const table = useReactTable({
         data,
         columns,
-        state: { sorting },                        //  table ko current sort state batao
-        onSortingChange: setSorting,               //  jab user click kare toh state update ho
+        state: { sorting },
+        onSortingChange: setSorting,
         getCoreRowModel: getCoreRowModel(),
-        getSortedRowModel: getSortedRowModel(),    //  current page ka data sort karo
+        getSortedRowModel: getSortedRowModel(),
     });
 
     const hasPagination = onNext !== undefined || onPrev !== undefined;
@@ -88,15 +88,13 @@ export function DataTable<T>({
                                     {headerGroup.headers.map(header => (
                                         <TableHead
                                             key={header.id}
-                                            // ✅ click handler — sortable columns pe hi lagao
                                             onClick={header.column.getCanSort()
                                                 ? header.column.getToggleSortingHandler()
                                                 : undefined}
                                             className={[
                                                 "bg-accent/10 select-none",
-                                                // ✅ sortable column pe pointer cursor
+
                                                 header.column.getCanSort() ? "cursor-pointer" : "",
-                                                // ✅ active sort column accent color mein
                                                 header.column.getIsSorted() ? "text-accent" : "text-primary",
                                             ].join(" ")}
                                         >
@@ -105,7 +103,6 @@ export function DataTable<T>({
                                                     header.column.columnDef.header,
                                                     header.getContext()
                                                 )}
-                                                {/* ✅ sort icon — sirf sortable columns pe */}
                                                 {header.column.getCanSort() && (
                                                     header.column.getIsSorted()
                                                         // sorted hai — arrow dikhao
@@ -138,7 +135,7 @@ export function DataTable<T>({
                                         colSpan={columns.length}
                                         className="text-center py-12 text-muted-foreground text-sm"
                                     >
-                                            No {totalLabel} found
+                                        No {totalLabel} found
                                     </TableCell>
                                 </TableRow>
                             ) : (

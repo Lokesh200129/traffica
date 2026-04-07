@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { AppButton } from "@/components/button";
+import Image from "next/image";
 
 type NotificationTab = "all" | "campaigns" | "account";
 
@@ -59,7 +60,7 @@ export function NotificationPanel({ onClose }: NotificationPanelProps) {
 
             {/* Empty state */}
             <div className="flex flex-col items-center justify-center py-16 bg-background rounded-xl border border-border gap-3">
-                <img
+                <Image
                     src="https://cdn-icons-png.flaticon.com/512/2645/2645890.png"
                     alt="No notifications"
                     className="w-16 h-16 object-contain"

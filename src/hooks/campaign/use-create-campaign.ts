@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import api from "@/lib/axios";
-import { useRouter } from 'next/navigation';
 import parseError from '@/lib/parse-error';
 import { toast } from "sonner";
 import { TBackendCampaign, TCampaignFormData } from '@/types/campaign';

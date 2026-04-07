@@ -60,7 +60,14 @@ function EmptyCampaignHero({ onCreateCampaign }: { onCreateCampaign?: () => void
                         {stat.icons && (
                             <div className="flex gap-1.5">
                                 {stat.icons.map((icon, j) => (
-                                    <img key={j} src={icon.src} alt={icon.alt} className="w-8 h-8 rounded-full object-contain" />
+                                    <Image
+                                        key={j}
+                                        src={icon.src}
+                                        alt={icon.alt}
+                                        width={32}
+                                        height={32}
+                                        className="w-8 h-8 rounded-full object-contain"
+                                    />
                                 ))}
                             </div>
                         )}

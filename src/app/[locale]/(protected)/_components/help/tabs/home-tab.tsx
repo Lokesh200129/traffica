@@ -1,6 +1,7 @@
 "use client"
 import { ArrowRight, Search, ChevronRight, X } from "lucide-react";
 import { QUICK_QUESTIONS, type HelpTabs } from "../types/help-widget-types";
+import Image from "next/image";
 
 const TEAM_AVATARS = [
     "https://api.dicebear.com/7.x/notionists/svg?seed=Alan",
@@ -32,7 +33,7 @@ export function HomeTab({ onTabChange, onClose }: HomeTabProps) {
                     <div className="flex items-center gap-2">
                         <div className="flex -space-x-2">
                             {TEAM_AVATARS.map((src, i) => (
-                                <img
+                                <Image
                                     key={i}
                                     src={src}
                                     alt="team"
